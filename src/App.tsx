@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { Container, Form, Text } from "./components/atoms"
-import { deleteClient } from "./services/Clients"
+import { updateReservation } from "./services/Reservations"
 
 function App() {
 
@@ -8,10 +8,12 @@ function App() {
 
   const click = async () => {
     const z = {
-        "email": "felix.ravella@gmail.com",
-        "telephone": "0123456789"
-    }
-    const x = await deleteClient(14)
+    "tarif": 635,
+    "debut": new Date("2025-05-05T12:30:00Z"),
+    "fin": new Date("2025-05-06T12:30:00Z"),
+    "nbPersonne": 8
+}
+    const x = await updateReservation(z, 12)
     setData(x)
   }
 
