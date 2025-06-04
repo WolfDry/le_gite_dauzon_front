@@ -1,11 +1,9 @@
-import { Container, Text } from "./components/atoms"
+import Accueil from "./pages/Accueil"
 
 function App() {
 
   return (
-    <Container.Column>
-      <Text.Title>Le gite d'auzon</Text.Title>
-    </Container.Column>
+    <Accueil />
   )
 }
 
