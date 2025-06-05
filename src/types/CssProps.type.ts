@@ -36,6 +36,7 @@ export type CssProps = {
   textAlign?: string
   alignSelf?: string
   background?: string
+  backdropFilter?: string
   boxShadow?: string
   fontFamily?: string
   fontStyle?: string

@@ -1,3 +1,5 @@
-export const green = "#2E6B45"
+export const cream = "#FAF2E5"
+export const darkGreen = "#2E6B45"
+export const green = "#5BBE81"
 export const lightGreen = "#B4E1C5"
 export const black = "#171C19"
