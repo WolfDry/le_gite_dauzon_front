@@ -1,3 +1,3 @@
 export type Atom = {
-  children: any,
+  children?: any,
 } & Record<any, unknown>
