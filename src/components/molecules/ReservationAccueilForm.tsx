@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container, Form, Text } from '../atoms'
+import { Container, Form } from '../atoms'
 import { darkGreen } from '../../assets/color'
 import InputsReservationAccueilForm from './InputsReservationAccueilForm'
 

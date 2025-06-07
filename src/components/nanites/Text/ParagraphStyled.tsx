@@ -1,14 +1,14 @@
 import styled from 'styled-components'
 import { CssProps } from '../../../types/CssProps.type';
-import { black } from '../../../assets/color';
+import { dark } from '../../../assets/color';
 
 const ParagraphStyled = styled.p<CssProps>`
-  color: ${black};
+  color: ${dark};
   font-family: Poppins;
-  font-size: ${(props) => props.fontSize ?? ''};
-  font-style: ${(props) => props.fontStyle ?? ''};
-  font-weight: ${(props) => props.fontWeight ?? ''};
-  line-height: ${(props) => props.lineHeight ?? ''};
+  font-size: ${(props) => props.fontSize ?? '1rem'};
+  font-style: ${(props) => props.fontStyle ?? 'normal'};
+  font-weight: ${(props) => props.fontWeight ?? '400'};
+  line-height: ${(props) => props.lineHeight ?? 'normal'};
   border: ${(props) => props.border ?? ''};
   border-left: ${(props) => props.borderLeft ?? ''};
   border-rigth: ${(props) => props.borderRight ?? ''};

@@ -1,4 +1,4 @@
-import Accueil from "./pages/Accueil/Accueil"
+import Accueil from "./pages/Accueil"
 
 
 function App() {
