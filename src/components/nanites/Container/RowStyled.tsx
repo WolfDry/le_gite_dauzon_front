@@ -28,6 +28,7 @@ const RowStyled = styled.div<CssProps>`
   left: ${(props) => props.left ?? ''};
   right: ${(props) => props.right ?? ''};
   overflow-y: ${(props) => props.overflowY ?? ''};
+  overflow-x: ${(props) => props.overflowX ?? ''};
   border: ${(props) => props.border ?? ''};
   border-left: ${(props) => props.borderLeft ?? ''};
   border-rigth: ${(props) => props.borderRight ?? ''};

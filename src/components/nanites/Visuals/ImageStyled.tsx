@@ -7,6 +7,7 @@ const ImageStyled = styled.img<CssProps>`
   height: ${(props) => props.height ?? ""};
   align-items: ${(props) => props.alignItems ?? ""};
   padding: ${(props) => props.padding ?? ""};
+  border-radius: ${(props) => props.borderRadius ?? ""};
   background: ${(props) => props.background ?? ""};
   gap: ${(props) => props.gap ?? ""};
   flex: ${(props) => props.flex ?? ""};

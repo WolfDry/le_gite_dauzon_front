@@ -24,6 +24,7 @@ export type CssProps = {
   left?: string
   right?: string
   overflow?: string
+  overflowX?: string
   overflowY?: string
   borderRadius?: number
   border?: string

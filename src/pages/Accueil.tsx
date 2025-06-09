@@ -1,10 +1,45 @@
-import React from 'react'
-import { Container, Form, Text, Visual } from '../components/atoms'
+import React, { useEffect, useState } from 'react'
+import { Action, Container, Form, Text, Visual } from '../components/atoms'
 
 import HeroBanner from '../components/molecules/HeroBanner'
 import { dark, cream, lightGreen, green, darkGreen, white } from '../assets/color'
 
 const Accueil = () => {
+
+  const [currentStay, setCurrentStay] = useState({
+    title: "Balazuc, l'un des Plus Beaux Villages de France",
+    description: "Petit village médiéval fortifié, perché au sommet d'une falaise. Accroché à d'impressionnantes roches de calcaire surplombant la rivière Ardèche. Classé parmi « les plus beaux villages de France » et les « Villages de caractère »",
+    image: "/assets/images/accueil/balazuc.jpg"
+  })
+
+  const [stays, setStays] = useState([
+    {
+      title: "Balazuc, l'un des Plus Beaux Villages de France",
+      description: "Petit village médiéval fortifié, perché au sommet d'une falaise. Accroché à d'impressionnantes roches de calcaire surplombant la rivière Ardèche. Classé parmi « les plus beaux villages de France » et les « Villages de caractère »",
+      image: "/assets/images/accueil/balazuc.jpg"
+    },
+    {
+      title: "Lagorce, l'un des Plus Beaux Villages de France",
+      description: "Petit village médiéval fortifié, perché au sommet d'une falaise. Accroché à d'impressionnantes roches de calcaire surplombant la rivière Ardèche. Classé parmi « les plus beaux villages de France » et les « Villages de caractère »",
+      image: "/assets/images/accueil/balazuc.jpg"
+    }, {
+      title: "Aubenas, l'un des Plus Beaux Villages de France",
+      description: "Petit village médiéval fortifié, perché au sommet d'une falaise. Accroché à d'impressionnantes roches de calcaire surplombant la rivière Ardèche. Classé parmi « les plus beaux villages de France » et les « Villages de caractère »",
+      image: "/assets/images/accueil/balazuc.jpg"
+    },
+    {
+      title: "Les Vans, l'un des Plus Beaux Villages de France",
+      description: "Petit village médiéval fortifié, perché au sommet d'une falaise. Accroché à d'impressionnantes roches de calcaire surplombant la rivière Ardèche. Classé parmi « les plus beaux villages de France » et les « Villages de caractère »",
+      image: "/assets/images/accueil/balazuc.jpg"
+    }
+  ])
+
+  const changeStay = (index: number) => {
+    if (index > stays.length)
+      index = 0
+    setCurrentStay(stays[index])
+  }
+
   return (
     <Container.Column width="100vw" background={cream}>
       <HeroBanner />
@@ -34,20 +69,34 @@ const Accueil = () => {
         <Visual.Image height="20rem" src="/assets/images/outside.jpg" />
       </Container.Row>
       <Container.Column>
-        <Container.Row>
-          <Visual.Image width="34.7vw" height="40.625rem" src="/assets/images/accueil/balazuc.jpg" />
-          <Container.Column position="relative">
+        <Container.Row justifyContent="space-between" padding="0 70px">
+          <Visual.Image width="34.7vw" height="40.625rem" src={currentStay.image} />
+          <Container.Column position="relative" width="52.7vw" alignItems="flex-start" height="44rem" gap="23.69rem" paddingTop="4.375rem">
             <Container.Row padding="0 4.8vw">
               <Text.Title>Explorez l'Ardèche méridionale</Text.Title>
             </Container.Row>
             <Container.Column width="48.6vw" gap="1.875rem" padding="2.7vw" position="absolute" top="11rem" left="-6.3vw" borderRadius="1.25rem" background={green}>
-              <Text.Title>Balazuc, l'un des Plus Beaux Villages de France</Text.Title>
+              <Text.Title>{currentStay.title}</Text.Title>
               <Text.Paragraph>
-                Petit village médiéval fortifié, perché au sommet d'une falaise. Accroché à d'impressionnantes roches de calcaire surplombant la rivière Ardèche. Classé parmi « les plus beaux villages de France » et les « Villages de caractère »
+                {currentStay.description}
               </Text.Paragraph>
             </Container.Column>
-            <Container.Row>
-
+            <Container.Row height="12.5rem" padding="0 5px" gap="30px" alignSelf="stretch">
+              <Action.Button>
+                <Visual.Svg label="leftArrow" />
+              </Action.Button>
+              <Container.Column alignItems="flex-start" gap="10px" overflowX="scroll">
+                <Container.Row gap="10px">
+                  {stays.map((stay, index) => {
+                    return (
+                      <Visual.Image onClick={() => changeStay(index)} width="13.8vw" height="200px" borderRadius="7px" src={stay.image} />
+                    )
+                  })}
+                </Container.Row>
+              </Container.Column>
+              <Action.Button>
+                <Visual.Svg label="rightArrow" />
+              </Action.Button>
             </Container.Row>
           </Container.Column>
         </Container.Row>
