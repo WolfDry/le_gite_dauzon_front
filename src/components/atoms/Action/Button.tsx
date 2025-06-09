@@ -1,13 +1,10 @@
 import React from 'react'
 import { Action } from '../../nanites'
+import { Atom } from '../../../types/Atom.type'
 
-type Props = {
-  children: any
-}
-
-const Button = ({ children }: Props) => {
+const Button = ({ children, ...props }: Atom) => {
   return (
-    <Action.ButtonStyled>
+    <Action.ButtonStyled {...props}>
       {children}
     </Action.ButtonStyled>
   )

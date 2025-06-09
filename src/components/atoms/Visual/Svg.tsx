@@ -69,6 +69,13 @@ const Svg = ({ label, fill }: Props) => {
           <path d="M2 2L10 10L2 18" stroke="#171C19" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
       )
+    case "quote":
+      return (
+        <svg xmlns="http://www.w3.org/2000/svg" width="39" height="30" viewBox="0 0 39 30" fill="none">
+          <path d="M0 30H17.55V13.5484H6.24187C7.07786 10.4 9.09022 6.3058 15.1428 3.02254L13.1896 0C6.90772 2.73382 1.6052 7.71394 0 13.5484V30Z" fill="#171C19" />
+          <path d="M21.45 13.5484V30H39V13.5484H28.1163C28.9511 10.4 30.9635 6.3058 37.0161 3.02254L35.0628 0C28.7809 2.73382 23.0552 7.71394 21.45 13.5484Z" fill="#171C19" />
+        </svg>
+      )
 
     default:
       return null

@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react'
-import { Action, Container, Form, Text, Visual } from '../components/atoms'
+import React, { useState } from 'react'
+import { Action, Container, Text, Visual } from '../components/atoms'
 
 import HeroBanner from '../components/molecules/HeroBanner'
 import { dark, cream, lightGreen, green, darkGreen, white } from '../assets/color'
+import CommentCard from '../components/molecules/CommentCard'
 
 const Accueil = () => {
 
@@ -12,7 +13,7 @@ const Accueil = () => {
     image: "/assets/images/accueil/balazuc.jpg"
   })
 
-  const [stays, setStays] = useState([
+  const stays = [
     {
       title: "Balazuc, l'un des Plus Beaux Villages de France",
       description: "Petit village médiéval fortifié, perché au sommet d'une falaise. Accroché à d'impressionnantes roches de calcaire surplombant la rivière Ardèche. Classé parmi « les plus beaux villages de France » et les « Villages de caractère »",
@@ -32,7 +33,37 @@ const Accueil = () => {
       description: "Petit village médiéval fortifié, perché au sommet d'une falaise. Accroché à d'impressionnantes roches de calcaire surplombant la rivière Ardèche. Classé parmi « les plus beaux villages de France » et les « Villages de caractère »",
       image: "/assets/images/accueil/balazuc.jpg"
     }
-  ])
+  ]
+
+  const comments = [{
+    note: 5,
+    nom: "Deltour",
+    prenom: "Benjamin",
+    date: "27/08/2022",
+    commentaire: `Nous avons passer 1 semaine au gite d'Auzon ,le gite est très confortable ,il ne manque rien ,des hôtes Nathalie et Laurent d'une gentillesse incroyable, une terrasse et piscine extra 👍👍 PS: nous reviendrons bien évidement prochainement pour un bon apéro 😂`,
+  }, {
+    note: 5,
+    nom: "Deltour",
+    prenom: "Benjamin",
+    date: "27/08/2022",
+    commentaire: `Nous avons passé un excellent séjour. Les propriétaires sont très accueillants et chaleureux. Tout est fait pour que nous nous sentons bien. Encore merci à eux, nous en gardons de très bons souvenirs. 
+
+    Rien ne manque dans le gîte et même avec plus de 37 degrés dehors, il reste bien frais. La piscine et ses équipements permettent de passer d'agréables moments.
+
+    La ville de Joyeuse et son environnement autour offrent de nombreuses possibilités de visites, de découvertes et d'achat de produits locaux (miel, vin, poterie, saucisson, ...)
+
+    Nous reviendrons avec plaisir en Ardeche et chez eux :)`,
+  }, {
+    note: 5,
+    nom: "Deltour",
+    prenom: "Benjamin",
+    date: "27/08/2022",
+    commentaire: `Chez Deltour, ça vaut le détour! 
+
+    Nous avons passé une excellente semaine dans le gîte de Laurent et Nathalie. On s'y sent "comme à la maison". Le gîte est fonctionnel, très bien équipé et la literie est très bonne. Nous avons également beaucoup apprécié pouvoir nous rafraîchir dans leur grande piscine! Nathalie et Laurent sont des hôtes absolument charmants et très accueillants, toujours souriants et prêts à rendre service. La convivialité est le maître-mot de ce gîte ! 
+
+    Nous recommandons ce gîte sans aucune hésitation et espérons revenir très prochainement pour déguster une bière... Ou deux!!! Et Nico compte bien prendre sa revanche à la pétanque!!!`,
+  }]
 
   const changeStay = (index: number) => {
     if (index > stays.length)
@@ -61,9 +92,9 @@ const Accueil = () => {
             <Text.Paragraph>Notre gîte n'est pas accessible aux personnes à mobilité réduite.</Text.Paragraph>
           </Container.Column>
           <Container.Row justifyContent="center">
-            <Form.Button>
+            <Action.Button background={white}>
               En savoir plus sur le gîte
-            </Form.Button>
+            </Action.Button>
           </Container.Row>
         </Container.Column>
         <Visual.Image height="20rem" src="/assets/images/outside.jpg" />
@@ -82,7 +113,7 @@ const Accueil = () => {
               </Text.Paragraph>
             </Container.Column>
             <Container.Row height="12.5rem" padding="0 5px" gap="30px" alignSelf="stretch">
-              <Action.Button>
+              <Action.Button padding="0">
                 <Visual.Svg label="leftArrow" />
               </Action.Button>
               <Container.Column alignItems="flex-start" gap="10px" overflowX="scroll">
@@ -101,10 +132,31 @@ const Accueil = () => {
           </Container.Column>
         </Container.Row>
         <Container.Row justifyContent="center">
-          <Form.Button background={darkGreen} color={white}>
+          <Action.Button background={darkGreen} color={white}>
             Planifier votre séjour
-          </Form.Button>
+          </Action.Button>
         </Container.Row>
+      </Container.Column>
+      <Container.Row height="42.5rem" alignSelf="stretch">
+        <Container.Column>
+
+        </Container.Column>
+        <Container.Column></Container.Column>
+      </Container.Row>
+      <Container.Column alignItems="center" gap="2.5rem" alignSelf="stretch" padding="3.75rem 6.9vw">
+        <Text.Title>
+          Nos vacanciers témoignent
+        </Text.Title>
+        <Container.Row gap="1.25rem">
+          {comments.map((comment => {
+            return (
+              <CommentCard comment={comment} />
+            )
+          }))}
+        </Container.Row>
+        <Action.Button background={darkGreen} color={white}>
+          Voir tous les avis
+        </Action.Button>
       </Container.Column>
     </Container.Column>
   )

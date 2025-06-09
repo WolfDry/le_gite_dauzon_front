@@ -3,6 +3,10 @@ import { CssProps } from '../../../types/CssProps.type';
 import { dark } from '../../../assets/color';
 
 const ParagraphStyled = styled.p<CssProps>`
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 10;
   color: ${dark};
   font-family: Poppins;
   font-size: ${(props) => props.fontSize ?? '1rem'};

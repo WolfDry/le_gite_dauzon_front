@@ -3,6 +3,7 @@ export type Commentaire = {
     nom: string;
     prenom: string;
     note: number;
+    date: string;
 }
 
 export type UpdateCommentaire = {
