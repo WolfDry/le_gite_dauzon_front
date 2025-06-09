@@ -1,13 +1,10 @@
 import React from 'react'
 import { Action } from '../../nanites'
+import { Atom } from '../../../types/Atom.type'
 
-type Props = {
-  children: string
-}
-
-const Link = ({ children }: Props) => {
+const Link = ({ children, ...props }: Atom) => {
   return (
-    <Action.LinkStyled>
+    <Action.LinkStyled {...props}>
       {children}
     </Action.LinkStyled>
   )

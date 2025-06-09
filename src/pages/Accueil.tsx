@@ -4,6 +4,7 @@ import { Action, Container, Text, Visual } from '../components/atoms'
 import HeroBanner from '../components/molecules/HeroBanner'
 import { dark, cream, lightGreen, green, darkGreen, white } from '../assets/color'
 import CommentCard from '../components/molecules/CommentCard'
+import Socials from '../components/molecules/Socials'
 
 const Accueil = () => {
 
@@ -157,6 +158,12 @@ const Accueil = () => {
         <Action.Button background={darkGreen} color={white}>
           Voir tous les avis
         </Action.Button>
+      </Container.Column>
+      <Container.Row>
+        <Visual.Youtube />
+      </Container.Row>
+      <Container.Column justifyContent="center" alignItems="center" padding="2.5rem 6.9vw" gap="1.875rem">
+        <Socials />
       </Container.Column>
     </Container.Column>
   )
