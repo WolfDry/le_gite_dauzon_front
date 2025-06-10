@@ -5,6 +5,7 @@ import HeroBanner from '../components/molecules/HeroBanner'
 import { dark, cream, lightGreen, green, darkGreen, white } from '../assets/color'
 import CommentCard from '../components/molecules/CommentCard'
 import Socials from '../components/molecules/Socials'
+import Footer from '../components/molecules/Footer'
 
 const Accueil = () => {
 
@@ -165,6 +166,7 @@ const Accueil = () => {
       <Container.Column justifyContent="center" alignItems="center" padding="2.5rem 6.9vw" gap="1.875rem">
         <Socials />
       </Container.Column>
+      <Footer />
     </Container.Column>
   )
 }
