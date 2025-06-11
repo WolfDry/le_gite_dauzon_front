@@ -23,7 +23,7 @@ const CommentCard = ({ comment }: Props) => {
       </Text.Paragraph>
       <Container.Row height="1px" alignSelf="stretch" background={dark} />
       <Container.Column alignItems="flex-end" gap="5px">
-        <Text.Name>
+        <Text.Name fontWeight="700">
           {comment.nom + " " + comment.prenom}
         </Text.Name>
         <Text.Name>

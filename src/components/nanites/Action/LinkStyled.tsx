@@ -1,8 +1,9 @@
 import styled from 'styled-components'
 import { CssProps } from '../../../types/CssProps.type';
+import { dark } from '../../../assets/color';
 
 const LinkStyled = styled.a<CssProps>`
-  color: #171C19;
+  color: ${dark};
   font-family: Poppins;
   font-size: 1.375rem;
   font-style: normal;
