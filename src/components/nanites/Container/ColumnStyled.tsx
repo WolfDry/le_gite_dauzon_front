@@ -42,4 +42,4 @@ const ColumnStyled = styled.div<CssProps>`
   z-index: ${(props) => props.zIndex ?? ''}
 `;
 
-export default ColumnStyled;
+export default ColumnStyled

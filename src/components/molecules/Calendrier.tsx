@@ -4,22 +4,50 @@ import {
   dateFnsLocalizer,
   View,
   SlotInfo,
+  DateLocalizer,
+  HeaderProps,
 } from 'react-big-calendar'
 import { format, parse, startOfWeek, getDay } from 'date-fns'
 import { fr } from 'date-fns/locale'
-import 'react-big-calendar/lib/css/react-big-calendar.css'
+import { CalendarStyled } from '../nanites/Container'
 
-const locales = {
-  fr: fr,
+const CustomWeekdayHeader: React.FC<HeaderProps> = ({ label }) => {
+  return (
+    <div style={{ textTransform: 'uppercase', textAlign: 'center' }}>
+      {label}
+    </div>
+  )
 }
 
-const localizer = dateFnsLocalizer({
-  format,
-  parse,
-  startOfWeek,
-  getDay,
-  locales,
+const localizer: DateLocalizer = dateFnsLocalizer({
+  format: (date: Date, formatStr: string, _culture?: string) =>
+    format(date, formatStr, { locale: fr }),
+  parse: (value: string, formatStr: string) =>
+    parse(value, formatStr, new Date(), { locale: fr }),
+  startOfWeek: () => startOfWeek(new Date(), { locale: fr }),
+  getDay: getDay,
+  locales: { fr },
 })
+
+// === Traduction des labels ===
+const messages = {
+  date: 'Date',
+  time: 'Heure',
+  event: 'Événement',
+  allDay: 'Toute la journée',
+  week: 'Semaine',
+  work_week: 'Semaine de travail',
+  day: 'Jour',
+  month: 'Mois',
+  previous: 'Précédent',
+  next: 'Suivant',
+  yesterday: 'Hier',
+  tomorrow: 'Demain',
+  today: "Aujourd'hui",
+  agenda: 'Agenda',
+  noEventsInRange: 'Aucun événement dans cette période.',
+  showMore: (total: number) => `+ ${total} événement(s) supplémentaire(s)`,
+}
 
 export interface Event {
   title: string
@@ -34,7 +62,6 @@ const Calendrier: React.FC = () => {
   const [date, setDate] = useState<Date>(new Date())
 
   const handleSelectSlot = (slotInfo: SlotInfo) => {
-    console.log(slotInfo)
     const newEvent: Event = {
       title: 'Nouvel événement',
       start: slotInfo.start,
@@ -46,8 +73,7 @@ const Calendrier: React.FC = () => {
   }
 
   return (
-    <div className="p-4">
-      <h2 className="text-xl font-bold mb-4">Mon Calendrier</h2>
+    <CalendarStyled>
       <Calendar
         localizer={localizer}
         events={events}
@@ -55,15 +81,20 @@ const Calendrier: React.FC = () => {
         endAccessor="end"
         selectable
         onSelectSlot={handleSelectSlot}
-        style={{ height: 600 }}
-        views={['month', 'week', 'day']}
+        views={['month']}
         view={view}
-        onView={(newView) => setView(newView)}
+        onView={setView}
         date={date}
-        onNavigate={(newDate) => setDate(newDate)}
+        onNavigate={setDate}
         popup
+        messages={messages}
+        components={{
+          month: {
+            header: CustomWeekdayHeader, // 👈 ici on remplace les noms de jours
+          },
+        }}
       />
-    </div>
+    </CalendarStyled>
   )
 }
 
