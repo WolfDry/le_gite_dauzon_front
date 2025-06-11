@@ -42,5 +42,6 @@ export type CssProps = {
   fontFamily?: string
   fontStyle?: string
   lineHeight?: string
+  transform?: string
   zIndex?: string
 }

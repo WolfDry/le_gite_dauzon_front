@@ -7,7 +7,7 @@ const ParagraphStyled = styled.p<CssProps>`
   overflow: hidden;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 10;
-  color: ${dark};
+  color: ${(props) => props.color ?? dark};
   font-family: Poppins;
   font-size: ${(props) => props.fontSize ?? '1rem'};
   font-style: ${(props) => props.fontStyle ?? 'normal'};

@@ -101,7 +101,7 @@ const Accueil = () => {
         </Container.Column>
         <Visual.Image height="20rem" src="/assets/images/outside.jpg" />
       </Container.Row>
-      <Container.Column>
+      <Container.Column paddingBottom="2.5rem" gap="2.5rem">
         <Container.Row justifyContent="space-between" padding="0 70px">
           <Visual.Image width="34.7vw" height="40.625rem" src={currentStay.image} />
           <Container.Column position="relative" width="52.7vw" alignItems="flex-start" height="44rem" gap="23.69rem" paddingTop="4.375rem">
@@ -139,10 +139,27 @@ const Accueil = () => {
           </Action.Button>
         </Container.Row>
       </Container.Column>
-      <Container.Row height="42.5rem" alignSelf="stretch">
-        <Visual.ParallaxAtoms translation={[0, 15]}>
-          <Container.Row width="100vw" height="100%" background="linear-gradient(180deg, rgba(33, 33, 33, 0.00) 0%, rgba(34, 34, 34, 0.50) 100%), url(/assets/images/accueil/parallax.jpg) lightgray 50% / cover no-repeat" />
+      <Container.Row height="42.5rem" position="relative">
+        <Visual.ParallaxAtoms height="42.5rem" imageSrc='/assets/images/accueil/parallax.jpg'>
         </Visual.ParallaxAtoms>
+        <Container.Column position="absolute" top="50%" left="25%" transform="translate(-25%, -50%)" width="46.5vw" height="32.25rem" padding="2.5rem" justifyContent="center" alignItems="center" gap="1.875rem" borderRadius="1.25rem 0 0 1.25rem" background={darkGreen} zIndex="1">
+          <Container.Column alignItems="flex-start" gap="10px">
+            <Text.Title color={white} textAlign="start">
+              {`Un gîte confortable,
+              au cœur de la nature ardéchoise`}
+            </Text.Title>
+            <Text.Paragraph color={white}>
+              {`Niché dans un environnement calme et verdoyant, à seulement quelques minutes à pied des commerces et des ruelles médiévales de Joyeuse, le Gîte d’Auzon vous accueille pour un séjour alliant confort, simplicité et authenticité. Vous pourrez rejoindre facilement les marchés provençaux, les petits restaurants et toutes les commodités locales, tout en profitant d'un cadre paisible.
+
+Le gîte est entièrement équipé pour vous offrir un séjour tout confort, que vous veniez en famille, entre amis ou en amoureux. Grâce à son emplacement privilégié, vous accéderez rapidement aux plus beaux sites touristiques de l’Ardèche méridionale.`}
+            </Text.Paragraph>
+          </Container.Column>
+          <Action.Button background={white} color={dark}>
+            Voir nos disponibilités
+          </Action.Button>
+        </Container.Column>
+        <Container.Row width="50vw" height="7.625rem" position="absolute" background={cream} />
+        <Container.Row width="50vw" height="5.125rem" position="absolute" bottom="0" right="0" background={darkGreen} />
       </Container.Row>
       <Container.Column alignItems="center" gap="2.5rem" alignSelf="stretch" padding="3.75rem 6.9vw">
         <Text.Title>
@@ -166,7 +183,7 @@ const Accueil = () => {
         <Socials />
       </Container.Column>
       <Footer />
-    </Container.Column>
+    </Container.Column >
   )
 }
 
