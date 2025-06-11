@@ -140,10 +140,9 @@ const Accueil = () => {
         </Container.Row>
       </Container.Column>
       <Container.Row height="42.5rem" alignSelf="stretch">
-        <Container.Column>
-
-        </Container.Column>
-        <Container.Column></Container.Column>
+        <Visual.ParallaxAtoms translation={[0, 15]}>
+          <Container.Row width="100vw" height="100%" background="linear-gradient(180deg, rgba(33, 33, 33, 0.00) 0%, rgba(34, 34, 34, 0.50) 100%), url(/assets/images/accueil/parallax.jpg) lightgray 50% / cover no-repeat" />
+        </Visual.ParallaxAtoms>
       </Container.Row>
       <Container.Column alignItems="center" gap="2.5rem" alignSelf="stretch" padding="3.75rem 6.9vw">
         <Text.Title>

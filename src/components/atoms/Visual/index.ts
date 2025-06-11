@@ -3,5 +3,6 @@ import Icon from "./Icon"
 import Background from "./Background"
 import Svg from "./Svg"
 import Youtube from "./Youtube"
+import ParallaxAtoms from "./Parallax"
 
-export { Image, Icon, Background, Svg, Youtube }
+export { Image, Icon, Background, Svg, Youtube, ParallaxAtoms }
