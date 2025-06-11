@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { CssProps } from '../../../types/CssProps.type';
+import { dark } from '../../../assets/color';
 
 const ButtonStyled = styled.button<CssProps>`
   border: none;
@@ -10,7 +11,7 @@ const ButtonStyled = styled.button<CssProps>`
   align-items: center;
   gap: 10px;
   border-radius: 100px;
-  color: ${(props => props.color ?? "#171C19")};
+  color: ${(props => props.color ?? dark)};
   font-family: Poppins;
   font-size: 18px;
   font-style: normal;
