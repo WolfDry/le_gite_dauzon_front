@@ -4,7 +4,7 @@ import { darkGreen } from '../../assets/color'
 
 const Header = () => {
   return (
-    <Container.Row alignItems="center" justifyContent="space-between" width="94.4vw" position="absolute" top="20px" left="1.25rem" padding="10px 30px" borderRadius="12.5rem" background="rgba(255, 255, 255, 0.80)" backdropFilter="blur(7.5px)">
+    <Container.Row alignItems="center" justifyContent="space-between" width="94.4vw" position="absolute" top="20px" left="50%" transform="translate(-50%, 0)" padding="10px 30px" borderRadius="12.5rem" background="rgba(255, 255, 255, 0.80)" backdropFilter="blur(7.5px)">
       <Container.Row id="Logo" width="20.5vw" alignItems="center" gap="15px">
         <Visual.Svg label='logo' fill={darkGreen} />
         <Container.Row justifyContent="center" alignItems="center" gap="10px">
