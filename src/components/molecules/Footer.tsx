@@ -7,8 +7,8 @@ const Footer = () => {
     <Container.Column>
       <Container.Column padding="3.125rem 8.3vw" alignSelf="stretch" background={green}>
         <Container.Row alignItems="center" gap="6.9vw" alignSelf="stretch">
-          <Container.Column gap="2.5rem" alignSelf="stretch" flex="1">
-            <Text.Title>
+          <Container.Column justifyContent="center" gap="2.5rem" alignSelf="stretch" flex="1">
+            <Text.Title textAlign="start">
               Contactez-nous !
             </Text.Title>
             <Text.Paragraph>

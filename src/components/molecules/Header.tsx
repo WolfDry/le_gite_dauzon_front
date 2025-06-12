@@ -18,11 +18,11 @@ const Header = () => {
         </Container.Row>
       </Container.Row>
       <Container.Row id="Links" justifyContent="center" alignItems="center" gap="2.7vw" alignSelf="stretch">
-        <Action.Link>Le gite</Action.Link>
-        <Action.Link>Réserver</Action.Link>
-        <Action.Link>A visiter</Action.Link>
-        <Action.Link>Accès</Action.Link>
-        <Action.Link>Livre d'or</Action.Link>
+        <Action.Link fontSize="1.25rem">Le gite</Action.Link>
+        <Action.Link fontSize="1.25rem">Réserver</Action.Link>
+        <Action.Link fontSize="1.25rem">A visiter</Action.Link>
+        <Action.Link fontSize="1.25rem">Accès</Action.Link>
+        <Action.Link fontSize="1.25rem">Livre d'or</Action.Link>
       </Container.Row>
       <Container.Row id="Media" width="20.5vw" justifyContent="flex-end" gap="20px">
         <Visual.Svg label='fb' />
