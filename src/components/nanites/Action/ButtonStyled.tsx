@@ -17,6 +17,11 @@ const ButtonStyled = styled.button<CssProps>`
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+  transition: box-shadow ease 0.2s;
+
+  &:hover{
+    box-shadow: 3px 3px 6px 0px rgba(23, 28, 25, 0.14);
+  }
 `;
 
 export default ButtonStyled

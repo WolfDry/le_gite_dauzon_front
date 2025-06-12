@@ -11,11 +11,11 @@ const CommentCard = ({ comment }: Props) => {
   return (
     <Container.Column height="29.3rem" padding="1.875rem 2.7vw" justifyContent="space-between" borderRadius="1.25rem" flex="1 0 0" background={lightGreen} boxShadow="4px 4px 10px 0px rgba(0, 0, 0, 0.20)">
       <Container.Row justifyContent="center">
-        <Visual.Svg label="star" />
-        <Visual.Svg label="star" />
-        <Visual.Svg label="star" />
-        <Visual.Svg label="star" />
-        <Visual.Svg label="star" />
+        <Visual.Svg label="star" width={25} height={25} />
+        <Visual.Svg label="star" width={25} height={25} />
+        <Visual.Svg label="star" width={25} height={25} />
+        <Visual.Svg label="star" width={25} height={25} />
+        <Visual.Svg label="star" width={25} height={25} />
       </Container.Row>
       <Visual.Svg label="quote" />
       <Text.Paragraph>
