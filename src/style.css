@@ -3,10 +3,10 @@
 
 * {
   /* border: 1px red solid; */
+  /* box-sizing: content-box */
 }
 
 body {
-  width: 90rem;
   margin: 0;
   padding: 0;
 }

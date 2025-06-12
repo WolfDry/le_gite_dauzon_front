@@ -34,6 +34,7 @@ const RowStyled = styled.div<CssProps>`
   border-rigth: ${(props) => props.borderRight ?? ''};
   border-radius: ${(props) => props.borderRadius ?? ''};
   background: ${(props) => props.background ?? ''};
+  transform: ${(props) => props.transform ?? ''};
   backdrop-filter: ${(props) => props.backdropFilter ?? ''};
 `;
 
