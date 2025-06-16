@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { dark, lightGreen } from "../../../assets/color";
 
 const CalendarStyled = styled.div`
   .rbc-calendar {
@@ -34,40 +35,62 @@ const CalendarStyled = styled.div`
     align-items: center;
     gap: 0.625rem;
     flex: 1 0 0;
+    color: ${dark};
+    text-align: center;
+    font-family: Poppins;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    text-transform: uppercase;
   }
 
+  .rbc-month-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-content: center;
+  }
 
-  // .rbc-toolbar {
-  //   background-color: #f4f4f5;
-  //   padding: 12px;
-  //   font-weight: bold;
-  //   color: #111827;
-  // }
+  .rbc-row-content {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+  }
 
-  // .rbc-event {
-  //   background-color: #6366f1;
-  //   border-radius: 8px;
-  //   padding: 4px 6px;
-  //   font-size: 14px;
-  // }
+  .rbc-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-content: center;
+    width: 100%;
+  }
 
-  // .rbc-today {
-  //   background-color: #eef2ff !important;
-  // }
+  .rbc-date-cell.rbc-off-range {
+    opacity: 0;
+  }
 
-  // .rbc-selected {
-  //   background-color: #4338ca !important;
-  // }
+  .rbc-date-cell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    alignSelf: strech;
+    width: 14.1%;
+  }
 
-  // .rbc-day-bg:hover {
-  //   background-color: #f0f0f0;
-  //   cursor: pointer;
-  // }
+  .rbc-button-link {
+    background: transparent;
+    border: none;
+    font-family: Poppins;
+  }
+  
+  .rbc-selected {
+    background-color: ${dark} !important;
+  }
 
-  // .rbc-header {
-  //   font-size: 0.95rem;
-  //   color: #4b5563;
-  // }
+  .rbc-event {
+    background-color: ${lightGreen};
+  }
 `
 
 export default CalendarStyled

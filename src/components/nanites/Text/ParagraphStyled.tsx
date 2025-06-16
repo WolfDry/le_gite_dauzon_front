@@ -19,6 +19,7 @@ const ParagraphStyled = styled.p<CssProps>`
   border-rigth: ${(props) => props.borderRight ?? ''};
   white-space: pre-line;  
   flex: ${(props) => props.flex ?? ''};
+  cursor: ${(props) => props.cursor ?? ''};
 `;
 
 export default ParagraphStyled

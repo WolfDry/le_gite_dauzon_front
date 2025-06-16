@@ -39,6 +39,7 @@ const ColumnStyled = styled.div<CssProps>`
   box-shadow: ${(props) => props.boxShadow ?? ''};
   flex: ${(props) => props.flex ?? ''};
   transform: ${(props) => props.transform ?? ''};
+  cursor: ${(props) => props.cursor ?? ''};
   z-index: ${(props) => props.zIndex ?? ''}
 `;
 

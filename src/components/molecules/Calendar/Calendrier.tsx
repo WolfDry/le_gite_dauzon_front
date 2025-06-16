@@ -1,23 +1,16 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Calendar,
   dateFnsLocalizer,
   View,
   SlotInfo,
   DateLocalizer,
-  HeaderProps,
 } from 'react-big-calendar'
 import { format, parse, startOfWeek, getDay } from 'date-fns'
 import { fr } from 'date-fns/locale'
-import { CalendarStyled } from '../nanites/Container'
-
-const CustomWeekdayHeader: React.FC<HeaderProps> = ({ label }) => {
-  return (
-    <div style={{ textTransform: 'uppercase', textAlign: 'center' }}>
-      {label}
-    </div>
-  )
-}
+import { CalendarStyled } from '../../nanites/Container'
+import Toolbar from './Toolbar'
+import Header from './Header'
 
 const localizer: DateLocalizer = dateFnsLocalizer({
   format: (date: Date, formatStr: string, _culture?: string) =>
@@ -62,6 +55,7 @@ const Calendrier: React.FC = () => {
   const [date, setDate] = useState<Date>(new Date())
 
   const handleSelectSlot = (slotInfo: SlotInfo) => {
+    console.log("coucou")
     const newEvent: Event = {
       title: 'Nouvel événement',
       start: slotInfo.start,
@@ -71,6 +65,10 @@ const Calendrier: React.FC = () => {
 
     setEvents((prev) => [...prev, newEvent])
   }
+
+  useEffect(() => {
+    console.log(events)
+  }, [events])
 
   return (
     <CalendarStyled>
@@ -89,9 +87,8 @@ const Calendrier: React.FC = () => {
         popup
         messages={messages}
         components={{
-          month: {
-            header: CustomWeekdayHeader, // 👈 ici on remplace les noms de jours
-          },
+          toolbar: Toolbar,
+          header: Header
         }}
       />
     </CalendarStyled>
