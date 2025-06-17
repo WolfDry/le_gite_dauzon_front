@@ -9,33 +9,35 @@ import Footer from '../components/molecules/Footer'
 
 const Accueil = () => {
 
-  const [currentStay, setCurrentStay] = useState({
-    title: "Balazuc, l'un des Plus Beaux Villages de France",
-    description: "Petit village médiéval fortifié, perché au sommet d'une falaise. Accroché à d'impressionnantes roches de calcaire surplombant la rivière Ardèche. Classé parmi « les plus beaux villages de France » et les « Villages de caractère »",
-    image: "/assets/images/accueil/balazuc.jpg"
-  })
-
   const stays = [
     {
+      id: 1,
       title: "Balazuc, l'un des Plus Beaux Villages de France",
       description: "Petit village médiéval fortifié, perché au sommet d'une falaise. Accroché à d'impressionnantes roches de calcaire surplombant la rivière Ardèche. Classé parmi « les plus beaux villages de France » et les « Villages de caractère »",
       image: "/assets/images/accueil/balazuc.jpg"
     },
     {
+      id: 2,
       title: "Lagorce, l'un des Plus Beaux Villages de France",
       description: "Petit village médiéval fortifié, perché au sommet d'une falaise. Accroché à d'impressionnantes roches de calcaire surplombant la rivière Ardèche. Classé parmi « les plus beaux villages de France » et les « Villages de caractère »",
       image: "/assets/images/accueil/balazuc.jpg"
-    }, {
+    },
+    {
+      id: 3,
       title: "Aubenas, l'un des Plus Beaux Villages de France",
       description: "Petit village médiéval fortifié, perché au sommet d'une falaise. Accroché à d'impressionnantes roches de calcaire surplombant la rivière Ardèche. Classé parmi « les plus beaux villages de France » et les « Villages de caractère »",
       image: "/assets/images/accueil/balazuc.jpg"
     },
     {
+      id: 4,
       title: "Les Vans, l'un des Plus Beaux Villages de France",
       description: "Petit village médiéval fortifié, perché au sommet d'une falaise. Accroché à d'impressionnantes roches de calcaire surplombant la rivière Ardèche. Classé parmi « les plus beaux villages de France » et les « Villages de caractère »",
       image: "/assets/images/accueil/balazuc.jpg"
     }
   ]
+
+  const [currentStay, setCurrentStay] = useState(stays[1])
+
 
   const comments = [{
     note: 5,
@@ -71,6 +73,17 @@ const Accueil = () => {
     if (index > stays.length)
       index = 0
     setCurrentStay(stays[index])
+  }
+
+  const switchStay = (direction: string) => {
+    let nextStay
+    if (direction === "left")
+      nextStay = stays.filter(stay => stay.id === (currentStay.id - 1))[0]
+    if (direction === "right")
+      nextStay = stays.filter(stay => stay.id === (currentStay.id + 1))[0]
+    if (!nextStay)
+      nextStay = stays[0]
+    setCurrentStay(nextStay)
   }
 
   return (
@@ -115,9 +128,9 @@ const Accueil = () => {
               </Text.Paragraph>
             </Container.Column>
             <Container.Row height="12.5rem" padding="0 5px" gap="30px" alignSelf="stretch">
-              <Action.Button padding="0">
+              <Container.Row onClick={() => switchStay("left")} alignItems="center" cursor="pointer">
                 <Visual.Svg label="leftArrow" />
-              </Action.Button>
+              </Container.Row>
               <Container.Column alignItems="flex-start" gap="10px" overflowX="scroll">
                 <Container.Row gap="10px">
                   {stays.map((stay, index) => {
@@ -127,9 +140,9 @@ const Accueil = () => {
                   })}
                 </Container.Row>
               </Container.Column>
-              <Action.Button>
+              <Container.Row onClick={() => switchStay("right")} alignItems="center" cursor="pointer">
                 <Visual.Svg label="rightArrow" />
-              </Action.Button>
+              </Container.Row>
             </Container.Row>
           </Container.Column>
         </Container.Row>
