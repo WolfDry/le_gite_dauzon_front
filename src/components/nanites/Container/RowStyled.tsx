@@ -36,6 +36,7 @@ const RowStyled = styled.div<CssProps>`
   background: ${(props) => props.background ?? ''};
   transform: ${(props) => props.transform ?? ''};
   backdrop-filter: ${(props) => props.backdropFilter ?? ''};
+  z-index: ${(props) => props.zIndex ?? ''};
 `;
 
 export default RowStyled;

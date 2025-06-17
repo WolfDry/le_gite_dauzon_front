@@ -1,7 +1,7 @@
 import React from 'react'
 import { Container, Text } from '../atoms'
 import Header from './Header'
-import ReservationAccueilForm from './ReservationAccueilForm'
+import ReservationAccueilForm from './ReservationAccueilForm/ReservationAccueilForm'
 import { dark, white } from '../../assets/color'
 
 const HeroBanner = () => {

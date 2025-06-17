@@ -1,4 +1,5 @@
 export type CssProps = {
+  display?: string
   alignItems?: string
   justifyContent?: string
   flex?: string

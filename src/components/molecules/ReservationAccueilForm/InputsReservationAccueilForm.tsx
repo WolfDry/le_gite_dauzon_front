@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container, Form } from '../atoms'
+import { Container, Form } from '../../atoms'
 
 const InputsReservationAccueilForm = () => {
   return (

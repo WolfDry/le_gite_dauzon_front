@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { CssProps } from '../../../types/CssProps.type';
 
 const ColumnStyled = styled.div<CssProps>`
-  display: flex;
+  display: ${(props) => props.display ?? 'flex'};
   flex-direction: column;
   align-items: ${(props) => props.alignItems ?? ''};
   justify-content: ${(props) => props.justifyContent ?? ''};
