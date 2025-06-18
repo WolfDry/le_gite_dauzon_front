@@ -6,6 +6,7 @@ export type CssProps = {
   flexShrink?: string
   gap?: string
   width?: string
+  mobileWidth?: string
   height?: string
   maxHeight?: string
   bgColor?: string

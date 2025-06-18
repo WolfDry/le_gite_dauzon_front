@@ -38,6 +38,13 @@ const RowStyled = styled.div<CssProps>`
   backdrop-filter: ${(props) => props.backdropFilter ?? ''};
   cursor: ${(props) => props.cursor ?? ''};
   z-index: ${(props) => props.zIndex ?? ''};
+
+
+
+  @media (max-width: 1050px) {
+    flex-direction: column;
+    width: ${(props) => props.mobileWidth ?? ''};
+  }
 `;
 
 export default RowStyled;
