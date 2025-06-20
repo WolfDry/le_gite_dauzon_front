@@ -28,7 +28,7 @@ type CustomCalendarProps = {
   side: string
 }
 
-const CustomCalendar: React.FC<CustomCalendarProps> = ({ initialDates, onDatesChange, side }) => {
+const Calendrier: React.FC<CustomCalendarProps> = ({ initialDates, onDatesChange, side }) => {
   const [currentMonth, setCurrentMonth] = useState<Date>(new Date())
   const [dates, setDates] = useState<Dates>(initialDates)
   const today = startOfDay(new Date())
@@ -159,4 +159,4 @@ const CustomCalendar: React.FC<CustomCalendarProps> = ({ initialDates, onDatesCh
   )
 }
 
-export default CustomCalendar
+export default Calendrier

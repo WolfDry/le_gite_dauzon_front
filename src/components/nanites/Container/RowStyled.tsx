@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { CssProps } from '../../../types/CssProps.type';
 
 const RowStyled = styled.div<CssProps>`
-  display: flex;
+  display: ${(props) => props.display ?? 'flex'};
   flex-direction: row;
   align-items: ${(props) => props.alignItems ?? ''};
   justify-content: ${(props) => props.justifyContent ?? ''};
