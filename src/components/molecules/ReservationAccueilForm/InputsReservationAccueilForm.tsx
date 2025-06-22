@@ -11,6 +11,11 @@ type Props = {
   }
 }
 
+type Dates = {
+  startDate: string | null
+  endDate: string | null
+}
+
 const InputsReservationAccueilForm = ({ initialDates }: Props) => {
 
   const [isDisplay, setIsDisplay] = useState(false)
@@ -18,6 +23,7 @@ const InputsReservationAccueilForm = ({ initialDates }: Props) => {
     left: new Date(),
     right: addMonths(new Date(), 1),
   }))
+  const [dates, setDates] = useState<Dates>(initialDates)
 
   const changeMonth = (direction: number) => {
     let newMonth = currentMonth
@@ -49,8 +55,8 @@ const InputsReservationAccueilForm = ({ initialDates }: Props) => {
         <Visual.Svg label="bottomArrow" />
       </Container.Row>
       <Container.Row position="absolute" top="65px" display={!isDisplay ? "none" : "flex"} alignItems="center" padding="5px" gap="20px" borderRadius="10px" background={white} zIndex={5}>
-        <Calendrier side='left' initialDates={initialDates} onDatesChange={() => console.log('Changement de date')} currentMonth={currentMonth.left} changeMonth={changeMonth} />
-        <Calendrier side='right' initialDates={initialDates} onDatesChange={() => console.log('Changement de date')} currentMonth={currentMonth.right} changeMonth={changeMonth} />
+        <Calendrier dates={dates} setDates={setDates} side='left' initialDates={initialDates} onDatesChange={() => console.log('Changement de date')} currentMonth={currentMonth.left} changeMonth={changeMonth} />
+        <Calendrier dates={dates} setDates={setDates} side='right' initialDates={initialDates} onDatesChange={() => console.log('Changement de date')} currentMonth={currentMonth.right} changeMonth={changeMonth} />
       </Container.Row>
     </Container.Column>
   )
