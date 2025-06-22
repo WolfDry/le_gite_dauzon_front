@@ -20,6 +20,7 @@ const ParagraphStyled = styled.p<CssProps>`
   white-space: pre-line;  
   flex: ${(props) => props.flex ?? ''};
   cursor: ${(props) => props.cursor ?? ''};
+  z-index: ${(props) => props.zIndex ?? ''};
 `;
 
 export default ParagraphStyled

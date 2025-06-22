@@ -5,6 +5,7 @@ import ReservationAccueilForm from './ReservationAccueilForm/ReservationAccueilF
 import { dark, white } from '../../assets/color'
 
 const HeroBanner = () => {
+
   return (
     <Container.Column height="100vh">
       <Header />

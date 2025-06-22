@@ -9,6 +9,8 @@ export type CssProps = {
   height?: string
   maxHeight?: string
   bgColor?: string
+  grid?: string
+  gridTemplateColumn?: string
   margin?: string
   marginTop?: string
   marginBottom?: string
@@ -44,6 +46,7 @@ export type CssProps = {
   fontStyle?: string
   lineHeight?: string
   transform?: string
+  opacity?: number
   cursor?: string
   zIndex?: string
 }

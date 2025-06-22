@@ -38,7 +38,7 @@ const InputPersonne = () => {
 
   return (
     <Container.Column position="relative">
-      <Container.Row onClick={() => show()} padding="12px 30px 12px 20px" justifyContent="center" alignItems="center" gap="14px" alignSelf="stretch" borderRadius="7px 6.25rem 6.25rem 7px" background={white}>
+      <Container.Row onClick={() => show()} padding="12px 30px 12px 20px" justifyContent="center" alignItems="center" height="100%" gap="14px" alignSelf="stretch" borderRadius="7px 6.25rem 6.25rem 7px" background={white} cursor="pointer">
         <Visual.Svg label="personne" />
         <Text.Paragraph>
           Nombre de personnes
