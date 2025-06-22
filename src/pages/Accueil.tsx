@@ -38,7 +38,6 @@ const Accueil = () => {
 
   const [currentStay, setCurrentStay] = useState(stays[1])
 
-
   const comments = [{
     note: 5,
     nom: "Deltour",
@@ -62,7 +61,7 @@ const Accueil = () => {
     nom: "Deltour",
     prenom: "Benjamin",
     date: "27/08/2022",
-    commentaire: `Chez Deltour, ça vaut le détour! 
+    commentaire: `Chez Deltour, ça vaut le détour!
 
     Nous avons passé une excellente semaine dans le gîte de Laurent et Nathalie. On s'y sent "comme à la maison". Le gîte est fonctionnel, très bien équipé et la literie est très bonne. Nous avons également beaucoup apprécié pouvoir nous rafraîchir dans leur grande piscine! Nathalie et Laurent sont des hôtes absolument charmants et très accueillants, toujours souriants et prêts à rendre service. La convivialité est le maître-mot de ce gîte ! 
 

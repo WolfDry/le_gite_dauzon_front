@@ -11,9 +11,9 @@ import {
   getDaysInMonth,
   isWithinInterval,
 } from 'date-fns'
-import { da, fr } from 'date-fns/locale'
+import { fr } from 'date-fns/locale'
 import { Action, Container, Text, Visual } from '../../atoms'
-import { dark, lightGreen, white } from '../../../assets/color'
+import { lightGreen, white } from '../../../assets/color'
 
 const daysOfWeek = ['LUN', 'MAR', 'MER', 'JEU', 'VEN', 'SAM', 'DIM']
 
@@ -26,16 +26,13 @@ type CustomCalendarProps = {
   initialDates: Dates
   onDatesChange: (dates: Dates) => void
   side: string
+  currentMonth: Date
+  changeMonth: (direction: number) => void
 }
 
-const Calendrier: React.FC<CustomCalendarProps> = ({ initialDates, onDatesChange, side }) => {
-  const [currentMonth, setCurrentMonth] = useState<Date>(new Date())
+const Calendrier: React.FC<CustomCalendarProps> = ({ initialDates, onDatesChange, side, currentMonth, changeMonth }) => {
   const [dates, setDates] = useState<Dates>(initialDates)
   const today = startOfDay(new Date())
-
-  useEffect(() => {
-    setDates(initialDates)
-  }, [initialDates])
 
   const startOfCurrentMonth = startOfMonth(currentMonth)
   const startDay = (getDay(startOfCurrentMonth) + 6) % 7
@@ -66,12 +63,6 @@ const Calendrier: React.FC<CustomCalendarProps> = ({ initialDates, onDatesChange
     }
 
     setDates(newDates)
-  }
-
-  const changeMonth = (direction: number) => {
-    const newMonth = direction === 1 ? addMonths(currentMonth, 1) : subMonths(currentMonth, 1)
-    if (isBefore(newMonth, startOfMonth(today))) return
-    setCurrentMonth(newMonth)
   }
 
   const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1)

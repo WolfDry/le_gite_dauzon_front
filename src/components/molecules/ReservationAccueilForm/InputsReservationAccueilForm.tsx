@@ -1,11 +1,39 @@
-import React, { useState } from 'react'
+import React, { use, useState } from 'react'
 import { Container, Text, Visual } from '../../atoms'
 import { white } from '../../../assets/color'
 import Calendrier from '../Calendar/Calendrier'
+import { addMonths, isBefore, startOfMonth, subMonths } from 'date-fns'
 
-const InputsReservationAccueilForm = () => {
+type Props = {
+  initialDates: {
+    startDate: string | null
+    endDate: string | null
+  }
+}
+
+const InputsReservationAccueilForm = ({ initialDates }: Props) => {
 
   const [isDisplay, setIsDisplay] = useState(false)
+  const [currentMonth, setCurrentMonth] = useState(() => ({
+    left: new Date(),
+    right: addMonths(new Date(), 1),
+  }))
+
+  const changeMonth = (direction: number) => {
+    let newMonth = currentMonth
+    if (direction === 1) {
+      newMonth = {
+        left: addMonths(currentMonth.left, 1),
+        right: addMonths(currentMonth.right, 1)
+      }
+    } else {
+      newMonth = {
+        left: subMonths(currentMonth.left, 1),
+        right: subMonths(currentMonth.right, 1)
+      }
+    }
+    setCurrentMonth(newMonth)
+  }
 
   const show = () => {
     setIsDisplay(!isDisplay)
@@ -21,8 +49,8 @@ const InputsReservationAccueilForm = () => {
         <Visual.Svg label="bottomArrow" />
       </Container.Row>
       <Container.Row position="absolute" top="65px" display={!isDisplay ? "none" : "flex"} alignItems="center" padding="5px" gap="20px" borderRadius="10px" background={white} zIndex={5}>
-        <Calendrier side='left' initialDates={{ startDate: null, endDate: null }} onDatesChange={() => console.log('Changement de date')} />
-        <Calendrier side='right' initialDates={{ startDate: null, endDate: null }} onDatesChange={() => console.log('Changement de date')} />
+        <Calendrier side='left' initialDates={initialDates} onDatesChange={() => console.log('Changement de date')} currentMonth={currentMonth.left} changeMonth={changeMonth} />
+        <Calendrier side='right' initialDates={initialDates} onDatesChange={() => console.log('Changement de date')} currentMonth={currentMonth.right} changeMonth={changeMonth} />
       </Container.Row>
     </Container.Column>
   )
