@@ -124,7 +124,7 @@ const Calendrier: React.FC<CustomCalendarProps> = ({ dates, setDates, initialDat
 
   return (
     <Container.Column width="19.4vw" padding="1.25rem 0" justifyContent="center" alignItems="center" gap="10px">
-      <Container.Row justifyContent="center" alignItems="center" gap="1.875rem" alignSelf="stretch">
+      <Container.Row direciton="row" justifyContent="center" alignItems="center" gap="1.875rem" alignSelf="stretch">
         {isAfter(currentMonth, today) && (
           <Action.Button onClick={() => side === "left" && changeMonth(-1)} padding="0" opacity={side === "right" ? 0 : null}>
             <Visual.Svg label="leftArrow" width={10} height={15} />
@@ -137,7 +137,7 @@ const Calendrier: React.FC<CustomCalendarProps> = ({ dates, setDates, initialDat
           <Visual.Svg label="rightArrow" width={10} height={15} />
         </Action.Button>
       </Container.Row>
-      <Container.Row justifyContent="center" padding="0 10px" alignItems="center" alignSelf="stretch">
+      <Container.Row direction="row" justifyContent="center" padding="0 10px" alignItems="center" alignSelf="stretch">
         {daysOfWeek.map((d, i) => (
           <Container.Column padding="4px 0" justifyContent="center" alignItems="center" gap="10px" flex="1 0 0">
             <Text.Paragraph key={i}>

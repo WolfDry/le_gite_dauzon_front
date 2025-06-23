@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { Container, Form } from '../../atoms'
-import { darkGreen } from '../../../assets/color'
+import { Action, Container } from '../../atoms'
+import { darkGreen, white } from '../../../assets/color'
 import InputsReservationAccueilForm from './InputsReservationAccueilForm'
 import InputPersonne from './InputPersonne'
 
@@ -12,10 +12,10 @@ const ReservationAccueilForm = () => {
   })
 
   return (
-    <Container.Row width="fit-content" padding="0.3125rem" alignItem="center" gap="0.3125rem" background={darkGreen} borderRadius="12.5rem">
+    <Container.Row width="fit-content" mobileWidth="21.25rem" padding="5px" alignItem="center" gap="5px" background={darkGreen} borderRadius="12.5rem" mBorderRadius="1.25rem">
       <InputsReservationAccueilForm initialDates={initialDates} />
       <InputPersonne />
-      <Form.Button>Faire une demande</Form.Button>
+      <Action.Button mBorderRadius="7px 7px 15px 15px" background={white}>Faire une demande</Action.Button>
     </Container.Row>
   )
 }

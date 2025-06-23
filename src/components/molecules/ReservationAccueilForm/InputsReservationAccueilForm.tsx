@@ -47,14 +47,14 @@ const InputsReservationAccueilForm = ({ initialDates }: Props) => {
 
   return (
     <Container.Column position="relative">
-      <Container.Row onClick={() => show()} padding="12px 30px 12px 20px" justifyContent="center" alignItems="center" gap="14px" alignSelf="stretch" borderRadius="100px 7px 7px 100px" background={white} cursor="pointer">
+      <Container.Row onClick={() => show()} direction="row" height="100%" mHeight="3.1875rem" padding="12px 30px 12px 20px" justifyContent="center" alignItems="center" gap="14px" alignSelf="stretch" borderRadius="100px 7px 7px 100px" mBorderRadius="15px 15px 7px 7px" background={white} cursor="pointer">
         <Visual.Svg label="calendar" />
         <Text.Paragraph>
           Date d’arrivée - Date de départ
         </Text.Paragraph>
         <Visual.Svg label="bottomArrow" />
       </Container.Row>
-      <Container.Row position="absolute" top="65px" display={!isDisplay ? "none" : "flex"} alignItems="center" padding="5px" gap="20px" borderRadius="10px" background={white} zIndex={5}>
+      <Container.Row direction="row" position="absolute" top="65px" display={!isDisplay ? "none" : "flex"} alignItems="center" padding="5px" gap="20px" borderRadius="10px" background={white} zIndex={5}>
         <Calendrier dates={dates} setDates={setDates} side='left' initialDates={initialDates} onDatesChange={() => console.log('Changement de date')} currentMonth={currentMonth.left} changeMonth={changeMonth} />
         <Calendrier dates={dates} setDates={setDates} side='right' initialDates={initialDates} onDatesChange={() => console.log('Changement de date')} currentMonth={currentMonth.right} changeMonth={changeMonth} />
       </Container.Row>

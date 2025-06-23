@@ -1,12 +1,14 @@
 export type CssProps = {
   display?: string
+  direction?: string
   alignItems?: string
   justifyContent?: string
   flex?: string
   flexShrink?: string
   gap?: string
   width?: string
-  mobileWidth?: string
+  minWidth?: string
+  mWidth?: string
   height?: string
   maxHeight?: string
   bgColor?: string
@@ -30,7 +32,8 @@ export type CssProps = {
   overflow?: string
   overflowX?: string
   overflowY?: string
-  borderRadius?: number
+  borderRadius?: string
+  mBorderRadius?: string
   border?: string
   borderLeft?: string
   borderRight?: string

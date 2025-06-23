@@ -42,8 +42,9 @@ const RowStyled = styled.div<CssProps>`
 
 
   @media (max-width: 1050px) {
-    flex-direction: column;
-    width: ${(props) => props.mobileWidth ?? ''};
+    flex-direction: ${(props) => props.direction ?? 'column'};
+    width: ${(props) => props.mWidth ?? ''};
+    border-radius: ${(props) => props.mBorderRadius ?? ''};
   }
 `;
 

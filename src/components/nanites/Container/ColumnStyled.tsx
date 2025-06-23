@@ -10,6 +10,7 @@ const ColumnStyled = styled.div<CssProps>`
   flex-shrink: ${(props) => props.flexShrink ?? ''};
   gap: ${(props) => props.gap ?? ''};
   width: ${(props) => props.width ?? ''};
+  min-width: ${(props) => props.minWidth ?? ''};
   height: ${(props) => props.height ?? ''};
   max-height: ${(props) => props.maxHeight ?? ''};
   background-color: ${(props) => props.bgColor ?? ''};

@@ -38,14 +38,14 @@ const InputPersonne = () => {
 
   return (
     <Container.Column position="relative">
-      <Container.Row onClick={() => show()} padding="12px 30px 12px 20px" justifyContent="center" alignItems="center" height="100%" gap="14px" alignSelf="stretch" borderRadius="7px 6.25rem 6.25rem 7px" background={white} cursor="pointer">
+      <Container.Row direction="row" onClick={() => show()} padding="12px 30px 12px 20px" justifyContent="center" alignItems="center" height="100%" gap="14px" alignSelf="stretch" borderRadius="7px 6.25rem 6.25rem 7px" mBorderRadius="7px" background={white} cursor="pointer">
         <Visual.Svg label="personne" />
         <Text.Paragraph>
           Nombre de personnes
         </Text.Paragraph>
         <Visual.Svg label="bottomArrow" />
       </Container.Row>
-      <Container.Column position="absolute" top="65px" padding="1.25rem" alignItems="flex-start" gap="15px" borderRadius="10px" background={white} display={!isDisplay ? "none" : "flex"} zIndex="2">
+      <Container.Column position="absolute" top="65px" width="255px" padding="1.25rem" alignItems="flex-start" gap="15px" borderRadius="10px" background={white} display={!isDisplay ? "none" : "flex"} zIndex="2">
         {inputData.map(data => {
           return (
             <InputContainer data={data} updateData={updateData} />
