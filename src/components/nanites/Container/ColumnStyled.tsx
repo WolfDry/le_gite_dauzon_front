@@ -41,7 +41,25 @@ const ColumnStyled = styled.div<CssProps>`
   flex: ${(props) => props.flex ?? ''};
   transform: ${(props) => props.transform ?? ''};
   cursor: ${(props) => props.cursor ?? ''};
-  z-index: ${(props) => props.zIndex ?? ''}
+  z-index: ${(props) => props.zIndex ?? ''};
+
+
+  @media (max-width: 1050px) {
+    flex-direction: ${(props) => props.direction ?? 'column'};
+    width: ${(props) => props.mWidth ?? ''};
+    height: ${(props) => props.mHeight ?? ''};
+    position: ${(props) => props.mPosition ?? ''};
+    border-radius: ${(props) => props.mBorderRadius ?? ''};
+    align-items: ${(props) => props.mAlignItems ?? ''};
+    align-self: ${(props) => props.mAlignSelf ?? ''};
+    justify-content: ${(props) => props.mJustifyContent ?? ''};
+    gap: ${(props) => props.mGap ?? ''};
+    padding: ${(props) => props.mPadding ?? ''};
+    left: ${(props) => props.mLeft ?? ''};
+    box-shadow: ${(props) => props.mBoxShadow ?? ''};
+    backdrop-filter: ${(props) => props.mBackdropFilter ?? ''};
+    transform: ${(props) => props.mTransform ?? ''};
+  }
 `;
 
 export default ColumnStyled

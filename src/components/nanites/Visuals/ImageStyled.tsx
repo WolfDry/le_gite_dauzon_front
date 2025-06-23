@@ -12,6 +12,14 @@ const ImageStyled = styled.img<CssProps>`
   gap: ${(props) => props.gap ?? ""};
   flex: ${(props) => props.flex ?? ""};
   overflow: ${(props) => props.overflow ?? ""};
+
+  
+  @media (max-width: 1050px) {
+    width: ${(props) => props.mWidth ?? ''};
+    height: ${(props) => props.mHeight ?? ''};
+    align-self: ${(props) => props.mAlignSelf ?? ''};
+    border-radius: ${(props) => props.mBorderRadius ?? ""};
+  }
 `;
 
 export default ImageStyled

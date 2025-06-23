@@ -1,15 +1,20 @@
 export type CssProps = {
   display?: string
+  mDisplay?: string
   direction?: string
   alignItems?: string
   justifyContent?: string
+  mAlignItems?: string
+  mJustifyContent?: string
   flex?: string
   flexShrink?: string
   gap?: string
+  mGap?: string
   width?: string
   minWidth?: string
   mWidth?: string
   height?: string
+  mHeight?: string
   maxHeight?: string
   bgColor?: string
   grid?: string
@@ -20,14 +25,17 @@ export type CssProps = {
   marginLeft?: string
   marginRight?: string
   padding?: string
+  mPadding?: string
   paddingTop?: string
   paddingBottom?: string
   paddingLeft?: string
   paddingRight?: string
   position?: string
+  mPosition?: string
   top?: string
   bottom?: string
   left?: string
+  mLeft?: string
   right?: string
   overflow?: string
   overflowX?: string
@@ -43,6 +51,7 @@ export type CssProps = {
   fontWeight?: string
   textAlign?: string
   alignSelf?: string
+  mAlignSelf?: string
   background?: string
   backdropFilter?: string
   boxShadow?: string
@@ -50,6 +59,9 @@ export type CssProps = {
   fontStyle?: string
   lineHeight?: string
   transform?: string
+  mTransform?: string
+  mBoxShadow?: string
+  mBackdropFilter?: string
   opacity?: number
   cursor?: string
   zIndex?: string

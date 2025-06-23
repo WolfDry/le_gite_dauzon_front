@@ -3,7 +3,7 @@ import { CssProps } from '../../../types/CssProps.type';
 import { dark } from '../../../assets/color';
 
 const ParagraphStyled = styled.p<CssProps>`
-  display: -webkit-box;
+  display: ${(props) => props.display ?? '-webkit-box'};
   overflow: hidden;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 10;

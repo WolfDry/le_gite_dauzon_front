@@ -15,15 +15,15 @@ const Footer = () => {
               Pour toutes les demandes, n’hésitez pas à nous contacter par mail
             </Text.Paragraph>
             <Container.Column gap="7px">
-              <Container.Row alignItems="center" gap="10px">
+              <Container.Row direction="row" alignItems="center" gap="10px">
                 <Visual.Svg label="mail" />
                 <Text.Paragraph>legitedauzon@free.fr</Text.Paragraph>
               </Container.Row>
-              <Container.Row alignItems="center" gap="10px">
+              <Container.Row direction="row" alignItems="center" gap="10px">
                 <Visual.Svg label="maps" />
                 <Text.Paragraph>20 impasse du petit nice, 07260 Joyeuse</Text.Paragraph>
               </Container.Row>
-              <Container.Row alignItems="center" gap="10px">
+              <Container.Row direction="row" alignItems="center" gap="10px">
                 <Visual.Svg label="whatsapp" />
                 <Text.Paragraph>06.10.33.99.06</Text.Paragraph>
               </Container.Row>
@@ -56,7 +56,7 @@ const Footer = () => {
           </Container.Column>
         </Container.Row>
       </Container.Column>
-      <Container.Row height="5rem" padding="10px 8.3vw" justifyContent="space-between" alignItems="center" alignSelf="stretch">
+      <Container.Row direction="row" height="5rem" padding="10px 8.3vw" justifyContent="space-between" alignItems="center" alignSelf="stretch">
         <Text.Paragraph>
           Mentions légales
         </Text.Paragraph>

@@ -42,9 +42,15 @@ const RowStyled = styled.div<CssProps>`
 
 
   @media (max-width: 1050px) {
+    display: ${(props) => props.mDisplay ?? 'flex'};
     flex-direction: ${(props) => props.direction ?? 'column'};
     width: ${(props) => props.mWidth ?? ''};
+    height: ${(props) => props.mHeight ?? ''};
     border-radius: ${(props) => props.mBorderRadius ?? ''};
+    align-items: ${(props) => props.mAlignItems ?? ''};
+    justify-content: ${(props) => props.mJustifyContent ?? ''};
+    gap: ${(props) => props.mGap ?? ''};
+    padding: ${(props) => props.mPadding ?? ''};
   }
 `;
 
