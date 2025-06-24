@@ -29,7 +29,7 @@ const ButtonStyled = styled.button<CssProps>`
   
   @media (max-width: 1050px) {
     border-radius: ${(props) => props.mBorderRadius ?? ""};
-    
+    opacity: ${(props) => props.mOpacity ?? ""};
   }
 `;
 

@@ -25,14 +25,14 @@ type Dates = {
 type CustomCalendarProps = {
   dates: Dates
   setDates: (dates: Dates) => void
-  initialDates: Dates
   onDatesChange: (dates: Dates) => void
   side: string
   currentMonth: Date
   changeMonth: (direction: number) => void
+  isOnMobile: boolean
 }
 
-const Calendrier: React.FC<CustomCalendarProps> = ({ dates, setDates, initialDates, onDatesChange, side, currentMonth, changeMonth }) => {
+const Calendrier: React.FC<CustomCalendarProps> = ({ dates, setDates, onDatesChange, side, currentMonth, changeMonth, isOnMobile }) => {
   const today = startOfDay(new Date())
 
   const startOfCurrentMonth = startOfMonth(currentMonth)
@@ -123,17 +123,17 @@ const Calendrier: React.FC<CustomCalendarProps> = ({ dates, setDates, initialDat
   }
 
   return (
-    <Container.Column width="19.4vw" padding="1.25rem 0" justifyContent="center" alignItems="center" gap="10px">
-      <Container.Row direciton="row" justifyContent="center" alignItems="center" gap="1.875rem" alignSelf="stretch">
+    <Container.Column width="19.4vw" mWidth="100%" padding="1.25rem 0" justifyContent="center" alignItems="center" gap="10px" mDisplay={isOnMobile ? "flex" : "none"}>
+      <Container.Row direction="row" justifyContent="center" alignItems="center" gap="1.875rem" alignSelf="stretch">
         {isAfter(currentMonth, today) && (
-          <Action.Button onClick={() => side === "left" && changeMonth(-1)} padding="0" opacity={side === "right" ? 0 : null}>
+          <Action.Button onClick={() => side === "left" && changeMonth(-1)} padding="0" opacity={side === "right" ? 0 : null} mOpacity="1">
             <Visual.Svg label="leftArrow" width={10} height={15} />
           </Action.Button>
         )}
         <Text.Paragraph fontWeight="700">
           {capitalize(format(currentMonth, 'MMMM yyyy', { locale: fr }))}
         </Text.Paragraph>
-        <Action.Button onClick={() => side === "right" && changeMonth(1)} padding="0" opacity={side === "left" ? 0 : null}>
+        <Action.Button onClick={() => side === "right" && changeMonth(1)} padding="0" opacity={side === "left" ? 0 : null} mOpacity="1">
           <Visual.Svg label="rightArrow" width={10} height={15} />
         </Action.Button>
       </Container.Row>

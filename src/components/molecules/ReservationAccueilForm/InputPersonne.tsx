@@ -45,7 +45,7 @@ const InputPersonne = () => {
         </Text.Paragraph>
         <Visual.Svg label="bottomArrow" />
       </Container.Row>
-      <Container.Column position="absolute" top="65px" width="255px" padding="1.25rem" alignItems="flex-start" gap="15px" borderRadius="10px" background={white} display={!isDisplay ? "none" : "flex"} zIndex="2">
+      <Container.Column position="absolute" top="65px" width="255px" padding="1.25rem" alignItems="flex-start" gap="15px" borderRadius="10px" background={white} display={!isDisplay ? "none" : "flex"} mDisplay={!isDisplay ? "none" : "flex"} zIndex="2">
         {inputData.map(data => {
           return (
             <InputContainer data={data} updateData={updateData} />
