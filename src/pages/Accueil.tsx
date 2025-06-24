@@ -35,16 +35,17 @@ const Accueil = () => {
       image: "/assets/images/accueil/balazuc.jpg"
     }
   ]
-
-  const [currentStay, setCurrentStay] = useState(stays[1])
+  const [currentStay, setCurrentStay] = useState(stays[0])
 
   const comments = [{
+    id: 1,
     note: 5,
     nom: "Deltour",
     prenom: "Benjamin",
     date: "27/08/2022",
     commentaire: `Nous avons passer 1 semaine au gite d'Auzon ,le gite est très confortable ,il ne manque rien ,des hôtes Nathalie et Laurent d'une gentillesse incroyable, une terrasse et piscine extra 👍👍 PS: nous reviendrons bien évidement prochainement pour un bon apéro 😂`,
   }, {
+    id: 2,
     note: 5,
     nom: "Deltour",
     prenom: "Benjamin",
@@ -57,6 +58,7 @@ const Accueil = () => {
 
     Nous reviendrons avec plaisir en Ardeche et chez eux :)`,
   }, {
+    id: 3,
     note: 5,
     nom: "Deltour",
     prenom: "Benjamin",
@@ -67,11 +69,23 @@ const Accueil = () => {
 
     Nous recommandons ce gîte sans aucune hésitation et espérons revenir très prochainement pour déguster une bière... Ou deux!!! Et Nico compte bien prendre sa revanche à la pétanque!!!`,
   }]
+  const [currentComment, setCurrentComment] = useState(comments[0])
 
   const changeStay = (index: number) => {
     if (index > stays.length)
       index = 0
     setCurrentStay(stays[index])
+  }
+
+  const changeCurrentComment = (direction: string) => {
+    let nextComment
+    if (direction === "left")
+      nextComment = comments.filter(comment => comment.id === (currentComment.id - 1))[0]
+    if (direction === "right")
+      nextComment = comments.filter(comment => comment.id === (currentComment.id + 1))[0]
+    if (!nextComment)
+      nextComment = comments[0]
+    setCurrentComment(nextComment)
   }
 
   const switchStay = (direction: string) => {
@@ -172,7 +186,7 @@ Le gîte est entièrement équipé pour vous offrir un séjour tout confort, que
         <Container.Row mDisplay="none" width="50vw" height="7.625rem" position="absolute" background={cream} />
         <Container.Row mDisplay="none" width="50vw" height="5.125rem" position="absolute" bottom="0" right="0" background={darkGreen} />
       </Container.Row>
-      <Container.Column alignItems="center" gap="2.5rem" alignSelf="stretch" padding="3.75rem 6.9vw">
+      <Container.Column alignItems="center" gap="2.5rem" alignSelf="stretch" padding="3.75rem 6.9vw" mDisplay="none">
         <Text.Title>
           Nos vacanciers témoignent
         </Text.Title>
@@ -182,6 +196,23 @@ Le gîte est entièrement équipé pour vous offrir un séjour tout confort, que
               <CommentCard comment={comment} />
             )
           }))}
+        </Container.Row>
+        <Action.Button background={darkGreen} color={white}>
+          Voir tous les avis
+        </Action.Button>
+      </Container.Column>
+      <Container.Column display="none" mDisplay="flex" padding="1.875rem 1.25rem 2.5rem 1.25rem" alignItems="center" gap="1.875rem" alignSelf="stretch">
+        <Text.Title>
+          Nos vacanciers témoignent
+        </Text.Title>
+        <Container.Row direction="row" alignItems="center" gap="10px" alignSelf="stretch">
+          <Container.Column onClick={() => changeCurrentComment("left")}>
+            <Visual.Svg label="leftArrow" />
+          </Container.Column>
+          <CommentCard comment={currentComment} />
+          <Container.Column onClick={() => changeCurrentComment("right")}>
+            <Visual.Svg label="rightArrow" />
+          </Container.Column>
         </Container.Row>
         <Action.Button background={darkGreen} color={white}>
           Voir tous les avis
