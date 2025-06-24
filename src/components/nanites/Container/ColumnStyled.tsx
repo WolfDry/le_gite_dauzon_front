@@ -60,6 +60,10 @@ const ColumnStyled = styled.div<CssProps>`
     backdrop-filter: ${(props) => props.mBackdropFilter ?? ''};
     transform: ${(props) => props.mTransform ?? ''};
   }
+
+  @media (max-height: 900px) {
+    margin-top: ${(props) => props.mMarginTop ?? ''};
+  }
 `;
 
 export default ColumnStyled

@@ -52,6 +52,10 @@ const RowStyled = styled.div<CssProps>`
     gap: ${(props) => props.mGap ?? ''};
     padding: ${(props) => props.mPadding ?? ''};
   }
+
+  @media (max-height: 900px) {
+    margin-top: ${(props) => props.mMarginTop ?? ''};
+  }
 `;
 
 export default RowStyled;

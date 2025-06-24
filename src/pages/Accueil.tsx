@@ -88,7 +88,7 @@ const Accueil = () => {
   return (
     <Container.Column width="100vw" background={cream}>
       <HeroBanner />
-      <Container.Row justifyContent="center" mJustifyContent="flex-end" alignItems="flex-end" mAlignItems="center" marginTop="-12.5rem" padding="0 6.25rem 2.5rem 6.25rem" mPadding="0 1.25rem 2.5rem 1.25rem" mGap="1.25rem">
+      <Container.Row justifyContent="center" mJustifyContent="flex-end" alignItems="flex-end" mAlignItems="center" marginTop="-12.5rem" mMarginTop="-4rem" padding="0 6.25rem 2.5rem 6.25rem" mPadding="0 1.25rem 2.5rem 1.25rem" mGap="1.25rem">
         <Container.Column width="55vw" mWidth="92%" marginRight="-1.25rem" background={lightGreen} borderRadius="1.25rem" padding="1.875rem 4.2vw" mPadding="1.875rem 1.25rem" alignSelf="stretch" gap="1.875rem" boxShadow="4px 4px 20px 0px rgba(0,0,0,0.10)" zIndex="1">
           <Text.Title>
             {`Bienvenue au Gîte d'Auzon à Joyeuse,
@@ -151,9 +151,9 @@ const Accueil = () => {
           </Action.Button>
         </Container.Row>
       </Container.Column>
-      <Container.Row height="42.5rem" mHeight="auto" position="relative" mAlignItems="center" mJustifyContent="center">
+      <Container.Row height="42.5rem" mHeight="auto" position="relative" mAlignItems="center" mJustifyContent="center" mPadding="3.75rem 1.25rem">
         <Visual.ParallaxAtoms height="42.5rem" imageSrc='/assets/images/accueil/parallax.jpg' />
-        <Container.Column position="absolute" top="50%" left="25%" mLeft="50%" transform="translate(-25%, -50%)" mTransform="translate(-50%, -50%)" width="46.5vw" mWidth="90vw" height="32.25rem" padding="2.5rem" mPadding="1.25rem" justifyContent="center" alignItems="center" gap="1.875rem" borderRadius="1.25rem 0 0 1.25rem" mBorderRadius="1.25rem" background={darkGreen} flex="1 0 0" mBoxShadow="4px 4px 20px 0px rgba(0, 0, 0.10)" mBackdropFilter="blur(15px)" zIndex="1">
+        <Container.Column position="absolute" top="50%" left="25%" mLeft="50%" transform="translate(-25%, -50%)" mTransform="translate(-50%, -50%)" width="46.5vw" mWidth="90vw" height="fit-content" padding="2.5rem" mPadding="1.25rem" justifyContent="center" alignItems="center" gap="1.875rem" borderRadius="1.25rem 0 0 1.25rem" mBorderRadius="1.25rem" background={darkGreen} flex="1 0 0" mBoxShadow="4px 4px 20px 0px rgba(0, 0, 0.10)" mBackdropFilter="blur(15px)" zIndex="1">
           <Container.Column alignItems="flex-start" gap="10px">
             <Text.Title color={white} textAlign="start">
               {`Un gîte confortable,

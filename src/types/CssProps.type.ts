@@ -21,6 +21,7 @@ export type CssProps = {
   gridTemplateColumn?: string
   margin?: string
   marginTop?: string
+  mMarginTop?: string
   marginBottom?: string
   marginLeft?: string
   marginRight?: string
