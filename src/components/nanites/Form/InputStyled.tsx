@@ -3,7 +3,6 @@ import { CssProps } from '../../../types/CssProps.type';
 import { dark } from '../../../assets/color';
 
 const InputStyled = styled.input<CssProps>`
-  // height: 44px;
   overflow: hidden;
   padding: ${(props) => props.padding ?? "15px"};
   width: ${(props) => props.width ?? ""};
@@ -13,6 +12,11 @@ const InputStyled = styled.input<CssProps>`
   font-family: Poppins;
   text-align: ${(props) => props.textAlign ?? ""};
   color: ${dark};
+
+
+  @media (max-width: 1050px) {
+    width: ${(props) => props.mWidth ?? ''};
+  }
 `;
 
 export default InputStyled

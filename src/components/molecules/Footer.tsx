@@ -6,7 +6,7 @@ const Footer = () => {
   return (
     <Container.Column>
       <Container.Column padding="3.125rem 8.3vw" alignSelf="stretch" background={green}>
-        <Container.Row alignItems="center" gap="6.9vw" alignSelf="stretch">
+        <Container.Row gap="6.9vw" alignSelf="stretch">
           <Container.Column justifyContent="center" gap="2.5rem" alignSelf="stretch" flex="1">
             <Text.Title textAlign="start">
               Contactez-nous !
@@ -56,11 +56,11 @@ const Footer = () => {
           </Container.Column>
         </Container.Row>
       </Container.Column>
-      <Container.Row direction="row" height="5rem" padding="10px 8.3vw" justifyContent="space-between" alignItems="center" alignSelf="stretch">
+      <Container.Row height="5rem" mHeight="auto" padding="10px 8.3vw" mPadding="40px 30px" justifyContent="space-between" mJustifyContent="center" alignItems="center" alignSelf="stretch" mGap="30px">
         <Text.Paragraph>
           Mentions légales
         </Text.Paragraph>
-        <Text.Paragraph>
+        <Text.Paragraph textAlign="center">
           Copyright © 2025 Le Gite d’Auzon. Tous droits réservés.
         </Text.Paragraph>
       </Container.Row>

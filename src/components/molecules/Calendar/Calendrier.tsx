@@ -33,7 +33,6 @@ type CustomCalendarProps = {
 }
 
 const Calendrier: React.FC<CustomCalendarProps> = ({ dates, setDates, onDatesChange, side, currentMonth, changeMonth, isOnMobile }) => {
-  const today = startOfDay(new Date())
 
   const startOfCurrentMonth = startOfMonth(currentMonth)
   const startDay = (getDay(startOfCurrentMonth) + 6) % 7
@@ -125,22 +124,20 @@ const Calendrier: React.FC<CustomCalendarProps> = ({ dates, setDates, onDatesCha
   return (
     <Container.Column width="19.4vw" mWidth="100%" padding="1.25rem 0" justifyContent="center" alignItems="center" gap="10px" mDisplay={isOnMobile ? "flex" : "none"}>
       <Container.Row direction="row" justifyContent="center" alignItems="center" gap="1.875rem" alignSelf="stretch">
-        {isAfter(currentMonth, today) && (
-          <Action.Button onClick={() => side === "left" && changeMonth(-1)} padding="0" opacity={side === "right" ? 0 : null} mOpacity="1">
-            <Visual.Svg label="leftArrow" width={10} height={15} />
-          </Action.Button>
-        )}
+        <Action.Button onClick={() => side === "left" && changeMonth(-1)} padding="0" opacity={side === "right" ? 0 : null} mOpacity="1">
+          <Visual.Svg label="leftArrow" width={10} height={15} />
+        </Action.Button>
         <Text.Paragraph fontWeight="700">
           {capitalize(format(currentMonth, 'MMMM yyyy', { locale: fr }))}
         </Text.Paragraph>
-        <Action.Button onClick={() => side === "right" && changeMonth(1)} padding="0" opacity={side === "left" ? 0 : null} mOpacity="1">
+        <Action.Button onClick={() => changeMonth(1)} padding="0" opacity={side === "left" ? 0 : null} mOpacity="1">
           <Visual.Svg label="rightArrow" width={10} height={15} />
         </Action.Button>
       </Container.Row>
-      <Container.Row direction="row" justifyContent="center" padding="0 10px" alignItems="center" alignSelf="stretch">
+      <Container.Row direction="row" justifyContent="center" padding="0 10px" alignItems="center" alignSelf="stretch" gap="5px">
         {daysOfWeek.map((d, i) => (
           <Container.Column padding="4px 0" justifyContent="center" alignItems="center" gap="10px" flex="1 0 0">
-            <Text.Paragraph key={i}>
+            <Text.Paragraph fontSize="14px" key={i}>
               {d}
             </Text.Paragraph>
           </Container.Column>

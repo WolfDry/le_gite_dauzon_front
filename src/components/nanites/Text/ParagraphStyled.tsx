@@ -13,6 +13,7 @@ const ParagraphStyled = styled.p<CssProps>`
   font-style: ${(props) => props.fontStyle ?? 'normal'};
   font-weight: ${(props) => props.fontWeight ?? '400'};
   line-height: ${(props) => props.lineHeight ?? 'normal'};
+  text-align: ${(props) => props.textAlign ?? ''};
   margin: 0;
   border: ${(props) => props.border ?? ''};
   border-left: ${(props) => props.borderLeft ?? ''};
