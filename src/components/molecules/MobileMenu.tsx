@@ -13,19 +13,19 @@ const MobileMenu = ({ changeDisplayMenu }: Props) => {
         <Visual.Svg label="close" />
       </Container.Row>
       <Container.Column alignItems="flex-start" gap="20px" flex="1 0 0" alignSelf="stretch">
-        <Action.Link color={white}>
+        <Action.Link to={"/"} color={white}>
           Le gîte
         </Action.Link>
-        <Action.Link color={white}>
+        <Action.Link to={"/reservation"} color={white}>
           Réserver
         </Action.Link>
-        <Action.Link color={white}>
+        <Action.Link to={"/"} color={white}>
           À visiter
         </Action.Link>
-        <Action.Link color={white}>
+        <Action.Link to={"/"} color={white}>
           Accès
         </Action.Link>
-        <Action.Link color={white}>
+        <Action.Link to={"/"} color={white}>
           Livre d'or
         </Action.Link>
       </Container.Column>
@@ -34,7 +34,7 @@ const MobileMenu = ({ changeDisplayMenu }: Props) => {
         <Visual.Svg label="tk" fill={white} />
         <Visual.Svg label="ig" fill={white} />
       </Container.Row>
-    </Container.Column>
+    </Container.Column >
   )
 }
 

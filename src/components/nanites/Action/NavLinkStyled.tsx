@@ -1,11 +1,9 @@
 import styled from 'styled-components'
 import { CssProps } from '../../../types/CssProps.type';
 import { dark } from '../../../assets/color';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
-const LinkStyled = styled(Link) <CssProps>`
-  display: flex;
-  align-items: center;
+const NavLinkStyled = styled(NavLink) <CssProps>`
   color: ${(props) => props.color ?? dark};
   font-family: Poppins;
   font-size: ${(props) => props.fontSize ?? "1.375rem"};
@@ -14,6 +12,10 @@ const LinkStyled = styled(Link) <CssProps>`
   cursor: pointer;
   line-height: normal;
   text-decoration: none;
+
+  &.active {
+    font-weight: 700;
+  }
 `;
 
-export default LinkStyled
+export default NavLinkStyled

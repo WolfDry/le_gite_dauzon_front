@@ -1,10 +1,13 @@
 import React from 'react'
+import { Link as RouterLink, LinkProps } from 'react-router-dom'
 import { Action } from '../../nanites'
 import { Atom } from '../../../types/Atom.type'
 
-const Link = ({ children, ...props }: React.AnchorHTMLAttributes<HTMLAnchorElement> & Atom) => {
+type Props = LinkProps & Atom
+
+const Link = ({ children, ...props }: Props) => {
   return (
-    <Action.LinkStyled {...props}>
+    <Action.LinkStyled as={RouterLink} {...props}>
       {children}
     </Action.LinkStyled>
   )

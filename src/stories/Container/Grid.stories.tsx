@@ -9,7 +9,7 @@ const meta: Meta<typeof Grid> = {
     children: (
       <>
         <Action.Button>Button</Action.Button>
-        <Action.Link href="https://example.com">Lien</Action.Link>
+        <Action.Link to="https://example.com">Lien</Action.Link>
         <Container.Column padding="1rem" background="#ddd">
           <p>Colonne imbriquée</p>
           <p>Colonne imbriquée</p>

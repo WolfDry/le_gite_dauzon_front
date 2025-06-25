@@ -27,20 +27,20 @@ const Header = () => {
           </Container.Row>
         </Container.Row>
         <Container.Row mDisplay="none" justifyContent="center" alignItems="center" gap="2.7vw" alignSelf="stretch">
-          <Action.Link fontSize="1.25rem">Le gite</Action.Link>
-          <Action.Link fontSize="1.25rem">Réserver</Action.Link>
-          <Action.Link fontSize="1.25rem">A visiter</Action.Link>
-          <Action.Link fontSize="1.25rem">Accès</Action.Link>
-          <Action.Link fontSize="1.25rem">Livre d'or</Action.Link>
+          <Action.NavLink to={"/"} fontSize="1.25rem" end>Le gite</Action.NavLink>
+          <Action.NavLink to={"/reservation"} fontSize="1.25rem">Réserver</Action.NavLink>
+          <Action.NavLink to={"/"} fontSize="1.25rem">A visiter</Action.NavLink>
+          <Action.NavLink to={"/"} fontSize="1.25rem">Accès</Action.NavLink>
+          <Action.NavLink to={"/"} fontSize="1.25rem">Livre d'or</Action.NavLink>
         </Container.Row>
         <Container.Row mDisplay="none" width="20.5vw" justifyContent="flex-end" gap="20px">
-          <Action.Link href="https://www.facebook.com/legitedauzon.fr" target="_blank" rel="noopener noreferrer">
+          <Action.Link to="https://www.facebook.com/legitedauzon.fr" target="_blank" rel="noopener noreferrer">
             <Visual.Svg fill={dark} label='fb' />
           </Action.Link>
-          <Action.Link href="https://legitedauzon.fr/" target="_blank" rel="noopener noreferrer">
+          <Action.Link to="https://legitedauzon.fr/" target="_blank" rel="noopener noreferrer">
             <Visual.Svg fill={dark} label='tk' />
           </Action.Link>
-          <Action.Link href="https://legitedauzon.fr/" target="_blank" rel="noopener noreferrer">
+          <Action.Link to="https://legitedauzon.fr/" target="_blank" rel="noopener noreferrer">
             <Visual.Svg fill={dark} label='ig' />
           </Action.Link>
         </Container.Row>
