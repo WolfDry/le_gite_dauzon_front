@@ -51,6 +51,8 @@ const RowStyled = styled.div<CssProps>`
     justify-content: ${(props) => props.mJustifyContent ?? ''};
     gap: ${(props) => props.mGap ?? ''};
     padding: ${(props) => props.mPadding ?? ''};
+    background: ${(props) => props.mBackground ?? ''};
+    backdrop-filter: ${(props) => props.mBackdropFilter ?? ''};
   }
 
   @media (max-height: 900px) {

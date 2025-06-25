@@ -4,6 +4,7 @@ import { dark } from '../../../assets/color';
 
 const ButtonStyled = styled.button<CssProps>`
   width: ${(props) => props.width ?? ""};
+  height: ${(props) => props.height ?? ""};
   border: none;
   background: ${(props => props.background ?? "transparent")};
   display: ${(props) => props.display ?? "flex"};
@@ -20,6 +21,7 @@ const ButtonStyled = styled.button<CssProps>`
   line-height: normal;
   opacity: ${(props) => props.opacity ?? ""};
   flex: ${(props) => props.flex ?? ""};
+  flex-shrink: ${(props) => props.flexShrink ?? ""};
   cursor: pointer;
   transition: box-shadow ease 0.2s;
 
@@ -28,6 +30,7 @@ const ButtonStyled = styled.button<CssProps>`
   }
   
   @media (max-width: 1050px) {
+    display: ${(props) => props.mDisplay ?? "flex"};
     border-radius: ${(props) => props.mBorderRadius ?? ""};
     opacity: ${(props) => props.mOpacity ?? ""};
   }

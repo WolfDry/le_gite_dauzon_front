@@ -9,7 +9,7 @@ const Socials = () => {
         Suivez-nous sur les réseaux !
       </Text.Paragraph>
       <Container.Row direction="row" gap="2.5rem">
-        <Action.Link href="https://legitedauzon.fr/" target="_blank" rel="noopener noreferrer">
+        <Action.Link href="https://www.facebook.com/legitedauzon.fr" target="_blank" rel="noopener noreferrer">
           <Visual.Image width="3.125rem" height="3.125rem" src="/assets/images/socials/facebook.png" />
         </Action.Link>
         <Action.Link href="https://legitedauzon.fr/" target="_blank" rel="noopener noreferrer">

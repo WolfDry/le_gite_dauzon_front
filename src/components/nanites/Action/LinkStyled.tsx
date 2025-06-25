@@ -3,7 +3,9 @@ import { CssProps } from '../../../types/CssProps.type';
 import { dark } from '../../../assets/color';
 
 const LinkStyled = styled.a<CssProps>`
-  color: ${dark};
+  display: flex;
+  align-items: center;
+  color: ${(props) => props.color ?? dark};
   font-family: Poppins;
   font-size: ${(props) => props.fontSize ?? "1.375rem"};
   font-style: normal;

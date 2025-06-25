@@ -2,8 +2,13 @@
 @import url("https://use.typekit.net/deo1nud.css");
 
 * {
-  /* border: 1px red solid;
-  box-sizing: content-box; */
+  /* border: 1px red solid;*/
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
 input::-webkit-outer-spin-button,
