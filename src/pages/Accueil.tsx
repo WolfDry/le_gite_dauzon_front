@@ -167,7 +167,7 @@ const Accueil = () => {
       </Container.Column>
       <Container.Row height="42.5rem" mHeight="auto" position="relative" mAlignItems="center" mJustifyContent="center" mPadding="3.75rem 1.25rem">
         <Visual.ParallaxAtoms height="42.5rem" imageSrc='/assets/images/accueil/parallax.jpg' />
-        <Container.Column position="absolute" top="50%" left="25%" mLeft="50%" transform="translate(-25%, -50%)" mTransform="translate(-50%, -50%)" width="46.5vw" mWidth="90vw" height="fit-content" padding="2.5rem" mPadding="1.25rem" justifyContent="center" alignItems="center" gap="1.875rem" borderRadius="1.25rem 0 0 1.25rem" mBorderRadius="1.25rem" background={darkGreen} flex="1 0 0" mBoxShadow="4px 4px 20px 0px rgba(0, 0, 0.10)" mBackdropFilter="blur(15px)" zIndex="1">
+        <Container.Column position="absolute" top="50%" left="25%" mLeft="50%" transform="translate(-25%, -50%)" mTransform="translate(-50%, -50%)" width="46.5vw" mWidth="90vw" height="32.25rem" mHeight="fit-content" padding="2.5rem" mPadding="1.25rem" justifyContent="center" alignItems="center" gap="1.875rem" borderRadius="1.25rem 0 0 1.25rem" mBorderRadius="1.25rem" background={darkGreen} flex="1 0 0" mBoxShadow="4px 4px 20px 0px rgba(0, 0, 0.10)" mBackdropFilter="blur(15px)" zIndex="1">
           <Container.Column alignItems="flex-start" gap="10px">
             <Text.Title color={white} textAlign="start">
               {`Un gîte confortable,
