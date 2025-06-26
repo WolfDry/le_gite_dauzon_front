@@ -1,10 +1,14 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Container, Text, Visual } from '../../atoms'
 import { white } from '../../../assets/color'
 import InputContainer from './InputContainer'
+import { useDispatch } from 'react-redux'
+import { AppDispatch } from '../../../types/Redux.type'
+import { updateNbPersonne } from '../../../stores/thunks/appThunks'
 
 const InputPersonne = () => {
 
+  const dispatch = useDispatch<AppDispatch>()
   const [inputData, setInputData] = useState([{
     label: "Adultes",
     nb: 0
@@ -19,6 +23,10 @@ const InputPersonne = () => {
   }])
 
   const [isDisplay, setIsDisplay] = useState(false)
+
+  useEffect(() => {
+    dispatch(updateNbPersonne(inputData))
+  }, [inputData])
 
   const show = () => {
     setIsDisplay(!isDisplay)

@@ -1,8 +1,12 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Container, Text, Visual } from '../../atoms'
 import { white } from '../../../assets/color'
 import Calendrier from '../Calendar/Calendrier'
 import { addMonths, subMonths } from 'date-fns'
+import { Dates } from '../../../types/App.type'
+import { useDispatch } from 'react-redux'
+import { AppDispatch } from '../../../types/Redux.type'
+import { updateSelectedDates } from '../../../stores/thunks/appThunks'
 
 type Props = {
   initialDates: {
@@ -11,19 +15,19 @@ type Props = {
   }
 }
 
-type Dates = {
-  startDate: string | null
-  endDate: string | null
-}
-
 const InputsReservationAccueilForm = ({ initialDates }: Props) => {
 
+  const dispatch = useDispatch<AppDispatch>()
   const [isDisplay, setIsDisplay] = useState(false)
   const [currentMonth, setCurrentMonth] = useState(() => ({
     left: new Date(),
     right: addMonths(new Date(), 1),
   }))
   const [dates, setDates] = useState<Dates>(initialDates)
+
+  useEffect(() => {
+    dispatch(updateSelectedDates(dates))
+  }, [dates])
 
   const changeMonth = (direction: number) => {
     let newMonth = currentMonth

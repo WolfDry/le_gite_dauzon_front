@@ -11,13 +11,9 @@ import {
 import { fr } from 'date-fns/locale'
 import { Action, Container, Text, Visual } from '../../atoms'
 import { darkBlue, lightGreen, white } from '../../../assets/color'
+import { Dates } from '../../../types/App.type'
 
 const daysOfWeek = ['LUN', 'MAR', 'MER', 'JEU', 'VEN', 'SAM', 'DIM']
-
-type Dates = {
-  startDate: string | null
-  endDate: string | null
-}
 
 type CustomCalendarProps = {
   dates: Dates

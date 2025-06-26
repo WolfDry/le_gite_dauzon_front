@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import HeroBanner from '../components/molecules/HeroBanner'
 import { Action, Container, Form, Text, Visual } from '../components/atoms'
 import { blue, darkBlue, lightBlue, lightLightBlue, white } from '../assets/color'
@@ -7,14 +7,11 @@ import Ligne from '../components/molecules/Table/Ligne'
 import Calendrier from '../components/molecules/Calendar/Calendrier'
 import Socials from '../components/molecules/Socials'
 import Footer from '../components/molecules/Footer'
-
-type Dates = {
-  startDate: string | null
-  endDate: string | null
-}
+import { useSelector } from 'react-redux'
 
 const Reservation = () => {
 
+  const { selectedDates } = useSelector((state: any) => state.app)
   const [inputsValue, setInputsValue] = useState({
     startDate: null,
     endDate: null,
@@ -23,10 +20,16 @@ const Reservation = () => {
     phone: null
   })
 
-  const [selectedDates, setSelectedDates] = useState<Dates>({
-    startDate: null,
-    endDate: null
-  })
+  useEffect(() => {
+    if (selectedDates) {
+      setInputsValue(prev => ({
+        ...prev,
+        ...(selectedDates.startDate && { startDate: selectedDates.startDate }),
+        ...(selectedDates.endDate && { endDate: selectedDates.endDate })
+      }))
+    }
+  }, [selectedDates])
+
 
   const changeInputsValue = (field: keyof typeof inputsValue, value: any) => {
     setInputsValue(prev => ({
@@ -34,7 +37,6 @@ const Reservation = () => {
       [field]: value
     }))
   }
-
 
   return (
     <Container.Column background={lightLightBlue}>
@@ -284,27 +286,27 @@ En juillet et août, les locations se font du samedi 15h au samedi suivant 11h.`
               side="none"
               isOnMobile={true}
               changeMonth={() => { }}
-              setDates={setSelectedDates}
+              setDates={() => { }}
               onDatesChange={() => { }}
-              dates={selectedDates}
+              dates={{ startDate: null, endDate: null }}
               currentMonth={new Date(new Date().getFullYear(), 3)}
             />
             <Calendrier
               side="none"
               isOnMobile={true}
               changeMonth={() => { }}
-              setDates={setSelectedDates}
+              setDates={() => { }}
               onDatesChange={() => { }}
-              dates={selectedDates}
+              dates={{ startDate: null, endDate: null }}
               currentMonth={new Date(new Date().getFullYear(), 4)}
             />
             <Calendrier
               side="none"
               isOnMobile={true}
               changeMonth={() => { }}
-              setDates={setSelectedDates}
+              setDates={() => { }}
               onDatesChange={() => { }}
-              dates={selectedDates}
+              dates={{ startDate: null, endDate: null }}
               currentMonth={new Date(new Date().getFullYear(), 5)}
             />
           </Container.Row>
@@ -313,27 +315,27 @@ En juillet et août, les locations se font du samedi 15h au samedi suivant 11h.`
               side="none"
               isOnMobile={true}
               changeMonth={() => { }}
-              setDates={setSelectedDates}
+              setDates={() => { }}
               onDatesChange={() => { }}
-              dates={selectedDates}
+              dates={{ startDate: null, endDate: null }}
               currentMonth={new Date(new Date().getFullYear(), 6)}
             />
             <Calendrier
               side="none"
               isOnMobile={true}
               changeMonth={() => { }}
-              setDates={setSelectedDates}
+              setDates={() => { }}
               onDatesChange={() => { }}
-              dates={selectedDates}
+              dates={{ startDate: null, endDate: null }}
               currentMonth={new Date(new Date().getFullYear(), 7)}
             />
             <Calendrier
               side="none"
               isOnMobile={true}
               changeMonth={() => { }}
-              setDates={setSelectedDates}
+              setDates={() => { }}
               onDatesChange={() => { }}
-              dates={selectedDates}
+              dates={{ startDate: null, endDate: null }}
               currentMonth={new Date(new Date().getFullYear(), 8)}
             />
           </Container.Row>
