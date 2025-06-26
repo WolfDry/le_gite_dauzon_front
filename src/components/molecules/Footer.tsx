@@ -1,11 +1,29 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Container, Form, Text, Visual } from '../atoms'
-import { green } from '../../assets/color'
+import { blue, darkGreen, green } from '../../assets/color'
+import { useLocation } from 'react-router-dom'
 
 const Footer = () => {
+  const location = useLocation()
+  const [color, setColor] = useState(darkGreen)
+
+  useEffect(() => {
+    const path = location.pathname
+
+    switch (path) {
+      case "/":
+        setColor(darkGreen)
+        break
+      case "/reservation":
+        setColor(blue)
+        break
+      default:
+        setColor(darkGreen)
+    }
+  }, [location.pathname])
   return (
     <Container.Column>
-      <Container.Column padding="3.125rem 8.3vw" alignSelf="stretch" background={green}>
+      <Container.Column padding="3.125rem 8.3vw" alignSelf="stretch" background={color}>
         <Container.Row gap="6.9vw" alignSelf="stretch">
           <Container.Column justifyContent="center" gap="2.5rem" alignSelf="stretch" flex="1">
             <Text.Title textAlign="start">

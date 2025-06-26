@@ -3,6 +3,7 @@ import { Container, Text } from '../atoms'
 import Header from './Header'
 import ReservationAccueilForm from './ReservationAccueilForm/ReservationAccueilForm'
 import { dark, white } from '../../assets/color'
+import { useMatch } from 'react-router-dom'
 
 const HeroBanner = () => {
 
@@ -14,7 +15,9 @@ const HeroBanner = () => {
           {`Location de gîte à Joyeuse en Ardèche
           Le Gîte d’Auzon`}
         </Text.Title>
-        <ReservationAccueilForm />
+        {useMatch('/') &&
+          <ReservationAccueilForm />
+        }
       </Container.Column>
     </Container.Column>
   )

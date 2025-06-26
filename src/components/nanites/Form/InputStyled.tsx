@@ -4,6 +4,7 @@ import { dark } from '../../../assets/color';
 
 const InputStyled = styled.input<CssProps>`
   overflow: hidden;
+  align-self: stretch;
   padding: ${(props) => props.padding ?? "15px"};
   width: ${(props) => props.width ?? ""};
   border-radius: 10px;

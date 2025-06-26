@@ -1,8 +1,8 @@
-import React, { use, useState } from 'react'
+import React, { useState } from 'react'
 import { Container, Text, Visual } from '../../atoms'
 import { white } from '../../../assets/color'
 import Calendrier from '../Calendar/Calendrier'
-import { addMonths, isBefore, startOfMonth, subMonths } from 'date-fns'
+import { addMonths, subMonths } from 'date-fns'
 
 type Props = {
   initialDates: {

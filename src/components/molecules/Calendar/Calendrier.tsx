@@ -1,11 +1,8 @@
-import React, { useState, useEffect, JSX } from 'react'
+import React, { JSX } from 'react'
 import {
-  startOfDay,
   startOfMonth,
   subMonths,
   addMonths,
-  isBefore,
-  isAfter,
   format,
   getDay,
   getDaysInMonth,
@@ -13,7 +10,7 @@ import {
 } from 'date-fns'
 import { fr } from 'date-fns/locale'
 import { Action, Container, Text, Visual } from '../../atoms'
-import { lightGreen, white } from '../../../assets/color'
+import { darkBlue, lightGreen, white } from '../../../assets/color'
 
 const daysOfWeek = ['LUN', 'MAR', 'MER', 'JEU', 'VEN', 'SAM', 'DIM']
 
@@ -33,6 +30,8 @@ type CustomCalendarProps = {
 }
 
 const Calendrier: React.FC<CustomCalendarProps> = ({ dates, setDates, onDatesChange, side, currentMonth, changeMonth, isOnMobile }) => {
+
+  const color = side === "none" ? darkBlue : lightGreen
 
   const startOfCurrentMonth = startOfMonth(currentMonth)
   const startDay = (getDay(startOfCurrentMonth) + 6) % 7
@@ -87,7 +86,7 @@ const Calendrier: React.FC<CustomCalendarProps> = ({ dates, setDates, onDatesCha
     }
 
     return (
-      <Action.Button key={dateString} onClick={() => isCurrentMonth && onDayPress(date)} height="30px" opacity={!isCurrentMonth ? 0 : null} borderRadius={isSelected ? isStartDate ? "100px 0px 0px 100px" : isEndDate ? "0 100px 100px 0" : 0 : 0} padding="4px 0" justifyContent="center" alignItems="center" background={isInRange ? lightGreen : null} gap="10px" boxShadow="" flex="1 0 0">
+      <Action.Button key={dateString} onClick={() => isCurrentMonth && onDayPress(date)} height="30px" opacity={!isCurrentMonth ? 0 : null} borderRadius={isSelected ? isStartDate ? "100px 0 0 100px" : isEndDate ? "0 100px 100px 0" : 0 : 0} padding="4px 0" justifyContent="center" alignItems="center" background={isInRange ? color : null} gap="10px" boxShadow="" flex="1 0 0">
         {isSelected &&
           <Container.Row position="absolute" zIndex={1}>
             <Visual.Svg label="round" />
@@ -122,15 +121,22 @@ const Calendrier: React.FC<CustomCalendarProps> = ({ dates, setDates, onDatesCha
   }
 
   return (
-    <Container.Column width="19.4vw" mWidth="100%" padding="1.25rem 0" justifyContent="center" alignItems="center" gap="10px" mDisplay={isOnMobile ? "flex" : "none"}>
+    <Container.Column width="19.4vw" mWidth="100%" padding="1.25rem 0" justifyContent="center" alignItems="center" gap="10px" mDisplay={isOnMobile ? "flex" : "none"} boxShadow={side === "none" ? "4px 4px 20px 0 rgba(23, 28, 25, 0.10)" : ""}>
       <Container.Row direction="row" justifyContent="center" alignItems="center" gap="1.875rem" alignSelf="stretch">
-        <Action.Button onClick={() => side === "left" && changeMonth(-1)} padding="0" opacity={side === "right" ? 0 : null} mOpacity="1">
+        <Action.Button display={side === "none" ? "none" : "flex"} onClick={() => side === "left" && changeMonth(-1)} padding="0" opacity={side === "right" ? 0 : null} mOpacity="1">
           <Visual.Svg label="leftArrow" width={10} height={15} />
         </Action.Button>
-        <Text.Paragraph fontWeight="700">
-          {capitalize(format(currentMonth, 'MMMM yyyy', { locale: fr }))}
-        </Text.Paragraph>
-        <Action.Button onClick={() => changeMonth(1)} padding="0" opacity={side === "left" ? 0 : null} mOpacity="1">
+        {
+          side === "none" ?
+            <Text.Title fontSize="2.5rem">
+              {capitalize(format(currentMonth, 'MMMM yyyy', { locale: fr }))}
+            </Text.Title>
+            :
+            <Text.Paragraph fontWeight="700">
+              {capitalize(format(currentMonth, 'MMMM yyyy', { locale: fr }))}
+            </Text.Paragraph>
+        }
+        <Action.Button display={side === "none" ? "none" : "flex"} onClick={() => changeMonth(1)} padding="0" opacity={side === "left" ? 0 : null} mOpacity="1">
           <Visual.Svg label="rightArrow" width={10} height={15} />
         </Action.Button>
       </Container.Row>

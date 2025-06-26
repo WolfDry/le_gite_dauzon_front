@@ -4,6 +4,7 @@ import { dark } from '../../../assets/color';
 
 const ParagraphStyled = styled.p<CssProps>`
   display: ${(props) => props.display ?? '-webkit-box'};
+  align-self: stretch;
   overflow: hidden;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 10;

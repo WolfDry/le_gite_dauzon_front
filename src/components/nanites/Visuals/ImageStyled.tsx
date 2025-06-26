@@ -12,6 +12,8 @@ const ImageStyled = styled.img<CssProps>`
   gap: ${(props) => props.gap ?? ""};
   flex: ${(props) => props.flex ?? ""};
   overflow: ${(props) => props.overflow ?? ""};
+  aspect-ratio: ${(props) => props.aspectRatio ?? ""};
+  object-fit: ${(props) => props.objectFit ?? ""};
 
   
   @media (max-width: 1050px) {

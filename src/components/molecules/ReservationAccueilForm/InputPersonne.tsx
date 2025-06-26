@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Container, Text, Visual } from '../../atoms'
 import { white } from '../../../assets/color'
 import InputContainer from './InputContainer'

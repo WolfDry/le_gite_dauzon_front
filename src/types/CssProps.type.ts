@@ -66,6 +66,8 @@ export type CssProps = {
   mBackdropFilter?: string
   opacity?: number
   mOpacity?: string
+  aspectRatio?: string
+  objectFit?: string
   cursor?: string
   zIndex?: string
 }
