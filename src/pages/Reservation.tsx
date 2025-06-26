@@ -28,6 +28,14 @@ const Reservation = () => {
     endDate: null
   })
 
+  const changeInputsValue = (field: keyof typeof inputsValue, value: any) => {
+    setInputsValue(prev => ({
+      ...prev,
+      [field]: value
+    }))
+  }
+
+
   return (
     <Container.Column background={lightLightBlue}>
       <HeroBanner />
@@ -38,19 +46,29 @@ const Reservation = () => {
               <Text.Label>
                 Date d'arrivée*
               </Text.Label>
-              <Form.Input />
+              <Form.Input
+                type="date"
+                value={inputsValue.startDate || ''}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => changeInputsValue('startDate', e.target.value)}
+              />
             </Container.Column>
             <Container.Column alignItems="flex-start" gap="7px" flex="1 0 0">
               <Text.Label>
                 Date de départ*
               </Text.Label>
-              <Form.Input />
+              <Form.Input
+                type="date"
+                value={inputsValue.endDate || ''}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => changeInputsValue('endDate', e.target.value)} />
             </Container.Column>
             <Container.Column alignItems="flex-start" gap="7px" flex="1 0 0">
               <Text.Label>
                 Nombre de personnes*
               </Text.Label>
-              <Form.Input />
+              <Form.Input
+                type="number"
+                value={inputsValue.nbPersonne || ''}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => changeInputsValue('nbPersonne', e.target.value)} />
             </Container.Column>
           </Container.Row>
           <Container.Row alignItems="start" gap="1.25rem" alignSelf="stretch">
@@ -58,13 +76,19 @@ const Reservation = () => {
               <Text.Label>
                 Adresse mail*
               </Text.Label>
-              <Form.Input />
+              <Form.Input
+                type="email"
+                value={inputsValue.email || ''}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => changeInputsValue('email', e.target.value)} />
             </Container.Column>
             <Container.Column alignItems="flex-start" gap="7px" flex="1 0 0">
               <Text.Label>
                 Numéro de téléphone*
               </Text.Label>
-              <Form.Input />
+              <Form.Input
+                type="tel"
+                value={inputsValue.phone || ''}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => changeInputsValue('phone', e.target.value)} />
             </Container.Column>
           </Container.Row>
           <Action.Button background={blue}>
