@@ -53,7 +53,7 @@ const InputsReservationAccueilForm = ({ initialDates }: Props) => {
     <Container.Column position="relative">
       <Container.Row onClick={() => show()} direction="row" height="100%" mHeight="3.1875rem" padding="12px 30px 12px 20px" justifyContent="center" alignItems="center" gap="14px" alignSelf="stretch" borderRadius="100px 7px 7px 100px" mBorderRadius="15px 15px 7px 7px" background={white} cursor="pointer">
         <Visual.Svg label="calendar" />
-        <Text.Paragraph>
+        <Text.Paragraph alignSelf="center">
           {dates.startDate
             ? new Date(dates.startDate).toLocaleDateString('fr-FR', {
               weekday: 'short',
