@@ -11,8 +11,9 @@ export type CssProps = {
   gap?: string
   mGap?: string
   width?: string
-  minWidth?: string
   mWidth?: string
+  maxWidth?: string
+  minWidth?: string
   height?: string
   mHeight?: string
   maxHeight?: string

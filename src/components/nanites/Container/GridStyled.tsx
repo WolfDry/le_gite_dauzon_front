@@ -7,6 +7,7 @@ const GridStyled = styled.div<CssProps>`
   grid-template-columns: ${(props) => props.gridTemplateColumn ?? ""};
   position: ${(props) => props.position ?? ""};
   width: ${(props) => props.width ?? ""};
+  max-width: ${(props) => props.maxWidth ?? ""};
 `;
 
 export default GridStyled

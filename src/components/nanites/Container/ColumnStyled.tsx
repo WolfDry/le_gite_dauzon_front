@@ -9,6 +9,7 @@ const ColumnStyled = styled.div<CssProps>`
   align-self: ${(props) => props.alignSelf ?? ''};
   flex-shrink: ${(props) => props.flexShrink ?? ''};
   gap: ${(props) => props.gap ?? ''};
+  max-width: ${(props) => props.maxWidth ?? ''};
   width: ${(props) => props.width ?? ''};
   min-width: ${(props) => props.minWidth ?? ''};
   height: ${(props) => props.height ?? ''};

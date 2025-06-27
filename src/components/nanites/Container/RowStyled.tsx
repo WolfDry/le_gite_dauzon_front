@@ -9,6 +9,7 @@ const RowStyled = styled.div<CssProps>`
   align-self: ${(props) => props.alignSelf ?? ''};
   gap: ${(props) => props.gap ?? ''};
   width: ${(props) => props.width ?? ''};
+  max-width: ${(props) => props.maxWidth ?? ''};
   height: ${(props) => props.height ?? ''};
   max-height: ${(props) => props.maxHeight ?? ''};
   background-color: ${(props) => props.bgColor ?? ''};

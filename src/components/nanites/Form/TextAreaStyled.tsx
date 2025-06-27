@@ -11,6 +11,7 @@ const TextAreaStyled = styled.textarea`
   align-self: stretch;
   font-family: Poppins;
   color: ${dark};
+  overflow: hidden;
 `;
 
 export default TextAreaStyled

@@ -41,7 +41,7 @@ const Reservation = () => {
   return (
     <Container.Column background={lightLightBlue}>
       <HeroBanner />
-      <Container.Row width="100vw" marginTop="-6.875rem" padding="0 6.25rem 1.875rem 6.25rem" justifyContent="center" alignItems="flex-end" alignSelf="stretch" zIndex="1">
+      <Container.Row maxWidth="100vw" marginTop="-6.875rem" padding="0 6.25rem 1.875rem 6.25rem" justifyContent="center" alignItems="flex-end" alignSelf="stretch" zIndex="1">
         <Container.Column padding="1.875rem 3.75rem" alignItems="center" gap="1.875rem" flex="1 0 0" borderRadius="1.25rem" background={white} boxShadow="4px 4px 20px 0 rgba(128, 226, 255, 0.25)">
           <Container.Row alignItems="start" gap="1.25rem" alignSelf="stretch">
             <Container.Column alignItems="flex-start" gap="7px" flex="1 0 0">
@@ -105,7 +105,7 @@ Nous vous contacterons rapidement pour vous confirmer la disponibilité du gîte
           </Container.Row>
         </Container.Column>
       </Container.Row>
-      <Container.Column width="100vw" padding="2.5rem 6.25rem" alignItems="center" gap="1.875rem">
+      <Container.Column maxWidth="100vw" padding="2.5rem 6.25rem" alignItems="center" gap="1.875rem">
         <Container.Column justifyContent="center" alignItems="flex-start" gap="10px" alignSelf="stretch">
           <Ligne>
             <Cell width="9vw" background={blue}>
@@ -210,7 +210,7 @@ Vacances scolaires`}
         </Container.Column>
         <Container.Row padding="5px 0 5px 10px" justifyContent="center" gap="25px" borderLeft={`4px solid ${blue}`}>
           <Visual.Image src="/assets/images/reservation/ancv.png" width="8.6vw" height="4.7rem" aspectRatio="124/75" />
-          <Text.Paragraph>
+          <Text.Paragraph alignSelf="center">
             Chèques vacances acceptés
           </Text.Paragraph>
         </Container.Row>
