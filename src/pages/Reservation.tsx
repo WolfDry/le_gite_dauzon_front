@@ -208,7 +208,7 @@ Vacances scolaires`}
         </Container.Column>
         <Container.Row padding="5px 0 5px 10px" justifyContent="center" gap="25px" borderLeft={`4px solid ${blue}`}>
           <Visual.Image src="/assets/images/reservation/ancv.png" width="8.6vw" height="4.7rem" aspectRatio="124/75" />
-          <Text.Paragraph>
+          <Text.Paragraph alignSelf="center">
             Chèques vacances acceptés
           </Text.Paragraph>
         </Container.Row>
