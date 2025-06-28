@@ -60,10 +60,10 @@ const Reservation = () => {
   return (
     <Container.Column background={lightLightBlue}>
       <HeroBanner />
-      <Container.Row maxWidth="100vw" marginTop="-6.875rem" padding="0 6.25rem 1.875rem 6.25rem" justifyContent="center" alignItems="flex-end" alignSelf="stretch" zIndex="1">
-        <Container.Column padding="1.875rem 3.75rem" alignItems="center" gap="1.875rem" flex="1 0 0" borderRadius="1.25rem" background={white} boxShadow="4px 4px 20px 0 rgba(128, 226, 255, 0.25)">
+      <Container.Row maxWidth="100vw" marginTop="-6.875rem" padding="0 6.25rem 1.875rem 6.25rem" mPadding="0 1.25rem 2.5rem 1.25rem" justifyContent="center" mJustifyContent="flex-end" alignItems="flex-end" mAlignItems="center" alignSelf="stretch" zIndex="1">
+        <Container.Column width="100%" padding="1.875rem 3.75rem" alignItems="center" gap="1.875rem" flex="1 0 0" borderRadius="1.25rem" background={white} boxShadow="4px 4px 20px 0 rgba(128, 226, 255, 0.25)">
           <Container.Row alignItems="start" gap="1.25rem" alignSelf="stretch">
-            <Container.Column alignItems="flex-start" gap="7px" flex="1 0 0">
+            <Container.Column alignItems="flex-start" gap="7px" flex="1 0 0" alignSelf="stretch">
               <Text.Label>
                 Date d'arrivée*
               </Text.Label>
@@ -73,7 +73,7 @@ const Reservation = () => {
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => changeInputsValue('startDate', e.target.value)}
               />
             </Container.Column>
-            <Container.Column alignItems="flex-start" gap="7px" flex="1 0 0">
+            <Container.Column alignItems="flex-start" gap="7px" flex="1 0 0" alignSelf="stretch">
               <Text.Label>
                 Date de départ*
               </Text.Label>
@@ -82,7 +82,7 @@ const Reservation = () => {
                 value={inputsValue.endDate || ''}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => changeInputsValue('endDate', e.target.value)} />
             </Container.Column>
-            <Container.Column alignItems="flex-start" gap="7px" flex="1 0 0">
+            <Container.Column alignItems="flex-start" gap="7px" flex="1 0 0" alignSelf="stretch">
               <Text.Label>
                 Nombre de personnes*
               </Text.Label>
@@ -90,7 +90,7 @@ const Reservation = () => {
             </Container.Column>
           </Container.Row>
           <Container.Row alignItems="start" gap="1.25rem" alignSelf="stretch">
-            <Container.Column alignItems="flex-start" gap="7px" flex="1 0 0">
+            <Container.Column alignItems="flex-start" gap="7px" flex="1 0 0" alignSelf="stretch">
               <Text.Label>
                 Adresse mail*
               </Text.Label>
@@ -99,7 +99,7 @@ const Reservation = () => {
                 value={inputsValue.email || ''}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => changeInputsValue('email', e.target.value)} />
             </Container.Column>
-            <Container.Column alignItems="flex-start" gap="7px" flex="1 0 0">
+            <Container.Column alignItems="flex-start" gap="7px" flex="1 0 0" alignSelf="stretch">
               <Text.Label>
                 Numéro de téléphone*
               </Text.Label>
@@ -112,7 +112,7 @@ const Reservation = () => {
           <Action.Button background={blue}>
             Envoyer ma demande
           </Action.Button>
-          <Container.Row paddingLeft="10px" justifyContent="center" alignItems="center" gap="10px" alignSelf="stretch" borderLeft={`2px solid ${blue}`}>
+          <Container.Row paddingLeft="10px" justifyContent="center" alignItems="center" gap="10px" alignSelf="stretch" mHeight="16rem" borderLeft={`2px solid ${blue}`}>
             <Text.Paragraph flex="1 0 0">
               {`Important :
 Ce formulaire vous permet de faire une demande de réservation. Il ne s’agit pas d’une réservation immédiate.
@@ -121,7 +121,7 @@ Nous vous contacterons rapidement pour vous confirmer la disponibilité du gîte
           </Container.Row>
         </Container.Column>
       </Container.Row>
-      <Container.Column maxWidth="100vw" padding="2.5rem 6.25rem" alignItems="center" gap="1.875rem">
+      <Container.Column mDisplay="none" maxWidth="100vw" padding="2.5rem 6.25rem" alignItems="center" gap="1.875rem">
         <Container.Column justifyContent="center" alignItems="flex-start" gap="10px" alignSelf="stretch">
           <Ligne>
             <Cell width="9vw" background={blue}>
@@ -231,7 +231,71 @@ Vacances scolaires`}
           </Text.Paragraph>
         </Container.Row>
       </Container.Column>
-      <Container.Row padding="3.75rem 6.25rem" alignItems="center" gap="5rem" alignSelf="stretch">
+      <Container.Column display="none" mDisplay="flex" padding="0 1.25rem" alignItems="center" gap="10px" alignSelf="stretch">
+        <Container.Column justifyContent="center" alignItems="center" gap="10px" alignSelf="stretch">
+          <Container.Column padding="10px" alignItems="center" gap="10px" alignSelf="stretch" borderRadius="10px" background={darkBlue}>
+            <Text.Paragraph fontSize="1.25rem" fontWeight="500" color={white} textAlign="center">
+              Haute saison
+            </Text.Paragraph>
+            <Text.Paragraph color={white} textAlign="center">
+              Du 05/07 au 30/08
+            </Text.Paragraph>
+            <Text.Paragraph color={white} textAlign="center">
+              675 € / semaine
+            </Text.Paragraph>
+          </Container.Column>
+          <Container.Column padding="10px" alignItems="center" gap="10px" alignSelf="stretch" borderRadius="10px" background={"rgba(0, 153, 204, 0.20)"}>
+            <Text.Paragraph fontSize="1.25rem" fontWeight="500" textAlign="center">
+              Moyenne saison
+            </Text.Paragraph>
+            <Text.Paragraph textAlign="center">
+              {`Du 01/05 au 05/07
+Du 30/08 au 27/09
+Vacances scolaires`}
+            </Text.Paragraph>
+            <Text.Paragraph textAlign="center">
+              455 € / semaine
+            </Text.Paragraph>
+          </Container.Column>
+          <Container.Column padding="10px" alignItems="center" gap="10px" alignSelf="stretch" borderRadius="10px" background={darkBlue}>
+            <Text.Paragraph fontSize="1.25rem" fontWeight="500" color={white} textAlign="center">
+              Basse saison
+            </Text.Paragraph>
+            <Text.Paragraph color={white} textAlign="center">
+              295 € / semaine
+            </Text.Paragraph>
+          </Container.Column>
+          <Container.Column padding="10px" alignItems="center" gap="10px" alignSelf="stretch" borderRadius="10px" background={"rgba(0, 153, 204, 0.20)"}>
+            <Text.Paragraph fontSize="1.25rem" fontWeight="500" textAlign="center">
+              Week-end
+            </Text.Paragraph>
+            <Text.Paragraph textAlign="center">
+              2 jours / 1 nuit
+            </Text.Paragraph>
+            <Text.Paragraph textAlign="center">
+              117 € / week-end
+            </Text.Paragraph>
+          </Container.Column>
+          <Container.Column padding="10px" alignItems="center" gap="10px" alignSelf="stretch" borderRadius="10px" background={darkBlue}>
+            <Text.Paragraph fontSize="1.25rem" fontWeight="500" color={white} textAlign="center">
+              Taxe de séjour
+            </Text.Paragraph>
+            <Text.Paragraph color={white} textAlign="center">
+              pour les + de 18 ans
+            </Text.Paragraph>
+            <Text.Paragraph color={white} textAlign="center">
+              1.65€/ jour/ personne
+            </Text.Paragraph>
+          </Container.Column>
+        </Container.Column>
+        <Container.Row direction="row" padding="5px 0 5px 10px" justifyContent="center" alignItems="center" gap="1.25rem" alignSelf="stretch" borderLeft={`3px solid ${blue}`}>
+          <Visual.Image src="/assets/images/reservation/ancv.png" width="6.2rem" height="3.75rem" aspectRatio="33/20" />
+          <Text.Paragraph>
+            Chèques vacances acceptés
+          </Text.Paragraph>
+        </Container.Row>
+      </Container.Column>
+      <Container.Row padding="3.75rem 6.25rem" mPadding="40px 20px 60px 20px" alignItems="center" gap="5rem" alignSelf="stretch">
         <Container.Column padding="2.5rem" justifyContent="center" alignItems="flex-start" gap="1.875rem" flex="1 0 0" borderRadius="1.25rem" background={blue}>
           <Text.Title>
             Réservation et conditions
@@ -248,7 +312,7 @@ Les animaux sont acceptés avec un supplément de 1 € par jour et par animal
 En juillet et août, les locations se font du samedi 15h au samedi suivant 11h.`}
           </Text.Paragraph>
         </Container.Column>
-        <Container.Row width="33vw" alignItrems="flex-start" gap="1.25rem" >
+        <Container.Row direction="row" width="33vw" mWidth="100%" alignItrems="flex-start" gap="1.25rem" >
           <Container.Column paddingBottom="3.75rem" alignItems="flex-start" gap="1.25rem" flex="1 0 0">
             <Visual.Image src="/assets/images/reservation/outside1.jpg" width="100%" height="18.75rem" objectFit="cover" alignSelf="stretch" borderRadius="10px" />
             <Visual.Image src="/assets/images/reservation/bedroom.jpg" width="100%" height="18.75rem" objectFit="cover" alignSelf="stretch" borderRadius="10px" />
@@ -259,7 +323,7 @@ En juillet et août, les locations se font du samedi 15h au samedi suivant 11h.`
           </Container.Column>
         </Container.Row>
       </Container.Row>
-      <Container.Column padding="3.75rem 6.25rem 6.25rem 6.25rem" justifyContent="center" alignItems="flex-start" gap="3.125rem" alignSelf="stretch">
+      <Container.Column padding="3.75rem 6.25rem 6.25rem 6.25rem" mPadding="0 20px 60px 20px" justifyContent="center" alignItems="flex-start" gap="3.125rem" alignSelf="stretch">
         <Container.Column alignItems="center" gap="10px" alignSelf="stretch">
           <Container.Column alignItems="flex-start" alignSelf="stretch">
             <Text.Title>
@@ -269,31 +333,31 @@ En juillet et août, les locations se font du samedi 15h au samedi suivant 11h.`
               Mis à jour le 08 mai 2025
             </Text.Paragraph>
           </Container.Column>
-          <Container.Row justifyContent="center" alignItems="center" gap="10px">
-            <Container.Row alignItems="center">
-              <Container.Row position="relative" width="100%" padding="0.25rem 0" justifyContent="center" alignItems="center">
-                <Container.Row position="absolute" left="0" zIndex={1}>
+          <Container.Row direction="row" justifyContent="center" alignItems="center" gap="10px">
+            <Container.Row direction="row" alignItems="center">
+              <Container.Row direction="row" position="relative" width="100%" padding="0.25rem 0" justifyContent="center" alignItems="center">
+                <Container.Row direction="row" position="absolute" left="0" zIndex={1}>
                   <Visual.Svg label="round" width={50} height={50} />
                 </Container.Row>
-                <Container.Row width="3.3rem" height="1.875rem" padding="0.25rem 0" justifyContent="center" alignItems="center" background={darkBlue} borderRadius="100px 0 0 100px">
+                <Container.Row direction="row" width="3.3rem" height="1.875rem" padding="0.25rem 0" justifyContent="center" alignItems="center" background={darkBlue} borderRadius="100px 0 0 100px">
                   <Text.Paragraph color={white} zIndex={2}>
                     7
                   </Text.Paragraph>
                 </Container.Row>
-                <Container.Row width="3.3rem" height="1.875rem" padding="0.25rem 0" justifyContent="center" alignItems="center" background={darkBlue}>
+                <Container.Row direction="row" width="3.3rem" height="1.875rem" padding="0.25rem 0" justifyContent="center" alignItems="center" background={darkBlue}>
                   <Text.Paragraph color={white} zIndex={2}>8</Text.Paragraph>
                 </Container.Row>
-                <Container.Row width="3.3rem" height="1.875rem" padding="0.25rem 0" justifyContent="center" alignItems="center" background={darkBlue} borderRadius="0 100px 100px 0">
+                <Container.Row direction="row" width="3.3rem" height="1.875rem" padding="0.25rem 0" justifyContent="center" alignItems="center" background={darkBlue} borderRadius="0 100px 100px 0">
                   <Text.Paragraph color={white} zIndex={2}>
                     9
                   </Text.Paragraph>
                 </Container.Row>
-                <Container.Row position="absolute" right="0" zIndex={1}>
+                <Container.Row direction="row" position="absolute" right="0" zIndex={1}>
                   <Visual.Svg label="round" width={50} height={50} />
                 </Container.Row>
               </Container.Row>
             </Container.Row>
-            <Text.Paragraph>Réservé</Text.Paragraph>
+            <Text.Paragraph alignSelf="center">Réservé</Text.Paragraph>
           </Container.Row>
         </Container.Column>
         <Container.Column alignItems="felx-start" gap="2.2rem" alignSelf="stretch">
@@ -357,7 +421,7 @@ En juillet et août, les locations se font du samedi 15h au samedi suivant 11h.`
           </Container.Row>
         </Container.Column>
       </Container.Column>
-      <Container.Column padding="2.5rem 6.25rem" justifyContent="center" alignItems="center" gap="1.875rem" alignSelf="stretch">
+      <Container.Column padding="2.5rem 6.25rem" mPadding="30px 20px 30px 20px" justifyContent="center" alignItems="center" gap="1.875rem" alignSelf="stretch">
         <Socials />
       </Container.Column>
       <Footer />

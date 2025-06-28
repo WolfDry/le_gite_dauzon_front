@@ -13,14 +13,14 @@ const InputContainer = ({ data, updateData }: Props) => {
 
   return (
     <Container.Row direction="row" justifyContent="space-between" alignItems="center" alignSelf="stretch">
-      <Text.Paragraph>
+      <Text.Paragraph textAlign="center">
         {data.label}
       </Text.Paragraph>
       <Container.Row direction="row" justifyContent="center" alignItems="center" gap="10px">
         <Container.Row direction="row" onClick={() => updateData("minus", data)} height="15px" alignItems="center">
           <Visual.Svg label="minus" />
         </Container.Row>
-        <Form.Input type="number" width="4.1vw" mWidth="75%" padding="6px 15px" textAlign="center" value={data.nb} />
+        <Form.Input type="number" width="4.1vw" mWidth="3.75rem" padding="6px 15px" textAlign="center" value={data.nb} />
         <Container.Row direction="row" onClick={() => updateData("plus", data)} height="15px" alignItems="center">
           <Visual.Svg label="plus" />
         </Container.Row>
