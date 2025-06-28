@@ -2,7 +2,20 @@ import { UPDATE_NB_PERSONNE_FAILURE, UPDATE_NB_PERSONNE_REQUEST, UPDATE_NB_PERSO
 
 const initialState = {
   selectedDates: null,
-  nbPersonne: null,
+  nbPersonne: [
+    {
+      label: "Adultes",
+      nb: 0
+    },
+    {
+      label: "Enfants",
+      nb: 0
+    },
+    {
+      label: "Animaux",
+      nb: 0
+    }
+  ],
   loading: false,
   error: null
 }

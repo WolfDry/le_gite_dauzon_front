@@ -2,25 +2,12 @@ import React, { useEffect, useState } from 'react'
 import { Container, Form, Text, Visual } from '../atoms'
 import { blue, darkGreen, green } from '../../assets/color'
 import { useLocation } from 'react-router-dom'
+import { usePageColor } from '../../hooks/usePageColor'
 
 const Footer = () => {
   const location = useLocation()
-  const [color, setColor] = useState(darkGreen)
+  const color = usePageColor()
 
-  useEffect(() => {
-    const path = location.pathname
-
-    switch (path) {
-      case "/":
-        setColor(darkGreen)
-        break
-      case "/reservation":
-        setColor(blue)
-        break
-      default:
-        setColor(darkGreen)
-    }
-  }, [location.pathname])
   return (
     <Container.Column>
       <Container.Column padding="3.125rem 8.3vw" alignSelf="stretch" background={color}>

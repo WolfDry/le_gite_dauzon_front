@@ -7,6 +7,7 @@ import CommentCard from '../components/molecules/CommentCard'
 import Socials from '../components/molecules/Socials'
 import Footer from '../components/molecules/Footer'
 
+
 const Accueil = () => {
 
   const stays = [

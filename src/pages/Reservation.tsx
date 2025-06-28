@@ -8,14 +8,20 @@ import Calendrier from '../components/molecules/Calendar/Calendrier'
 import Socials from '../components/molecules/Socials'
 import Footer from '../components/molecules/Footer'
 import { useSelector } from 'react-redux'
+import InputPersonne from '../components/molecules/ReservationAccueilForm/InputPersonne'
+
+type NbPersonne = {
+  label: string
+  nb: number
+}
 
 const Reservation = () => {
 
-  const { selectedDates } = useSelector((state: any) => state.app)
+  const { selectedDates, nbPersonne } = useSelector((state: any) => state.app)
   const [inputsValue, setInputsValue] = useState({
     startDate: null,
     endDate: null,
-    nbPersonne: 0,
+    nbPersonne,
     email: null,
     phone: null
   })
@@ -30,12 +36,25 @@ const Reservation = () => {
     }
   }, [selectedDates])
 
+  useEffect(() => {
+    if (nbPersonne) {
+      setInputsValue(prev => ({
+        ...prev,
+        ...nbPersonne
+      }))
+    }
+  }, [nbPersonne])
+
 
   const changeInputsValue = (field: keyof typeof inputsValue, value: any) => {
     setInputsValue(prev => ({
       ...prev,
       [field]: value
     }))
+  }
+
+  const setNbPersonne = (data: NbPersonne[]) => {
+    changeInputsValue("nbPersonne", data)
   }
 
   return (
@@ -67,10 +86,7 @@ const Reservation = () => {
               <Text.Label>
                 Nombre de personnes*
               </Text.Label>
-              <Form.Input
-                type="number"
-                value={inputsValue.nbPersonne || ''}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => changeInputsValue('nbPersonne', e.target.value)} />
+              <InputPersonne isInReservation={true} value={inputsValue.nbPersonne} setValue={setNbPersonne} />
             </Container.Column>
           </Container.Row>
           <Container.Row alignItems="start" gap="1.25rem" alignSelf="stretch">
