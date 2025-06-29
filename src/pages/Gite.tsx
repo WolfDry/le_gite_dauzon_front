@@ -69,11 +69,11 @@ const Gite = () => {
         <Container.Row direction="row" width="33vw" mWidth="100%" alignItrems="flex-start" gap="1.25rem" >
           <Container.Column paddingBottom="3.75rem" alignItems="flex-start" gap="1.25rem" flex="1 0 0">
             <Visual.Image src="/assets/images/gite/kitchen.jpg" width="100%" height="18.75rem" objectFit="cover" alignSelf="stretch" borderRadius="10px" />
-            <Visual.Image src="/assets/images/gite/bedroom2.jpg" width="100%" height="18.75rem" objectFit="cover" alignSelf="stretch" borderRadius="10px" />
+            <Visual.Image src="/assets/images/gite/piscine.jpg" width="100%" height="18.75rem" objectFit="cover" alignSelf="stretch" borderRadius="10px" />
           </Container.Column>
           <Container.Column paddingTop="3.75rem" alignItems="flex-start" gap="1.25rem" flex="1 0 0">
             <Visual.Image src="/assets/images/gite/livingroom.jpg" width="100%" height="18.75rem" objectFit="cover" alignSelf="stretch" borderRadius="10px" />
-            <Visual.Image src="/assets/images/gite/bathroom.jpg" width="100%" height="18.75rem" objectFit="cover" alignSelf="stretch" borderRadius="10px" />
+            <Visual.Image src="/assets/images/gite/terrasse.jpg" width="100%" height="18.75rem" objectFit="cover" alignSelf="stretch" borderRadius="10px" />
           </Container.Column>
         </Container.Row>
         <Container.Column justifyContent="center" alignItems="flex-start" gap="1.875rem" flex="1 0 0">

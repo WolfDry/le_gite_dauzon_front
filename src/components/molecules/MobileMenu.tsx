@@ -19,7 +19,7 @@ const MobileMenu = ({ changeDisplayMenu }: Props) => {
         <Action.Link to={"/reservation"} color={white}>
           Réserver
         </Action.Link>
-        <Action.Link to={"/"} color={white}>
+        <Action.Link to={"/visite"} color={white}>
           À visiter
         </Action.Link>
         <Action.Link to={"/"} color={white}>
