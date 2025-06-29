@@ -50,6 +50,7 @@ export type CssProps = {
   url?: string
   color?: string
   fontSize?: string
+  mFontSize?: string
   fontWeight?: string
   textAlign?: string
   alignSelf?: string

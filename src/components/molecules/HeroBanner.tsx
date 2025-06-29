@@ -10,6 +10,7 @@ type Props = {
   paddingTop?: string
 }
 
+
 const HeroBanner = ({ height, paddingTop }: Props) => {
 
   return (

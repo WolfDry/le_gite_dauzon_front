@@ -12,6 +12,11 @@ const TitleStyled = styled.h1<CssProps>`
   font-weight: ${(props) => props.fontWeight ?? "400"};
   line-height: ${(props) => props.lineHeight ?? "normal"};
   white-space: pre-line;
+
+  
+  @media (max-width: 1050px) {
+    font-size: ${(props) => props.mFontSize ?? ''};
+  }
 `;
 
 export default TitleStyled

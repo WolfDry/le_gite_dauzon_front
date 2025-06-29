@@ -6,22 +6,22 @@ import Footer from '../components/molecules/Footer'
 
 const Gite = () => {
   return (
-    <Container.Column background={lightLightYellow}>
+    <Container.Column background={lightLightYellow} maxWidth="100vw">
       <HeroBanner height="40vh" paddingTop="60px" />
-      <Container.Row height="3.75rem" width="100vw" background={lightLightYellow} />
-      <Container.Row position="relative" height="61.25rem">
+      <Container.Row height="3.75rem" maxWidth="100vw" background={lightLightYellow} />
+      <Container.Row position="relative" height="61.25rem" mHeight="87.625rem">
         <Container.Row position="absolute" height="100%" right="0">
           <Visual.ParallaxAtoms imageSrc="/assets/images/gite/parallax.jpg" width="100vw" height="100%">
-            <Container.Row alignItems="center" height="42.5rem">
-              <Container.Column background={lightLightYellow} width="25rem" height="40%" alignItems="center" alignSelf="flex-end" justifyContent="flex-end" />
-              <Container.Column padding="2.5rem 5rem" justifyContent="center" alignItems="flex-start" height="100%" gap="1.875rem" flex="1 0 0" background={lightLightYellow}>
+            <Container.Row alignItems="center" height="42.5rem" mHeight="60rem">
+              <Container.Column background={lightLightYellow} width="27.7vw" height="40%" alignItems="center" alignSelf="flex-end" justifyContent="flex-end" />
+              <Container.Column padding="2.5rem 5.5vw" mPadding="0 1.25rem" justifyContent="center" alignItems="flex-start" height="100%" gap="1.875rem" flex="1 0 0" background={lightLightYellow}>
                 <Container.Column alignItems="flex-start" gap="15px" alignSelf="stretch">
                   <Text.Title fontSize="1.625rem" textAlign="start">
                     Un gîte tout confort, pensé pour vos vacances
                   </Text.Title>
                   <Text.Paragraph>
                     {`Le gîte, d’une superficie de 50 m², est situé au rez-de-chaussée de la maison des propriétaires.
-              Il est prévu pour 4 personnes (ou 5 si un ou plusieurs enfants) et dispose d’une terrasse privée avec salon de jardin.`}
+                Il est prévu pour 4 personnes (ou 5 si un ou plusieurs enfants) et dispose d’une terrasse privée avec salon de jardin.`}
                   </Text.Paragraph>
                 </Container.Column>
                 <Container.Column alignItems="flex-start" gap="15px" alignSelf="stretch">
@@ -46,7 +46,7 @@ const Gite = () => {
                   </Text.Title>
                   <Text.List>
                     <Text.ListItem>
-                      À l’intérieur : télévision, lecteur DVD, lave-linge, lave-vaisselle, cafetière, bouilloire, grille-pain, cuisinière, four, micro-ondes, réfrigérateur-congélateur, fer à repasser, sèche-cheveux.
+                      À l’intérieur : télévision, lave-linge, lave-vaisselle, cafetière, senseo, bouilloire, grille-pain, plaque de cuisson au gaz, four, micro-ondes, réfrigérateur-congélateur, fer à repasser, sèche-cheveux.
                     </Text.ListItem>
                     <Text.ListItem>
                       À l’extérieur : barbecue, chaises longues, terrasse ombragée.
@@ -57,7 +57,7 @@ const Gite = () => {
                   </Text.List>
                 </Container.Column>
               </Container.Column>
-              <Container.Column background={lightLightYellow} width="25rem" height="40%" alignItems="center" alignSelf="flex-start" justifyContent="flex-end" />
+              <Container.Column background={lightLightYellow} width="27.7vw" height="40%" alignItems="center" alignSelf="flex-start" justifyContent="flex-end" />
             </Container.Row>
             <Container.Row position="relative" height="18.75rem">
               <Container.Row position="absolute" top="0" width="100%" height="3.75rem" background={lightLightYellow} />
@@ -65,7 +65,7 @@ const Gite = () => {
           </Visual.ParallaxAtoms>
         </Container.Row>
       </Container.Row >
-      <Container.Row padding="3.75rem 6.25rem" alignItems="center" gap="5rem" alignSelf="stretch">
+      <Container.Row padding="3.75rem 6.25rem" mPadding="3.75rem 1.25rem" alignItems="center" gap="5rem" alignSelf="stretch">
         <Container.Row direction="row" width="33vw" mWidth="100%" alignItrems="flex-start" gap="1.25rem" >
           <Container.Column paddingBottom="3.75rem" alignItems="flex-start" gap="1.25rem" flex="1 0 0">
             <Visual.Image src="/assets/images/gite/bathroom.jpg" width="100%" height="18.75rem" objectFit="cover" alignSelf="stretch" borderRadius="10px" />
