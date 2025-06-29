@@ -5,7 +5,8 @@ import { dark } from '../../../assets/color';
 const ParagraphStyled = styled.p<CssProps>`
   display: ${(props) => props.display ?? '-webkit-box'};
   align-self: ${(props) => props.alignSelf ?? 'stretch'};
-  overflow: hidden;
+  height: ${(props) => props.height ?? ""};
+  overflow: ${(props) => props.overflow ?? "hidden  "};
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 10;
   color: ${(props) => props.color ?? dark};
@@ -25,7 +26,7 @@ const ParagraphStyled = styled.p<CssProps>`
   z-index: ${(props) => props.zIndex ?? ''};
 
   
-  @media (max-height: 1050px) {
+  @media (max-width: 1050px) {
     flex: ${(props) => props.mFlex ?? ''};
   }
 `;

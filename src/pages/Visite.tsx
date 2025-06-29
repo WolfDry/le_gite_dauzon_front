@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Action, Container, Text } from '../components/atoms'
 import HeroBanner from '../components/molecules/HeroBanner'
 import { cream, green, lightGreen } from '../assets/color'
@@ -32,8 +32,9 @@ const Visite = () => {
     title: "Balazuc rando",
     date: null,
     type: "rando",
-    location: "A 14km du gite (20 min de route)",
-    description: "Petit village médiéval fortifié, perché au sommet d'une falaise. Accroché à d'impressionnantes roches de calcaire surplombant la rivière Ardèche. Classé parmi « les plus beaux villages de France » et les « Villages de caractère »",
+    location: null,
+    description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla hendrerit ornare sollicitudin. Ut auctor convallis luctus. Cras ut risus nec elit porttitor consequat quis eget lectus. Donec euismod ipsum iaculis tellus feugiat, non ullamcorper nunc accumsan.
+Quisque vehicula vulputate blandit. Nullam et suscipit enim. Praesent ornare ipsum ligula, non tempus augue placerat tempor. Proin ut risus hendrerit, vehicula tortor et, auctor sem. Sed elementum dictum ex, vitae porttitor ligula convallis a. Aenean ac magna diam. Etiam enim magna, dictum at varius vel, tristique id odio. Sed consequat turpis et eleifend hendrerit.`,
     image: "1.jpg",
     link: null
   }, {
@@ -101,31 +102,34 @@ const Visite = () => {
     link: null
   }]
 
+  const [activeButton, setActiveButton] = useState("all")
   const [currentEvents, setCurrentEvents] = useState(events)
 
   const filterEvents = (filter: string) => {
     if (filter === "all") {
+      setActiveButton(filter)
       setCurrentEvents(events)
       return
     }
     const newEvents = events.filter((event) => event.type === filter)
     setCurrentEvents(newEvents)
+    setActiveButton(filter)
   }
 
   return (
     <Container.Column background={cream}>
       <HeroBanner height="40vh" paddingTop="60px" text="Quelques endroits à visiter !" />
       <Container.Wrap padding="3.75rem 6.25rem 0 6.25rem" mPadding="2.5rem 1.25rem 0 1.25rem" justifyContent="center" alignItems="flex-start" gap="15px" alignSelf="stretch">
-        <Action.Button onClick={() => filterEvents("event")} padding="7px 15px" borderRadius="5px" background={lightGreen}>
+        <Action.Button onClick={() => filterEvents("event")} padding="7px 15px" borderRadius="5px" background={activeButton === "event" ? green : lightGreen}>
           Événements
         </Action.Button>
-        <Action.Button onClick={() => filterEvents("visit")} padding="7px 15px" borderRadius="5px" background={lightGreen}>
+        <Action.Button onClick={() => filterEvents("visit")} padding="7px 15px" borderRadius="5px" background={activeButton === "visit" ? green : lightGreen}>
           Lieux à visiter
         </Action.Button>
-        <Action.Button onClick={() => filterEvents("rando")} padding="7px 15px" borderRadius="5px" background={lightGreen}>
+        <Action.Button onClick={() => filterEvents("rando")} padding="7px 15px" borderRadius="5px" background={activeButton === "rando" ? green : lightGreen}>
           Randonnées
         </Action.Button>
-        <Action.Button onClick={() => filterEvents("all")} padding="7px 15px" borderRadius="5px" background={green}>
+        <Action.Button onClick={() => filterEvents("all")} padding="7px 15px" borderRadius="5px" background={activeButton === "all" ? green : lightGreen}>
           Tout afficher
         </Action.Button>
       </Container.Wrap>
