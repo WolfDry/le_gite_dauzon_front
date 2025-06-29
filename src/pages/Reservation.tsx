@@ -59,7 +59,7 @@ const Reservation = () => {
 
   return (
     <Container.Column background={lightLightBlue}>
-      <HeroBanner />
+      <HeroBanner height="60vh" />
       <Container.Row maxWidth="100vw" marginTop="-6.875rem" padding="0 6.25rem 1.875rem 6.25rem" mPadding="0 1.25rem 2.5rem 1.25rem" justifyContent="center" mJustifyContent="flex-end" alignItems="flex-end" mAlignItems="center" alignSelf="stretch" zIndex="1">
         <Container.Column width="100%" padding="1.875rem 3.75rem" alignItems="center" gap="1.875rem" flex="1 0 0" borderRadius="1.25rem" background={white} boxShadow="4px 4px 20px 0 rgba(128, 226, 255, 0.25)">
           <Container.Row alignItems="start" gap="1.25rem" alignSelf="stretch">

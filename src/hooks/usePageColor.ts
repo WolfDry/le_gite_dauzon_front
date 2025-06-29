@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
-import { blue, darkGreen } from '../assets/color'
+import { blue, darkGreen, yellow } from '../assets/color'
 
 const getColorFromPath = (path: string) => {
   switch (path) {
@@ -8,6 +8,8 @@ const getColorFromPath = (path: string) => {
       return darkGreen
     case '/reservation':
       return blue
+    case '/gite':
+      return yellow
     default:
       return darkGreen
   }

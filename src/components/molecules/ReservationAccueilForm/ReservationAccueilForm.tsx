@@ -11,7 +11,7 @@ type Value = {
 
 const ReservationAccueilForm = () => {
 
-  const [initialDates, setInitialDates] = useState({
+  const [initialDates] = useState({
     startDate: null,
     endDate: null
   })

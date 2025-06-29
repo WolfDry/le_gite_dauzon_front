@@ -27,7 +27,7 @@ const InputsReservationAccueilForm = ({ initialDates }: Props) => {
 
   useEffect(() => {
     dispatch(updateSelectedDates(dates))
-  }, [dates])
+  }, [dates, dispatch])
 
   const changeMonth = (direction: number) => {
     let newMonth = currentMonth
