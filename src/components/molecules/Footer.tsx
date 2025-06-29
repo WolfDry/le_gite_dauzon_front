@@ -1,11 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Container, Form, Text, Visual } from '../atoms'
-import { blue, darkGreen, green } from '../../assets/color'
-import { useLocation } from 'react-router-dom'
 import { usePageColor } from '../../hooks/usePageColor'
 
 const Footer = () => {
-  const location = useLocation()
   const color = usePageColor()
 
   return (

@@ -27,7 +27,7 @@ const Svg = ({ label, width, height, fill }: Props) => {
       default:
         break
     }
-  })
+  }, [fill])
 
   switch (label) {
     case "logo":

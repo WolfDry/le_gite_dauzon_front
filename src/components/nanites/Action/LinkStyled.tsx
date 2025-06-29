@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 const LinkStyled = styled(Link) <CssProps>`
   display: flex;
   align-items: center;
+  gap:  ${(props) => props.gap ?? ""};
   color: ${(props) => props.color ?? dark};
   font-family: Poppins;
   font-size: ${(props) => props.fontSize ?? "1.375rem"};

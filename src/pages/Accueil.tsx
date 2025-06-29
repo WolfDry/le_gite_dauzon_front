@@ -102,7 +102,7 @@ const Accueil = () => {
 
   return (
     <Container.Column maxWidth="100vw" background={cream}>
-      <HeroBanner />
+      <HeroBanner height="100vh" />
       <Container.Row justifyContent="center" mJustifyContent="flex-end" alignItems="flex-end" mAlignItems="center" marginTop="-12.5rem" mMarginTop="-4rem" padding="0 6.25rem 2.5rem 6.25rem" mPadding="0 1.25rem 2.5rem 1.25rem" mGap="1.25rem">
         <Container.Column width="55vw" mWidth="92%" marginRight="-1.25rem" background={lightGreen} borderRadius="1.25rem" padding="1.875rem 4.2vw" mPadding="1.875rem 1.25rem" alignSelf="stretch" gap="1.875rem" boxShadow="4px 4px 20px 0px rgba(0,0,0,0.10)" zIndex="1">
           <Text.Title>

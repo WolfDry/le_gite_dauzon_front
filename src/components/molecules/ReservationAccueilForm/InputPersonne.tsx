@@ -25,7 +25,7 @@ const InputPersonne = ({ isInReservation, value, setValue }: Props) => {
 
   useEffect(() => {
     dispatch(updateNbPersonne(value))
-  }, [value])
+  }, [value, dispatch])
 
   const show = () => {
     setIsDisplay(!isDisplay)

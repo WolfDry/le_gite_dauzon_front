@@ -13,7 +13,7 @@ const MobileMenu = ({ changeDisplayMenu }: Props) => {
         <Visual.Svg label="close" />
       </Container.Row>
       <Container.Column alignItems="flex-start" gap="20px" flex="1 0 0" alignSelf="stretch">
-        <Action.Link to={"/"} color={white}>
+        <Action.Link to={"/gite"} color={white}>
           Le gîte
         </Action.Link>
         <Action.Link to={"/reservation"} color={white}>
