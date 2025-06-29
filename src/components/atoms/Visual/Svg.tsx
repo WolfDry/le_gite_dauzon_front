@@ -103,19 +103,19 @@ const Svg = ({ label, width, height, fill }: Props) => {
     case "leftArrow":
       return (
         <svg xmlns="http://www.w3.org/2000/svg" width={width ?? "12"} height={height ?? "20"} viewBox="0 0 12 20" fill="none">
-          <path d="M10 18L2 10L10 2" stroke="#171C19" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" />
+          <path d="M10 18L2 10L10 2" stroke={fill ?? dark} stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
       )
     case "rightArrow":
       return (
         <svg xmlns="http://www.w3.org/2000/svg" width={width ?? "12"} height={height ?? "20"} viewBox="0 0 12 20" fill="none">
-          <path d="M2 2L10 10L2 18" stroke="#171C19" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" />
+          <path d="M2 2L10 10L2 18" stroke={fill ?? dark} stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
       )
     case "bottomArrow":
       return (
         <svg xmlns="http://www.w3.org/2000/svg" width="13" height="7" viewBox="0 0 13 7" fill="none">
-          <path d="M11.2792 1L6.27917 6L1.27918 1" stroke="#171C19" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+          <path d="M11.2792 1L6.27917 6L1.27918 1" stroke={fill ?? dark} stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
       )
     case "quote":

@@ -3,8 +3,9 @@ export type CssProps = {
   mDisplay?: string
   direction?: string
   alignItems?: string
-  justifyContent?: string
   mAlignItems?: string
+  alignContent?: string
+  justifyContent?: string
   mJustifyContent?: string
   flex?: string
   flexShrink?: string

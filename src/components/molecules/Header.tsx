@@ -18,7 +18,7 @@ const Header = () => {
       <Container.Row direction="row" alignItems="center" justifyContent="space-between" width="94.4vw" position="absolute" top="20px" mTop="40px" left="50%" transform="translate(-50%, 0)" padding="10px 30px" mPadding="0 20px" borderRadius="12.5rem" background="rgba(255, 255, 255, 0.80)" mBackground="none" backdropFilter="blur(7.5px)" mBackdropFilter="none">
         <Container.Row mDisplay="none" width="20.5vw" alignItems="center" gap="15px">
           <Action.Link to={"/"} gap="15px">
-            <Visual.Svg label='logo' fill={color} />
+            <Visual.Svg label='logo' fill={color.dark} />
             <Container.Row justifyContent="center" alignItems="center" gap="10px">
               <Visual.Svg label='title' />
               <Container.Row justifyContent="center" alignItems="center">
@@ -49,7 +49,7 @@ const Header = () => {
           </Action.Link>
         </Container.Row>
         <Container.Column display="none" mDisplay="flex">
-          <Visual.Svg label="mobile_logo" fill={color} />
+          <Visual.Svg label="mobile_logo" fill={color.dark} />
         </Container.Column>
         <Action.Button onClick={() => changeDisplayMenu()} display="none" mDisplay="flex" width="4rem" height="4rem" padding="15px" borderRadius="2.8rem" background={white} flexShrink="0">
           <Visual.Svg width={64} label="burger" />

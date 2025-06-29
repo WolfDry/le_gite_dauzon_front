@@ -8,7 +8,7 @@ type Props = {
 
 const MobileMenu = ({ changeDisplayMenu }: Props) => {
   return (
-    <Container.Column width="100vw" height="100vh" padding="50px 30px" alignItems="flex-start" gap="30px" position="absolute" background="rgba(46, 107, 69, 0.80)" backdropFilter="blur(7.5px)" zIndex="99">
+    <Container.Column width="100vw" height="100vh" padding="50px 30px" alignItems="flex-start" gap="30px" position="absolute" background="rgba(46, 107, 69, 0.80)" mBackdropFilter="blur(7.5px)" zIndex="99">
       <Container.Row onClick={() => changeDisplayMenu()} direction="row" justifyContent="flex-end" alignItems="center" alignSelf="stretch" cursor="pointer">
         <Visual.Svg label="close" />
       </Container.Row>

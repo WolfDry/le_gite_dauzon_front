@@ -1,17 +1,34 @@
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
-import { blue, darkGreen, yellow } from '../assets/color'
+import { blue, darkBlue, darkGreen, green, yellow } from '../assets/color'
 
 const getColorFromPath = (path: string) => {
   switch (path) {
     case '/':
-      return darkGreen
+      return {
+        normal: green,
+        dark: darkGreen
+      }
     case '/reservation':
-      return blue
+      return {
+        normal: blue,
+        dark: darkBlue
+      }
     case '/gite':
-      return yellow
+      return {
+        normal: yellow,
+        dark: yellow
+      }
+    case '/visite':
+      return {
+        normal: green,
+        dark: darkGreen
+      }
     default:
-      return darkGreen
+      return {
+        normal: green,
+        dark: darkGreen
+      }
   }
 }
 
@@ -22,6 +39,5 @@ export const usePageColor = () => {
   useEffect(() => {
     setColor(getColorFromPath(location.pathname))
   }, [location.pathname])
-
   return color
 }
