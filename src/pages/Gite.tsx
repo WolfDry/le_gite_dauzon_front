@@ -68,21 +68,21 @@ const Gite = () => {
       <Container.Row padding="3.75rem 6.25rem" mPadding="3.75rem 1.25rem" alignItems="center" gap="5rem" alignSelf="stretch">
         <Container.Row direction="row" width="33vw" mWidth="100%" alignItrems="flex-start" gap="1.25rem" >
           <Container.Column paddingBottom="3.75rem" alignItems="flex-start" gap="1.25rem" flex="1 0 0">
-            <Visual.Image src="/assets/images/gite/bathroom.jpg" width="100%" height="18.75rem" objectFit="cover" alignSelf="stretch" borderRadius="10px" />
-            <Visual.Image src="/assets/images/gite/bedroom1.jpg" width="100%" height="18.75rem" objectFit="cover" alignSelf="stretch" borderRadius="10px" />
+            <Visual.Image src="/assets/images/gite/kitchen.jpg" width="100%" height="18.75rem" objectFit="cover" alignSelf="stretch" borderRadius="10px" />
+            <Visual.Image src="/assets/images/gite/bedroom2.jpg" width="100%" height="18.75rem" objectFit="cover" alignSelf="stretch" borderRadius="10px" />
           </Container.Column>
           <Container.Column paddingTop="3.75rem" alignItems="flex-start" gap="1.25rem" flex="1 0 0">
             <Visual.Image src="/assets/images/gite/livingroom.jpg" width="100%" height="18.75rem" objectFit="cover" alignSelf="stretch" borderRadius="10px" />
-            <Visual.Image src="/assets/images/gite/bedroom2.jpg" width="100%" height="18.75rem" objectFit="cover" alignSelf="stretch" borderRadius="10px" />
+            <Visual.Image src="/assets/images/gite/bathroom.jpg" width="100%" height="18.75rem" objectFit="cover" alignSelf="stretch" borderRadius="10px" />
           </Container.Column>
         </Container.Row>
         <Container.Column justifyContent="center" alignItems="flex-start" gap="1.875rem" flex="1 0 0">
           <Container.Column alignItems="flex-start" gap="15px" alignSelf="stretch">
             <Text.Title fontSize="1.625rem" textAlign="start">
-              Piscine partagée
+              Piscine
             </Text.Title>
             <Text.Paragraph>
-              La piscine des propriétaires (10 m x 5 m, profondeur max. 1,60 m) est enterrée, sécurisée et accessible librement durant votre séjour. Elle se trouve dans un jardin clos à proximité immédiate du gîte.
+              La piscine (10m X 5m profondeur max 1.60m) est à partager avec les propriétaires. Elle est sécurisée et accessible librement durant votre séjour. Elle se trouve dans un jardin clos à proximité immédiate du gîte.
             </Text.Paragraph>
           </Container.Column>
           <Container.Column alignItems="flex-start" gap="15px" alignSelf="stretch">
