@@ -23,6 +23,11 @@ const ParagraphStyled = styled.p<CssProps>`
   flex: ${(props) => props.flex ?? ''};
   cursor: ${(props) => props.cursor ?? ''};
   z-index: ${(props) => props.zIndex ?? ''};
+
+  
+  @media (max-height: 1050px) {
+    flex: ${(props) => props.mFlex ?? ''};
+  }
 `;
 
 export default ParagraphStyled

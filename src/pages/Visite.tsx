@@ -115,7 +115,7 @@ const Visite = () => {
   return (
     <Container.Column background={cream}>
       <HeroBanner height="40vh" paddingTop="60px" text="Quelques endroits à visiter !" />
-      <Container.Row padding="3.75rem 6.25rem 0 6.25rem" justifyContent="center" alignItems="flex-start" gap="15px" alignSelf="stretch">
+      <Container.Wrap padding="3.75rem 6.25rem 0 6.25rem" mPadding="2.5rem 1.25rem 0 1.25rem" justifyContent="center" alignItems="flex-start" gap="15px" alignSelf="stretch">
         <Action.Button onClick={() => filterEvents("event")} padding="7px 15px" borderRadius="5px" background={lightGreen}>
           Événements
         </Action.Button>
@@ -128,18 +128,18 @@ const Visite = () => {
         <Action.Button onClick={() => filterEvents("all")} padding="7px 15px" borderRadius="5px" background={green}>
           Tout afficher
         </Action.Button>
-      </Container.Row>
-      <Container.Wrap padding="3.75rem 6.25rem" alignItems="flex-start" alignContent="flex-start" gap="35px" alignSelf="stretch">
+      </Container.Wrap>
+      <Container.Wrap padding="3.75rem 6.25rem" mPadding="3.75rem 1.25rem" alignItems="flex-start" alignContent="flex-start" gap="35px" alignSelf="stretch">
         {currentEvents.map(event => {
           return (<EventCard event={event} />)
         })}
       </Container.Wrap>
-      <Container.Row padding="0 6.25rem 1.25rem 6.25rem">
-        <Text.Paragraph fontWeight="700" fontSize="1.25rem" flex="1 0 0" textAlign="center">
+      <Container.Row padding="0 6.25rem 1.25rem 6.25rem" mPadding="0 1.25rem 1.25rem 1.25rem" alignSelf="stretch">
+        <Text.Paragraph fontWeight="700" fontSize="1.25rem" flex="1 0 0" mFlex="none" textAlign="center">
           Vos hôtes peuvent vous conseiller sur beaucoup d'autres activités, n'hésitez pas à leur demander pendant votre séjour !
         </Text.Paragraph>
       </Container.Row>
-      <Container.Column padding="2.5rem 6.25rem" justifyContent="center" alignItems="center" gap="1.875rem" alignSelf="stretch">
+      <Container.Column padding="2.5rem 6.25rem" mPadding="1.875rem 1.25rem" justifyContent="center" alignItems="center" gap="1.875rem" alignSelf="stretch">
         <Socials />
       </Container.Column>
       <Footer />

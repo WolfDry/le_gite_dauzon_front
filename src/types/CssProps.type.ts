@@ -8,6 +8,7 @@ export type CssProps = {
   justifyContent?: string
   mJustifyContent?: string
   flex?: string
+  mFlex?: string
   flexShrink?: string
   gap?: string
   mGap?: string
