@@ -3,6 +3,7 @@ import Accueil from "../pages/Accueil";
 import Reservation from "../pages/Reservation";
 import Gite from "../pages/Gite";
 import Visite from "../pages/Visite";
+import Acces from "../pages/Acces";
 
 export const router = createBrowserRouter([
   {
@@ -27,6 +28,12 @@ export const router = createBrowserRouter([
     path: "/visite",
     element: (
       <Visite />
+    )
+  },
+  {
+    path: "/acces",
+    element: (
+      <Acces />
     )
   },
 ])

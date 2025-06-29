@@ -24,6 +24,11 @@ const getColorFromPath = (path: string) => {
         normal: green,
         dark: darkGreen
       }
+    case '/acces':
+      return {
+        normal: blue,
+        dark: darkBlue
+      }
     default:
       return {
         normal: green,
