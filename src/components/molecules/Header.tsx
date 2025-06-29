@@ -47,7 +47,7 @@ const Header = () => {
           </Action.Link>
         </Container.Row>
         <Container.Column display="none" mDisplay="flex">
-          <Visual.Svg label="mobile_logo" fill={darkGreen} />
+          <Visual.Svg label="mobile_logo" fill={color} />
         </Container.Column>
         <Action.Button onClick={() => changeDisplayMenu()} display="none" mDisplay="flex" width="4rem" height="4rem" padding="15px" borderRadius="2.8rem" background={white} flexShrink="0">
           <Visual.Svg width={64} label="burger" />
