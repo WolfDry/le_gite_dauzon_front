@@ -315,10 +315,10 @@ En juillet et août, les locations se font du samedi 15h au samedi suivant 11h.`
         <Container.Row direction="row" width="33vw" mWidth="100%" alignItrems="flex-start" gap="1.25rem" >
           <Container.Column paddingBottom="3.75rem" alignItems="flex-start" gap="1.25rem" flex="1 0 0">
             <Visual.Image src="/assets/images/reservation/outside1.jpg" width="100%" height="18.75rem" objectFit="cover" alignSelf="stretch" borderRadius="10px" />
-            <Visual.Image src="/assets/images/reservation/bedroom.jpg" width="100%" height="18.75rem" objectFit="cover" alignSelf="stretch" borderRadius="10px" />
+            <Visual.Image src="/assets/images/reservation/piscine.jpg" width="100%" height="18.75rem" objectFit="cover" alignSelf="stretch" borderRadius="10px" />
           </Container.Column>
           <Container.Column paddingTop="3.75rem" alignItems="flex-start" gap="1.25rem" flex="1 0 0">
-            <Visual.Image src="/assets/images/reservation/bathroom.jpg" width="100%" height="18.75rem" objectFit="cover" alignSelf="stretch" borderRadius="10px" />
+            <Visual.Image src="/assets/images/reservation/terrasse.jpg" width="100%" height="18.75rem" objectFit="cover" alignSelf="stretch" borderRadius="10px" />
             <Visual.Image src="/assets/images/reservation/outside2.jpg" width="100%" height="18.75rem" objectFit="cover" alignSelf="stretch" borderRadius="10px" />
           </Container.Column>
         </Container.Row>
