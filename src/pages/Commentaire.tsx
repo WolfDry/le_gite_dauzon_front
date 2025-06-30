@@ -4,7 +4,7 @@ import HeroBanner from '../components/molecules/HeroBanner'
 import { lightLightYellow } from '../assets/color'
 import { Comment } from '../types/App.type'
 import CommentCard from '../components/molecules/CommentCard'
-import Footer from '../components/molecules/Footer'
+import CommentFooter from '../components/molecules/CommentFooter'
 
 const Commentaire = () => {
 
@@ -61,7 +61,7 @@ Vous hésitez encore ? Leurs témoignages vous aideront à vous faire une idée 
           return (<CommentCard comment={comment} cardIndex={index} />)
         })}
       </Container.Masonry>
-      <Footer />
+      <CommentFooter />
     </Container.Column>
   )
 }

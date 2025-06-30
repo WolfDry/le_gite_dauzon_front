@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Action, Container, Text } from '../components/atoms'
 import HeroBanner from '../components/molecules/HeroBanner'
 import { cream, green, lightGreen } from '../assets/color'

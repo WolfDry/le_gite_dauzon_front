@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
-import { Atom } from '../../../types/Atom.type'
-import { blue, dark, darkGreen, white, yellow } from '../../../assets/color'
+import React, { useEffect, useState } from "react"
+import { Atom } from "../../../types/Atom.type"
+import { blue, dark, darkGreen, white, yellow } from "../../../assets/color"
 
 type Props = Atom & {
   label: string
@@ -62,6 +62,12 @@ const Svg = ({ label, width, height, fill }: Props) => {
       return (
         <svg xmlns="http://www.w3.org/2000/svg" width={width ?? "10"} height={height ?? "10"} viewBox="0 0 11 11" fill="none">
           <path d="M5.12134 8.8747L7.54626 10.4093C7.99035 10.6906 8.53376 10.2748 8.4169 9.74901L7.77415 6.86318L9.9186 4.91892C10.3101 4.5643 10.0997 3.89176 9.58554 3.84896L6.76328 3.59829L5.65891 0.871428C5.46024 0.376191 4.78243 0.376191 4.58376 0.871428L3.4794 3.59217L0.657134 3.84285C0.142933 3.88565 -0.0674223 4.55819 0.324072 4.9128L2.46853 6.85707L1.82577 9.74289C1.70891 10.2687 2.25233 10.6845 2.69641 10.4032L5.12134 8.8747Z" fill="#171C19" />
+        </svg>
+      )
+    case "empty_star":
+      return (
+        <svg className="star" xmlns="http://www.w3.org/2000/svg" width="26" height="25" viewBox="0 0 26 25" fill="none">
+          <path d="M12.2949 1.21777C12.5549 0.594643 13.4451 0.594643 13.7051 1.21777L13.7061 1.21973L16.5781 8.03711L16.7539 8.4541L17.2051 8.49316L24.543 9.12012H24.5469C25.2095 9.17315 25.5063 10.0231 24.9805 10.4814V10.4824L19.4043 15.3428L19.0654 15.6387L19.167 16.0771L20.8379 23.292C20.9952 23.9746 20.2688 24.4817 19.6953 24.1328H19.6943L13.3896 20.2959L13.001 20.0596L12.6113 20.2949L6.30664 24.1162L6.30469 24.1172C5.76694 24.4445 5.09475 24.0194 5.14258 23.4023L5.16211 23.2764L6.83301 16.0615L6.93457 15.623L6.5957 15.3271L1.01953 10.4668C0.493354 10.0085 0.79038 9.15753 1.45312 9.10449H1.45703L8.79492 8.47754L9.24609 8.43945L9.42188 8.02246L12.293 1.2207L12.2949 1.21777Z" stroke="#171C19" stroke-width="1.5" />
         </svg>
       )
     case "title":
