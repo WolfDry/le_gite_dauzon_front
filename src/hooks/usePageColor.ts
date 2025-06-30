@@ -29,6 +29,11 @@ const getColorFromPath = (path: string) => {
         normal: blue,
         dark: darkBlue
       }
+    case '/commentaire':
+      return {
+        normal: yellow,
+        dark: yellow
+      }
     default:
       return {
         normal: green,

@@ -7,6 +7,10 @@ export type CssProps = {
   alignContent?: string
   justifyContent?: string
   mJustifyContent?: string
+  columnCount?: number
+  mColumnCount?: number
+  columnGap?: string
+  mColumnGap?: string
   flex?: string
   mFlex?: string
   flexShrink?: string

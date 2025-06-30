@@ -25,7 +25,7 @@ const MobileMenu = ({ changeDisplayMenu }: Props) => {
         <Action.Link to={"/acces"} color={white}>
           Accès
         </Action.Link>
-        <Action.Link to={"/"} color={white}>
+        <Action.Link to={"/commentaire"} color={white}>
           Livre d'or
         </Action.Link>
       </Container.Column>

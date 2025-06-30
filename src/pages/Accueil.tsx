@@ -3,7 +3,7 @@ import { Action, Container, Text, Visual } from '../components/atoms'
 
 import HeroBanner from '../components/molecules/HeroBanner'
 import { dark, cream, lightGreen, green, darkGreen, white } from '../assets/color'
-import CommentCard from '../components/molecules/CommentCard'
+import AccueilCommentCard from '../components/molecules/AccueilCommentCard'
 import Socials from '../components/molecules/Socials'
 import Footer from '../components/molecules/Footer'
 
@@ -194,7 +194,7 @@ Le gîte est entièrement équipé pour vous offrir un séjour tout confort, que
         <Container.Row gap="1.25rem">
           {comments.map((comment => {
             return (
-              <CommentCard comment={comment} />
+              <AccueilCommentCard comment={comment} />
             )
           }))}
         </Container.Row>
@@ -210,7 +210,7 @@ Le gîte est entièrement équipé pour vous offrir un séjour tout confort, que
           <Container.Column onClick={() => changeCurrentComment("left")}>
             <Visual.Svg label="leftArrow" />
           </Container.Column>
-          <CommentCard comment={currentComment} />
+          <AccueilCommentCard comment={currentComment} />
           <Container.Column onClick={() => changeCurrentComment("right")}>
             <Visual.Svg label="rightArrow" />
           </Container.Column>

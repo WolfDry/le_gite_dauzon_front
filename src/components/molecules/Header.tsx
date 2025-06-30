@@ -35,7 +35,7 @@ const Header = () => {
           <Action.NavLink to={"/reservation"} fontSize="1.25rem">Réserver</Action.NavLink>
           <Action.NavLink to={"/visite"} fontSize="1.25rem">A visiter</Action.NavLink>
           <Action.NavLink to={"/acces"} fontSize="1.25rem">Accès</Action.NavLink>
-          <Action.NavLink to={"/"} fontSize="1.25rem">Livre d'or</Action.NavLink>
+          <Action.NavLink to={"/commentaire"} fontSize="1.25rem">Livre d'or</Action.NavLink>
         </Container.Row>
         <Container.Row mDisplay="none" width="20.5vw" justifyContent="flex-end" gap="20px">
           <Action.Link to="https://www.facebook.com/legitedauzon.fr" target="_blank" rel="noopener noreferrer">

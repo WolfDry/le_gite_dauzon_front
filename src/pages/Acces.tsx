@@ -1,13 +1,13 @@
 import React from 'react'
 import { Container, Text, Visual } from '../components/atoms'
 import HeroBanner from '../components/molecules/HeroBanner'
-import { darkBlue, lightBlue, white } from '../assets/color'
+import { darkBlue, lightBlue, lightLightBlue, white } from '../assets/color'
 import Socials from '../components/molecules/Socials'
 import Footer from '../components/molecules/Footer'
 
 const Acces = () => {
   return (
-    <Container.Column>
+    <Container.Column background={lightLightBlue}>
       <HeroBanner height="60vh" />
       <Container.Row padding="3.75rem 0 2.5rem 6.2rem" mPadding="2.5rem 1.25rem" alignItems="center" gap="5rem" mGap="1.875rem" alignSelf="stretch">
         <Container.Column padding="2.5rem" justifyContent="center" alignItems="flex-start" gap="1.875rem" flex="1 0 0" borderRadius="1.25rem" background={darkBlue}>

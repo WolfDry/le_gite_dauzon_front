@@ -1,34 +1,43 @@
 import React from 'react'
 import { Container, Text, Visual } from '../atoms'
-import { Commentaire } from '../../types/Commentaire.type'
-import { dark, lightGreen } from '../../assets/color'
+import { yellow, lightYellow, lightLightYellow } from '../../assets/color'
+import { Comment } from '../../types/App.type'
 
 type Props = {
-  comment: Commentaire
+  comment: Comment
+  cardIndex: number
 }
 
-const CommentCard = ({ comment }: Props) => {
+const CommentCard = ({ comment, cardIndex }: Props) => {
+  const colors = [yellow, lightYellow, lightLightYellow]
+  const backgroundColor = colors[cardIndex % colors.length]
+
   return (
-    <Container.Column height="29.3rem" padding="1.875rem 2.7vw" justifyContent="space-between" borderRadius="1.25rem" flex="1 0 0" background={lightGreen} boxShadow="4px 4px 10px 0px rgba(0, 0, 0, 0.20)">
-      <Container.Row direction="row" justifyContent="center">
-        <Visual.Svg label="star" width={25} height={25} />
-        <Visual.Svg label="star" width={25} height={25} />
-        <Visual.Svg label="star" width={25} height={25} />
-        <Visual.Svg label="star" width={25} height={25} />
-        <Visual.Svg label="star" width={25} height={25} />
+    <Container.Column
+      padding="1.875rem 2.5rem"
+      marginBottom="2.19rem"
+      alignItems="flex-start"
+      gap="1.25rem"
+      alignSelf="stretch"
+      borderRadius="1.25rem"
+      background={backgroundColor}
+      boxShadow="4px 4px 20px 0 rgba(23, 28, 25, 0.10)"
+    >
+      <Container.Row direction="row" justifyContent="space-between" alignItems="flex-start" alignSelf="stretch">
+        <Text.Paragraph fontWeight="700">{comment.name}</Text.Paragraph>
+        <Text.Paragraph>{comment.date.toDateString()}</Text.Paragraph>
       </Container.Row>
-      <Visual.Svg label="quote" />
-      <Text.Paragraph>
-        {comment.commentaire}
-      </Text.Paragraph>
-      <Container.Row height="1px" alignSelf="stretch" background={dark} />
-      <Container.Column alignItems="flex-end" gap="5px">
-        <Text.Name fontWeight="700">
-          {comment.nom + " " + comment.prenom}
-        </Text.Name>
-        <Text.Name>
-          {comment.date}
-        </Text.Name>
+
+      <Container.Column alignItems="flex-start" gap="1.875rem" alignSelf="stretch">
+        <Container.Row direction="row" justifyContent="center" alignItems="center" gap="15px" alignSelf="stretch">
+          {[...Array(comment.stars)].map((_, index) => (
+            <Visual.Svg width={26} height={26} label="star" key={index} />
+          ))}
+        </Container.Row>
+
+        <Text.Paragraph alignSelf="stretch">
+          {comment.text}
+        </Text.Paragraph>
       </Container.Column>
     </Container.Column>
   )

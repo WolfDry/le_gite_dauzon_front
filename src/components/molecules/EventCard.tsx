@@ -9,7 +9,7 @@ type Props = {
 
 const EventCard = ({ event }: Props) => {
   return (
-    <Container.Column width="27vw" height={!event.link && event.type === "rando" ? "34.4rem" : ""} mWidth="21.875rem" alignItems="flex-start" borderRadius="1.25rem" background={white} boxShadow="4px 4px 20px 0 rgba(23, 28, 25, 0.10)" overflow="hidden">
+    <Container.Column key={event.id} width="27vw" height={!event.link && event.type === "rando" ? "34.4rem" : ""} mWidth="21.875rem" alignItems="flex-start" borderRadius="1.25rem" background={white} boxShadow="4px 4px 20px 0 rgba(23, 28, 25, 0.10)" overflow="hidden">
       <Container.Row position="relative" height="15.625rem" alignItems="center" alignSelf="stretch">
         <Visual.Image src={`/assets/images/events/${event.image}`} height="100%" width="100%" />
         <Container.Column position="absolute" bottom="0" left="0" padding="15px 1.875rem 0 1.25rem" alignItems="flex-start" gap="15px" borderRadius="0 15px 0 0" background={white}>
