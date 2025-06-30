@@ -14,7 +14,8 @@ const CommentFooter = () => {
         <Container.Row gap="6.9vw" alignSelf="stretch">
           <Container.Column justifyContent="center" gap="2.5rem" alignSelf="stretch" flex="1">
             <Text.Title fontSize="2.25rem" textAlign="start">
-              Vous avez passé un agréable séjour ?Laissez nous un petit commentaire 😁
+              {`Vous avez passé un agréable séjour ?
+              Laissez nous un petit commentaire 😁`}
             </Text.Title>
             <Container.Column gap="7px">
               <Container.Row direction="row" alignItems="center" gap="10px">
@@ -23,7 +24,7 @@ const CommentFooter = () => {
               </Container.Row>
               <Container.Row direction="row" alignItems="center" gap="10px">
                 <Visual.Svg label="maps" />
-                <Text.Paragraph>20 impasse du petit nice, 07260 Joyeuse</Text.Paragraph>
+                <Text.Paragraph>20 impasse du petit Nice, 07260 Joyeuse</Text.Paragraph>
               </Container.Row>
               <Container.Row direction="row" alignItems="center" gap="10px">
                 <Visual.Svg label="whatsapp" />

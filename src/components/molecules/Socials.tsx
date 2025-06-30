@@ -24,7 +24,7 @@ const Socials = () => {
         <Action.Link to="https://legitedauzon.fr/" target="_blank" rel="noopener noreferrer">
           <Visual.Image width="3.125rem" height="3.125rem" src="/assets/images/socials/tiktok.png" />
         </Action.Link>
-        <Action.Link to="https://legitedauzon.fr/" target="_blank" rel="noopener noreferrer">
+        <Action.Link to="https://www.instagram.com/legitedauzon?igsh=MnBoaDQ4Ym1ocW1r&utm_source=qr" target="_blank" rel="noopener noreferrer">
           <Visual.Image width="3.125rem" height="3.125rem" src="/assets/images/socials/instagram.png" />
         </Action.Link>
       </Container.Row>

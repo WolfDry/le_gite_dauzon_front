@@ -31,8 +31,14 @@ const Footer = () => {
     if (result === "Erreur")
       setResutlForm(false)
 
-    if (result.status === 200)
+    if (result.status === 200) {
+      setFormData({
+        name: '',
+        email: '',
+        message: '',
+      })
       setResutlForm(true)
+    }
   }
 
   return (
@@ -49,7 +55,7 @@ const Footer = () => {
               </Container.Row>
               <Container.Row direction="row" alignItems="center" gap="10px">
                 <Visual.Svg label="maps" />
-                <Text.Paragraph>20 impasse du petit nice, 07260 Joyeuse</Text.Paragraph>
+                <Text.Paragraph>20 impasse du petit Nice, 07260 Joyeuse</Text.Paragraph>
               </Container.Row>
               <Container.Row direction="row" alignItems="center" gap="10px">
                 <Visual.Svg label="whatsapp" />

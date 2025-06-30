@@ -21,7 +21,7 @@ const EventCard = ({ event }: Props) => {
       <Container.Column padding="1.25rem" justifyContent="center" alignItems="center" gap="1.875rem" alignSelf="stretch" flex="1 0 0">
         <Container.Column alignItems="flex-start" gap="10px" alignSelf="stretch">
           <Text.Paragraph fontWeight="700" alignSelf="stretch">
-            {event.type === "event" ? event.date?.toDateString() : event.location}
+            {event.type === "event" ? event.date?.toLocaleDateString('fr-FR') : event.location}
           </Text.Paragraph>
           <Text.Paragraph display={event.type === "event" ? "" : "none"} fontWeight="700" textAlign="right" alignSelf="stretch">
             {event.location}

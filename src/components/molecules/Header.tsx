@@ -44,7 +44,7 @@ const Header = () => {
           <Action.Link to="https://legitedauzon.fr/" target="_blank" rel="noopener noreferrer">
             <Visual.Svg fill={dark} label='tk' />
           </Action.Link>
-          <Action.Link to="https://legitedauzon.fr/" target="_blank" rel="noopener noreferrer">
+          <Action.Link to="https://www.instagram.com/legitedauzon?igsh=MnBoaDQ4Ym1ocW1r&utm_source=qr" target="_blank" rel="noopener noreferrer">
             <Visual.Svg fill={dark} label='ig' />
           </Action.Link>
         </Container.Row>

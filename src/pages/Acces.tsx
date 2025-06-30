@@ -46,7 +46,7 @@ const Acces = () => {
           </Container.Column>
         </Container.Column>
         <Container.Column width="43.75vw" mWidth="auto" alignItems="flex-start" gap="1.875rem" alignSelf="stretch">
-          <Visual.Image src="/assets/images/acces/piscine.jpg" width="100%" flex="1 0 0" alignSelf="stretch" borderRadius="1.25rem 0 0 1.25rem" mBorderRadius="10px" />
+          <Visual.Image src="/assets/images/acces/terrasse.jpg" width="100%" flex="1 0 0" alignSelf="stretch" borderRadius="1.25rem 0 0 1.25rem" mBorderRadius="10px" />
           <Container.Column padding="0 6.25rem 0 0.625rem" mPadding="0" alignItems="flex-start" gap="10px" alignSelf="stretch">
             <Container.Column padding="5px 0 5px 10px" alignItems="center" borderLeft={`4px solid ${lightBlue}`}>
               <Text.Paragraph>

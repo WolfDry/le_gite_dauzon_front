@@ -1,7 +1,7 @@
 import React from 'react'
 import { Container, Text, Visual } from '../atoms'
 import { yellow, lightYellow, lightLightYellow } from '../../assets/color'
-import { Comment } from '../../types/App.type'
+import { Comment } from '../../types/Commentaire.type'
 
 type Props = {
   comment: Comment
@@ -25,18 +25,18 @@ const CommentCard = ({ comment, cardIndex }: Props) => {
     >
       <Container.Row direction="row" justifyContent="space-between" alignItems="flex-start" alignSelf="stretch">
         <Text.Paragraph fontWeight="700">{comment.name}</Text.Paragraph>
-        <Text.Paragraph>{comment.date.toDateString()}</Text.Paragraph>
+        <Text.Paragraph>{comment.created.toLocaleDateString('fr-FR')}</Text.Paragraph>
       </Container.Row>
 
       <Container.Column alignItems="flex-start" gap="1.875rem" alignSelf="stretch">
         <Container.Row direction="row" justifyContent="center" alignItems="center" gap="15px" alignSelf="stretch">
-          {[...Array(comment.stars)].map((_, index) => (
+          {[...Array(comment.note)].map((_, index) => (
             <Visual.Svg width={26} height={26} label="star" key={index} />
           ))}
         </Container.Row>
 
         <Text.Paragraph alignSelf="stretch">
-          {comment.text}
+          {comment.commentaire}
         </Text.Paragraph>
       </Container.Column>
     </Container.Column>
