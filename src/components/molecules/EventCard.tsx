@@ -28,8 +28,6 @@ const EventCard = ({ event }: Props) => {
           </Text.Paragraph>
           <Text.Paragraph
             height={event.type === "event" ? "8.5rem" : event.link ? "10.625rem" : ""}
-            flex={!event.link && event.type === "rando" ? "1 0 0" : "initial"}
-            overflow={!event.link && event.type === "rando" ? "visible" : "hidden"}
             alignSelf="stretch"
           >
             {event.description}
