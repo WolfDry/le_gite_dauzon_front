@@ -15,25 +15,25 @@ const Accueil = () => {
       id: 1,
       title: "Balazuc, l'un des Plus Beaux Villages de France",
       description: "Petit village médiéval fortifié, perché au sommet d'une falaise. Accroché à d'impressionnantes roches de calcaire surplombant la rivière Ardèche. Classé parmi « les plus beaux villages de France » et les « Villages de caractère »",
-      image: "/assets/images/accueil/balazuc.jpg"
+      image: "/assets/images/accueil/balazuc.webp"
     },
     {
       id: 2,
       title: "Vogüe, l'un des Plus Beaux Villages de France",
       description: "Enchâssé dans le calcaire de la falaise, le vieux bourg, classé parmi les \"Plus Beaux Villages de France\", forme un amphithéâtre au bord des gorges. Un site pittoresque et réputé pour ses panoramas d’exception… Parmi les lieux à visiter, le château de Vogüé",
-      image: "/assets/images/accueil/vogue.jpg"
+      image: "/assets/images/accueil/vogue.webp"
     },
     {
       id: 3,
       title: "Labeaume, l'un des Plus Beaux Villages de France",
       description: "Blotti contre ses falaises calcaires vieilles de plusieurs millénaires, Labeaume est une vraie oasis dans un paysage de garrigues accidentées. Dans ce paysage préservé, l’homme a travaillé pendant des millénaires la terre aride et la roche pour laisser les traces d’une culture ancestrale !",
-      image: "/assets/images/accueil/balazuc.jpg"
+      image: "/assets/images/accueil/balazuc.webp"
     },
     {
       id: 4,
       title: "Vallon pont d'arc, l'un des Plus Beaux Villages de France",
       description: "Porte d’entrée des Gorges de l’Ardèche, à 2 pas du majestueux Pont d’Arc et de la Grotte Chauvet 2, réplique de l’originale classée au Patrimoine Mondial de l’UNESCO, Vallon Pont d’Arc fait partie des villages incontournables d’Ardèche.",
-      image: "/assets/images/accueil/balazuc.jpg"
+      image: "/assets/images/accueil/balazuc.webp"
     },
     {
       id: 5,
@@ -132,7 +132,7 @@ const Accueil = () => {
             </Action.Button>
           </Container.Row>
         </Container.Column>
-        <Visual.Image height="20rem" mHeight="auto" mAlignSelf="stretch" mBorderRadius="1.25rem" src="/assets/images/outside.jpg" />
+        <Visual.Image height="20rem" mHeight="auto" mAlignSelf="stretch" mBorderRadius="1.25rem" src="/assets/images/outside.webp" />
       </Container.Row>
       <Container.Column justifyContent="center" alignItems="center" paddingBottom="2.5rem" gap="2.5rem" alignSelf="stretch">
         <Container.Row justifyContent="space-between" alignSelf="stretch" padding="0 70px" mPadding="0 20px">
@@ -173,7 +173,7 @@ const Accueil = () => {
         </Container.Row>
       </Container.Column>
       <Container.Row height="42.5rem" mHeight="auto" position="relative" mAlignItems="center" mJustifyContent="center" mPadding="3.75rem 1.25rem">
-        <Visual.ParallaxAtoms height="42.5rem" imageSrc='/assets/images/accueil/parallax.jpg' />
+        <Visual.ParallaxAtoms height="42.5rem" imageSrc='/assets/images/accueil/parallax.webp' />
         <Container.Column position="absolute" top="50%" left="25%" mLeft="50%" transform="translate(-25%, -50%)" mTransform="translate(-50%, -50%)" width="46.5vw" mWidth="90vw" height="32.25rem" mHeight="fit-content" padding="2.5rem" mPadding="1.25rem" justifyContent="center" alignItems="center" gap="1.875rem" borderRadius="1.25rem 0 0 1.25rem" mBorderRadius="1.25rem" background={darkGreen} flex="1 0 0" mBoxShadow="4px 4px 20px 0px rgba(0, 0, 0.10)" mBackdropFilter="blur(15px)" zIndex="1">
           <Container.Column alignItems="flex-start" gap="10px">
             <Text.Title color={white} textAlign="start">
