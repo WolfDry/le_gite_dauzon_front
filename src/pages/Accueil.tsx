@@ -19,21 +19,27 @@ const Accueil = () => {
     },
     {
       id: 2,
-      title: "Lagorce, l'un des Plus Beaux Villages de France",
-      description: "Petit village médiéval fortifié, perché au sommet d'une falaise. Accroché à d'impressionnantes roches de calcaire surplombant la rivière Ardèche. Classé parmi « les plus beaux villages de France » et les « Villages de caractère »",
-      image: "/assets/images/accueil/balazuc.jpg"
+      title: "Vogüe, l'un des Plus Beaux Villages de France",
+      description: "Enchâssé dans le calcaire de la falaise, le vieux bourg, classé parmi les \"Plus Beaux Villages de France\", forme un amphithéâtre au bord des gorges. Un site pittoresque et réputé pour ses panoramas d’exception… Parmi les lieux à visiter, le château de Vogüé",
+      image: "/assets/images/accueil/vogue.jpg"
     },
     {
       id: 3,
-      title: "Aubenas, l'un des Plus Beaux Villages de France",
-      description: "Petit village médiéval fortifié, perché au sommet d'une falaise. Accroché à d'impressionnantes roches de calcaire surplombant la rivière Ardèche. Classé parmi « les plus beaux villages de France » et les « Villages de caractère »",
+      title: "Labeaume, l'un des Plus Beaux Villages de France",
+      description: "Blotti contre ses falaises calcaires vieilles de plusieurs millénaires, Labeaume est une vraie oasis dans un paysage de garrigues accidentées. Dans ce paysage préservé, l’homme a travaillé pendant des millénaires la terre aride et la roche pour laisser les traces d’une culture ancestrale !",
       image: "/assets/images/accueil/balazuc.jpg"
     },
     {
       id: 4,
-      title: "Les Vans, l'un des Plus Beaux Villages de France",
-      description: "Petit village médiéval fortifié, perché au sommet d'une falaise. Accroché à d'impressionnantes roches de calcaire surplombant la rivière Ardèche. Classé parmi « les plus beaux villages de France » et les « Villages de caractère »",
+      title: "Vallon pont d'arc, l'un des Plus Beaux Villages de France",
+      description: "Porte d’entrée des Gorges de l’Ardèche, à 2 pas du majestueux Pont d’Arc et de la Grotte Chauvet 2, réplique de l’originale classée au Patrimoine Mondial de l’UNESCO, Vallon Pont d’Arc fait partie des villages incontournables d’Ardèche.",
       image: "/assets/images/accueil/balazuc.jpg"
+    },
+    {
+      id: 5,
+      title: "Banne, l'un des Plus Beaux Villages de France",
+      description: "Vestige unique d’une époque oubliée, Banne, village de caractère incontournable en Ardèche, prend ses racines dans le Néolithique. Ce village niché au pied des Cévennes face à la plaine calcaire ardéchoise se distingue par la présence atypique de 27 dolmens : les preuves d’une histoire locale millénaire… Composé de deux bourgs perchés et traversé par un vallon de terrasses cultivées, le village cache bien des perles architecturales : les écuries du Fort, qui accueillent les nombreuses festivités d’été, surmontées des vestiges de son château moyenâgeux mais aussi l’église Saint-Pierre de Banne datant du XIIe siècle.",
+      image: "/assets/images/accueil/banne.webp"
     }
   ]
   const [currentStay, setCurrentStay] = useState(stays[0])
