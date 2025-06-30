@@ -31,8 +31,14 @@ const Footer = () => {
     if (result === "Erreur")
       setResutlForm(false)
 
-    if (result.status === 200)
+    if (result.status === 200) {
+      setFormData({
+        name: '',
+        email: '',
+        message: '',
+      })
       setResutlForm(true)
+    }
   }
 
   return (

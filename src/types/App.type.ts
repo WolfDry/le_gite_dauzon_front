@@ -18,11 +18,3 @@ export type Event = {
   link: string | null
   image: string
 }
-
-export type Comment = {
-  id: number,
-  name: string,
-  date: Date,
-  stars: number,
-  text: string
-}

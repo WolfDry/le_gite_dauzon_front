@@ -1,13 +1,14 @@
 import React from 'react'
 import { Container, Text, Visual } from '../atoms'
-import { Commentaire } from '../../types/Commentaire.type'
+import { Comment } from '../../types/Commentaire.type'
 import { dark, lightGreen } from '../../assets/color'
 
 type Props = {
-  comment: Commentaire
+  comment: Comment | null
 }
 
 const AccueilCommentCard = ({ comment }: Props) => {
+
   return (
     <Container.Column height="29.3rem" padding="1.875rem 2.7vw" justifyContent="space-between" borderRadius="1.25rem" flex="1 0 0" background={lightGreen} boxShadow="4px 4px 10px 0px rgba(0, 0, 0, 0.20)">
       <Container.Row direction="row" justifyContent="center">
@@ -19,15 +20,15 @@ const AccueilCommentCard = ({ comment }: Props) => {
       </Container.Row>
       <Visual.Svg label="quote" />
       <Text.Paragraph>
-        {comment.commentaire}
+        {comment && comment.commentaire}
       </Text.Paragraph>
       <Container.Row height="1px" alignSelf="stretch" background={dark} />
       <Container.Column alignItems="flex-end" gap="5px">
         <Text.Name fontWeight="700">
-          {comment.nom + " " + comment.prenom}
+          {comment && comment.name}
         </Text.Name>
         <Text.Name>
-          {comment.date}
+          {comment && new Date(comment.created).toLocaleDateString('fr-FR')}
         </Text.Name>
       </Container.Column>
     </Container.Column>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { Action, Container, Text, Visual } from '../components/atoms'
 
 import HeroBanner from '../components/molecules/HeroBanner'
@@ -6,6 +6,11 @@ import { dark, cream, lightGreen, green, darkGreen, white } from '../assets/colo
 import AccueilCommentCard from '../components/molecules/AccueilCommentCard'
 import Socials from '../components/molecules/Socials'
 import Footer from '../components/molecules/Footer'
+import { useDispatch } from 'react-redux'
+import { AppDispatch } from '../types/Redux.type'
+import { useSelector } from 'react-redux'
+import { Comment } from '../types/Commentaire.type'
+import { getAllCommentaires } from '../stores/thunks/commentaireThunks'
 
 
 const Accueil = () => {
@@ -27,13 +32,13 @@ const Accueil = () => {
       id: 3,
       title: "Labeaume, l'un des Plus Beaux Villages de France",
       description: "Blotti contre ses falaises calcaires vieilles de plusieurs millénaires, Labeaume est une vraie oasis dans un paysage de garrigues accidentées. Dans ce paysage préservé, l’homme a travaillé pendant des millénaires la terre aride et la roche pour laisser les traces d’une culture ancestrale !",
-      image: "/assets/images/accueil/balazuc.webp"
+      image: "/assets/images/accueil/labeaume.webp"
     },
     {
       id: 4,
       title: "Vallon pont d'arc, l'un des Plus Beaux Villages de France",
       description: "Porte d’entrée des Gorges de l’Ardèche, à 2 pas du majestueux Pont d’Arc et de la Grotte Chauvet 2, réplique de l’originale classée au Patrimoine Mondial de l’UNESCO, Vallon Pont d’Arc fait partie des villages incontournables d’Ardèche.",
-      image: "/assets/images/accueil/balazuc.webp"
+      image: "/assets/images/accueil/vallon.webp"
     },
     {
       id: 5,
@@ -42,41 +47,25 @@ const Accueil = () => {
       image: "/assets/images/accueil/banne.webp"
     }
   ]
+  const dispatch = useDispatch<AppDispatch>()
   const [currentStay, setCurrentStay] = useState(stays[0])
+  const comments = useSelector((state: any) => state.comment.commentaires ?? [])
+  const [currentComment, setCurrentComment] = useState<Comment | null>(null)
 
-  const comments = [{
-    id: 1,
-    note: 5,
-    nom: "Deltour",
-    prenom: "Benjamin",
-    date: "27/08/2022",
-    commentaire: `Nous avons passer 1 semaine au gite d'Auzon ,le gite est très confortable ,il ne manque rien ,des hôtes Nathalie et Laurent d'une gentillesse incroyable, une terrasse et piscine extra 👍👍 PS: nous reviendrons bien évidement prochainement pour un bon apéro 😂`,
-  }, {
-    id: 2,
-    note: 5,
-    nom: "Deltour",
-    prenom: "Benjamin",
-    date: "27/08/2022",
-    commentaire: `Nous avons passé un excellent séjour. Les propriétaires sont très accueillants et chaleureux. Tout est fait pour que nous nous sentons bien. Encore merci à eux, nous en gardons de très bons souvenirs. 
+  const verifiedComments = useMemo(() => {
+    return comments.filter((c: Comment) => c.verif).slice(0, 3)
+  }, [comments])
 
-    Rien ne manque dans le gîte et même avec plus de 37 degrés dehors, il reste bien frais. La piscine et ses équipements permettent de passer d'agréables moments.
+  useEffect(() => {
+    dispatch(getAllCommentaires())
+  }, [dispatch])
 
-    La ville de Joyeuse et son environnement autour offrent de nombreuses possibilités de visites, de découvertes et d'achat de produits locaux (miel, vin, poterie, saucisson, ...)
+  useEffect(() => {
+    if (verifiedComments && verifiedComments.length > 0 && !currentComment) {
+      setCurrentComment(verifiedComments[0])
+    }
+  }, [verifiedComments, currentComment])
 
-    Nous reviendrons avec plaisir en Ardeche et chez eux :)`,
-  }, {
-    id: 3,
-    note: 5,
-    nom: "Deltour",
-    prenom: "Benjamin",
-    date: "27/08/2022",
-    commentaire: `Chez Deltour, ça vaut le détour!
-
-    Nous avons passé une excellente semaine dans le gîte de Laurent et Nathalie. On s'y sent "comme à la maison". Le gîte est fonctionnel, très bien équipé et la literie est très bonne. Nous avons également beaucoup apprécié pouvoir nous rafraîchir dans leur grande piscine! Nathalie et Laurent sont des hôtes absolument charmants et très accueillants, toujours souriants et prêts à rendre service. La convivialité est le maître-mot de ce gîte ! 
-
-    Nous recommandons ce gîte sans aucune hésitation et espérons revenir très prochainement pour déguster une bière... Ou deux!!! Et Nico compte bien prendre sa revanche à la pétanque!!!`,
-  }]
-  const [currentComment, setCurrentComment] = useState(comments[0])
 
   const changeStay = (index: number) => {
     if (index > stays.length)
@@ -84,16 +73,21 @@ const Accueil = () => {
     setCurrentStay(stays[index])
   }
 
-  const changeCurrentComment = (direction: string) => {
-    let nextComment
-    if (direction === "left")
-      nextComment = comments.filter(comment => comment.id === (currentComment.id - 1))[0]
-    if (direction === "right")
-      nextComment = comments.filter(comment => comment.id === (currentComment.id + 1))[0]
-    if (!nextComment)
-      nextComment = comments[0]
-    setCurrentComment(nextComment)
+  const changeCurrentComment = (direction: "left" | "right") => {
+    if (!currentComment || verifiedComments.length === 0) return
+
+    const currentIndex = verifiedComments.findIndex((c: Comment) => c.id === currentComment.id)
+
+    let newIndex
+    if (direction === "left") {
+      newIndex = (currentIndex - 1 + verifiedComments.length) % verifiedComments.length
+    } else {
+      newIndex = (currentIndex + 1) % verifiedComments.length
+    }
+
+    setCurrentComment(verifiedComments[newIndex])
   }
+
 
   const switchStay = (direction: string) => {
     let nextStay
@@ -127,9 +121,9 @@ const Accueil = () => {
             <Text.Paragraph>Notre gîte n'est pas accessible aux personnes à mobilité réduite.</Text.Paragraph>
           </Container.Column>
           <Container.Row justifyContent="center">
-            <Action.Button background={white}>
+            <Action.Link to={"/gite"} padding="0.75rem 2.5rem" borderRadius="6.25rem" background={white} fontSize="1.125rem">
               En savoir plus sur le gîte
-            </Action.Button>
+            </Action.Link>
           </Container.Row>
         </Container.Column>
         <Visual.Image height="20rem" mHeight="auto" mAlignSelf="stretch" mBorderRadius="1.25rem" src="/assets/images/outside.webp" />
@@ -142,7 +136,7 @@ const Accueil = () => {
               <Text.Title>Explorez l'Ardèche méridionale</Text.Title>
             </Container.Row>
             <Container.Column width="48.6vw" mWidth="auto" gap="1.875rem" mGap="10px" padding="2.7vw" mAlignSelf="stretch" position="absolute" mPosition="initial" top="11rem" left="-6.3vw" borderRadius="1.25rem" background={green}>
-              <Text.Title>{currentStay.title}</Text.Title>
+              <Text.Title textAlign="start">{currentStay.title}</Text.Title>
               <Text.Paragraph>
                 {currentStay.description}
               </Text.Paragraph>
@@ -167,9 +161,9 @@ const Accueil = () => {
           </Container.Column>
         </Container.Row>
         <Container.Row justifyContent="center">
-          <Action.Button background={darkGreen} color={white}>
+          <Action.Link to={"/visite"} background={darkGreen} color={white} padding="0.75rem 2.5rem" borderRadius="6.25rem" fontSize="1.125rem">
             Planifier votre séjour
-          </Action.Button>
+          </Action.Link>
         </Container.Row>
       </Container.Column>
       <Container.Row height="42.5rem" mHeight="auto" position="relative" mAlignItems="center" mJustifyContent="center" mPadding="3.75rem 1.25rem">
@@ -186,9 +180,9 @@ const Accueil = () => {
 Le gîte est entièrement équipé pour vous offrir un séjour tout confort, que vous veniez en famille, entre amis ou en amoureux. Grâce à son emplacement privilégié, vous accéderez rapidement aux plus beaux sites touristiques de l’Ardèche méridionale.`}
             </Text.Paragraph>
           </Container.Column>
-          <Action.Button background={white} color={dark}>
+          <Action.Link to={"/reservation"} background={white} color={dark} padding="0.75rem 2.5rem" borderRadius="6.25rem" fontSize="1.125rem">
             Voir nos disponibilités
-          </Action.Button>
+          </Action.Link>
         </Container.Column>
         <Container.Row mDisplay="none" width="50vw" height="7.625rem" position="absolute" background={cream} />
         <Container.Row mDisplay="none" width="50vw" height="5.125rem" position="absolute" bottom="0" right="0" background={darkGreen} />
@@ -198,15 +192,15 @@ Le gîte est entièrement équipé pour vous offrir un séjour tout confort, que
           Nos vacanciers témoignent
         </Text.Title>
         <Container.Row gap="1.25rem">
-          {comments.map((comment => {
+          {verifiedComments.map(((comment: Comment) => {
             return (
               <AccueilCommentCard comment={comment} />
             )
           }))}
         </Container.Row>
-        <Action.Button background={darkGreen} color={white}>
+        <Action.Link to={"/commentaire"} background={darkGreen} padding="0.75rem 2.5rem" borderRadius="6.25rem" color={white} fontSize="1.125rem">
           Voir tous les avis
-        </Action.Button>
+        </Action.Link>
       </Container.Column>
       <Container.Column display="none" mDisplay="flex" padding="1.875rem 1.25rem 2.5rem 1.25rem" alignItems="center" gap="1.875rem" alignSelf="stretch">
         <Text.Title>
@@ -221,9 +215,9 @@ Le gîte est entièrement équipé pour vous offrir un séjour tout confort, que
             <Visual.Svg label="rightArrow" />
           </Container.Column>
         </Container.Row>
-        <Action.Button background={darkGreen} color={white}>
+        <Action.Link to={"/commentaire"} background={darkGreen} padding="0.75rem 2.5rem" borderRadius="6.25rem" color={white} fontSize="1.125rem">
           Voir tous les avis
-        </Action.Button>
+        </Action.Link>
       </Container.Column>
       <Container.Row>
         <Visual.Youtube />
