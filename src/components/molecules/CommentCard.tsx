@@ -12,6 +12,8 @@ const CommentCard = ({ comment, cardIndex }: Props) => {
   const colors = [yellow, lightYellow, lightLightYellow]
   const backgroundColor = colors[cardIndex % colors.length]
 
+  console.log("current comment :", comment)
+
   return (
     <Container.Column
       padding="1.875rem 2.5rem"
@@ -25,7 +27,7 @@ const CommentCard = ({ comment, cardIndex }: Props) => {
     >
       <Container.Row direction="row" justifyContent="space-between" alignItems="flex-start" alignSelf="stretch">
         <Text.Paragraph fontWeight="700">{comment.name}</Text.Paragraph>
-        <Text.Paragraph>{comment.created.toLocaleDateString('fr-FR')}</Text.Paragraph>
+        <Text.Paragraph>{new Date(comment.created).toLocaleDateString('fr-FR')}</Text.Paragraph>
       </Container.Row>
 
       <Container.Column alignItems="flex-start" gap="1.875rem" alignSelf="stretch">
