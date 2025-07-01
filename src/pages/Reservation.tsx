@@ -11,8 +11,8 @@ import { useSelector } from 'react-redux'
 import InputPersonne from '../components/molecules/ReservationAccueilForm/InputPersonne'
 import { useDispatch } from 'react-redux'
 import { AppDispatch } from '../types/Redux.type'
-import { getAllReservations } from '../stores/thunks/reservationThunks'
-import { Reservation as ReservationType } from '../types/Reservation.type'
+import { createAskReservation, getAllReservations } from '../stores/thunks/reservationThunks'
+import { AskReservation, Reservation as ReservationType } from '../types/Reservation.type'
 
 type NbPersonne = {
   label: string
@@ -23,14 +23,14 @@ const Reservation = () => {
 
   const dispatch = useDispatch<AppDispatch>()
   const { selectedDates, nbPersonne } = useSelector((state: any) => state.app)
-  const [inputsValue, setInputsValue] = useState({
-    startDate: null,
-    endDate: null,
+  const [inputsValue, setInputsValue] = useState<AskReservation>({
+    debut: null,
+    fin: null,
     nbPersonne,
-    email: null,
-    phone: null
+    email: "",
+    phone: ""
   })
-  const [dates, setDates] = useState([{ startDate: null, endDate: null }])
+  const [dates, setDates] = useState([{ debut: null, fin: null }])
   const reservations = useSelector((state: any) => state.reservation.reservation)
 
   useEffect(() => {
@@ -40,7 +40,7 @@ const Reservation = () => {
   useEffect(() => {
     if (reservations) {
       const result = reservations.map((reservation: ReservationType) => {
-        return { startDate: reservation.debut, endDate: reservation.fin }
+        return { debut: reservation.debut, fin: reservation.fin }
       })
       setDates(result)
     }
@@ -50,18 +50,15 @@ const Reservation = () => {
     if (selectedDates) {
       setInputsValue(prev => ({
         ...prev,
-        ...(selectedDates.startDate && { startDate: selectedDates.startDate }),
-        ...(selectedDates.endDate && { endDate: selectedDates.endDate })
+        ...(selectedDates.debut && { debut: selectedDates.debut }),
+        ...(selectedDates.fin && { fin: selectedDates.fin })
       }))
     }
   }, [selectedDates])
 
   useEffect(() => {
     if (nbPersonne) {
-      setInputsValue(prev => ({
-        ...prev,
-        ...nbPersonne
-      }))
+      changeInputsValue("nbPersonne", nbPersonne)
     }
   }, [nbPersonne])
 
@@ -77,6 +74,17 @@ const Reservation = () => {
     changeInputsValue("nbPersonne", data)
   }
 
+  const addAskReservation = () => {
+    const dataToSend = {
+      ...inputsValue,
+      debut: inputsValue.debut ? new Date(inputsValue.debut) : null,
+      fin: inputsValue.fin ? new Date(inputsValue.fin) : null
+    }
+
+    dispatch(createAskReservation(dataToSend))
+  }
+
+
   return (
     <Container.Column background={lightLightBlue}>
       <HeroBanner height="60vh" />
@@ -89,8 +97,8 @@ const Reservation = () => {
               </Text.Label>
               <Form.Input
                 type="date"
-                value={inputsValue.startDate || ''}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => changeInputsValue('startDate', e.target.value)}
+                value={inputsValue.debut || ''}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => changeInputsValue('debut', e.target.value)}
               />
             </Container.Column>
             <Container.Column alignItems="flex-start" gap="7px" flex="1 0 0" alignSelf="stretch">
@@ -99,8 +107,8 @@ const Reservation = () => {
               </Text.Label>
               <Form.Input
                 type="date"
-                value={inputsValue.endDate || ''}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => changeInputsValue('endDate', e.target.value)} />
+                value={inputsValue.debut || ''}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => changeInputsValue('debut', e.target.value)} />
             </Container.Column>
             <Container.Column alignItems="flex-start" gap="7px" flex="1 0 0" alignSelf="stretch">
               <Text.Label>
@@ -129,7 +137,7 @@ const Reservation = () => {
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => changeInputsValue('phone', e.target.value)} />
             </Container.Column>
           </Container.Row>
-          <Action.Button background={blue}>
+          <Action.Button onClick={() => addAskReservation()} background={blue}>
             Envoyer ma demande
           </Action.Button>
           <Container.Row paddingLeft="10px" justifyContent="center" alignItems="center" gap="10px" alignSelf="stretch" mHeight="16rem" borderLeft={`2px solid ${blue}`}>
@@ -388,7 +396,7 @@ En juillet et août, les locations se font du samedi 15h au samedi suivant 11h.`
               changeMonth={() => { }}
               setDates={() => { }}
               onDatesChange={() => { }}
-              dates={{ startDate: null, endDate: null }}
+              dates={{ debut: null, fin: null }}
               reservedDates={dates}
               currentMonth={new Date(new Date().getFullYear(), 3)}
             />
@@ -398,7 +406,7 @@ En juillet et août, les locations se font du samedi 15h au samedi suivant 11h.`
               changeMonth={() => { }}
               setDates={() => { }}
               onDatesChange={() => { }}
-              dates={{ startDate: null, endDate: null }}
+              dates={{ debut: null, fin: null }}
               reservedDates={dates}
               currentMonth={new Date(new Date().getFullYear(), 4)}
             />
@@ -408,7 +416,7 @@ En juillet et août, les locations se font du samedi 15h au samedi suivant 11h.`
               changeMonth={() => { }}
               setDates={() => { }}
               onDatesChange={() => { }}
-              dates={{ startDate: null, endDate: null }}
+              dates={{ debut: null, fin: null }}
               reservedDates={dates}
               currentMonth={new Date(new Date().getFullYear(), 5)}
             />
@@ -420,7 +428,7 @@ En juillet et août, les locations se font du samedi 15h au samedi suivant 11h.`
               changeMonth={() => { }}
               setDates={() => { }}
               onDatesChange={() => { }}
-              dates={{ startDate: null, endDate: null }}
+              dates={{ debut: null, fin: null }}
               reservedDates={dates}
               currentMonth={new Date(new Date().getFullYear(), 6)}
             />
@@ -430,7 +438,7 @@ En juillet et août, les locations se font du samedi 15h au samedi suivant 11h.`
               changeMonth={() => { }}
               setDates={() => { }}
               onDatesChange={() => { }}
-              dates={{ startDate: null, endDate: null }}
+              dates={{ debut: null, fin: null }}
               reservedDates={dates}
               currentMonth={new Date(new Date().getFullYear(), 7)}
             />
@@ -440,7 +448,7 @@ En juillet et août, les locations se font du samedi 15h au samedi suivant 11h.`
               changeMonth={() => { }}
               setDates={() => { }}
               onDatesChange={() => { }}
-              dates={{ startDate: null, endDate: null }}
+              dates={{ debut: null, fin: null }}
               reservedDates={dates}
               currentMonth={new Date(new Date().getFullYear(), 8)}
             />

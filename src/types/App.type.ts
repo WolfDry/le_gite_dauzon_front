@@ -1,6 +1,6 @@
 export type Dates = {
-  startDate: string | null
-  endDate: string | null
+  debut: string | null
+  fin: string | null
 }
 
 export type NbPersonne = {

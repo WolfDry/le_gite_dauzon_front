@@ -43,8 +43,8 @@ const InputPersonne = ({ isInReservation, value, setValue }: Props) => {
   }
 
   return (
-    <Container.Column position="relative" alignSelf={isInReservation ? "stretch" : ""}>
-      <Container.Row direction="row" border={`1px solid ${dark}`} onClick={() => show()} padding={isInReservation ? "15px" : "12px 30px 12px 20px"} justifyContent="space-between" alignItems="center" height="54px" gap="14px" alignSelf="stretch" borderRadius={isInReservation ? "10px" : "7px 6.25rem 6.25rem 7px"} mBorderRadius="7px" background={white} cursor="pointer">
+    <Container.Column position="relative" alignSelf={isInReservation ? "stretch" : ""} height="100%">
+      <Container.Row direction="row" height="100%" border={`1px solid ${dark}`} onClick={() => show()} padding={isInReservation ? "15px" : "12px 30px 12px 20px"} justifyContent="space-between" alignItems="center" gap="14px" alignSelf="stretch" borderRadius={isInReservation ? "10px" : "7px 6.25rem 6.25rem 7px"} mBorderRadius="7px" background={white} cursor="pointer">
         {!isInReservation &&
           <Visual.Svg label="personne" />
         }

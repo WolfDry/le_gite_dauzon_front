@@ -18,6 +18,12 @@ const LinkStyled = styled(Link) <CssProps>`
   cursor: pointer;
   line-height: normal;
   text-decoration: none;
+  text-align: center;
+  
+  @media (max-width: 1050px) {
+    display: initial;
+    border-radius: ${(props) => props.mBorderRadius ?? ""};
+  }
 `;
 
 export default LinkStyled

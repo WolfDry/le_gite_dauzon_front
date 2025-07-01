@@ -10,7 +10,7 @@ import {
 } from 'date-fns'
 import { fr } from 'date-fns/locale'
 import { Action, Container, Text, Visual } from '../../atoms'
-import { darkBlue, lightGreen, white, dark } from '../../../assets/color'
+import { darkBlue, lightGreen, white } from '../../../assets/color'
 import { Dates } from '../../../types/App.type'
 
 const daysOfWeek = ['LUN', 'MAR', 'MER', 'JEU', 'VEN', 'SAM', 'DIM']
@@ -46,16 +46,16 @@ const Calendrier: React.FC<CustomCalendarProps> = ({ dates, setDates, onDatesCha
     const dateString = format(date, 'yyyy-MM-dd')
 
     let newDates = {
-      startDate: null,
-      endDate: null
+      debut: null,
+      fin: null
     } as Dates
 
-    if (!dates.startDate || (dates.startDate && dates.endDate)) {
-      newDates.startDate = dateString
+    if (!dates.debut || (dates.debut && dates.debut)) {
+      newDates.debut = dateString
     }
-    if (dates.startDate && !dates.endDate) {
-      newDates.startDate = dates.startDate
-      newDates.endDate = dateString
+    if (dates.debut && !dates.fin) {
+      newDates.debut = dates.debut
+      newDates.fin = dateString
     }
 
     setDates(newDates)
@@ -70,32 +70,32 @@ const Calendrier: React.FC<CustomCalendarProps> = ({ dates, setDates, onDatesCha
     let isStartDate = false
     let isEndDate = false
 
-    if (dates.startDate && dates.endDate) {
-      if (isWithinInterval(new Date(dateString), { start: new Date(dates.startDate), end: new Date(dates.endDate) })) {
+    if (dates.debut && dates.fin) {
+      if (isWithinInterval(new Date(dateString), { start: new Date(dates.debut), end: new Date(dates.fin) })) {
         isInRange = true
       }
     }
-    if (dateString === dates.startDate) {
+    if (dateString === dates.debut) {
       isStartDate = true
       isSelected = true
     }
-    if (dateString === dates.endDate) {
+    if (dateString === dates.fin) {
       isEndDate = true
       isSelected = true
     }
 
-    reservedDates?.forEach(({ startDate, endDate }) => {
-      if (startDate && dateString === format(startDate, 'yyyy-MM-dd')) {
+    reservedDates?.forEach(({ debut, fin }) => {
+      if (debut && dateString === format(debut, 'yyyy-MM-dd')) {
         isStartDate = true
         isSelected = true
       }
-      if (endDate && dateString === format(endDate, 'yyyy-MM-dd')) {
+      if (fin && dateString === format(fin, 'yyyy-MM-dd')) {
         isEndDate = true
         isSelected = true
       }
-      if (startDate && endDate && isWithinInterval(new Date(dateString), {
-        start: new Date(startDate),
-        end: new Date(endDate),
+      if (debut && fin && isWithinInterval(new Date(dateString), {
+        start: new Date(debut),
+        end: new Date(fin),
       })) {
         isInRange = true
       }

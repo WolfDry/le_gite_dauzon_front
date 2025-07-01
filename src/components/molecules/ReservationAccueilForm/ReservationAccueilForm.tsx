@@ -12,8 +12,8 @@ type Value = {
 const ReservationAccueilForm = () => {
 
   const [initialDates] = useState({
-    startDate: null,
-    endDate: null
+    debut: null,
+    fin: null
   })
 
   const [nbPersonne, setNbPersonne] = useState<Value[]>([{
@@ -33,7 +33,7 @@ const ReservationAccueilForm = () => {
     <Container.Row width="fit-content" mobileWidth="21.25rem" padding="5px" alignItem="center" gap="5px" background={darkGreen} borderRadius="12.5rem" mBorderRadius="1.25rem">
       <InputsReservationAccueilForm initialDates={initialDates} />
       <InputPersonne isInReservation={false} value={nbPersonne} setValue={setNbPersonne} />
-      <Action.Button mBorderRadius="7px 7px 15px 15px" background={white}>Faire une demande</Action.Button>
+      <Action.Link to={"/reservation"} borderRadius="6.25rem" mBorderRadius="7px 7px 15px 15px" padding="0.75rem 2.5rem" background={white} fontSize="1.125rem">Faire une demande</Action.Link>
     </Container.Row>
   )
 }
