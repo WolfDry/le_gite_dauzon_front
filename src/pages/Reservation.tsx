@@ -9,6 +9,10 @@ import Socials from '../components/molecules/Socials'
 import Footer from '../components/molecules/Footer'
 import { useSelector } from 'react-redux'
 import InputPersonne from '../components/molecules/ReservationAccueilForm/InputPersonne'
+import { useDispatch } from 'react-redux'
+import { AppDispatch } from '../types/Redux.type'
+import { getAllReservations } from '../stores/thunks/reservationThunks'
+import { Reservation as ReservationType } from '../types/Reservation.type'
 
 type NbPersonne = {
   label: string
@@ -17,6 +21,7 @@ type NbPersonne = {
 
 const Reservation = () => {
 
+  const dispatch = useDispatch<AppDispatch>()
   const { selectedDates, nbPersonne } = useSelector((state: any) => state.app)
   const [inputsValue, setInputsValue] = useState({
     startDate: null,
@@ -25,6 +30,21 @@ const Reservation = () => {
     email: null,
     phone: null
   })
+  const [dates, setDates] = useState([{ startDate: null, endDate: null }])
+  const reservations = useSelector((state: any) => state.reservation.reservation)
+
+  useEffect(() => {
+    dispatch(getAllReservations())
+  }, [dispatch])
+
+  useEffect(() => {
+    if (reservations) {
+      const result = reservations.map((reservation: ReservationType) => {
+        return { startDate: reservation.debut, endDate: reservation.fin }
+      })
+      setDates(result)
+    }
+  }, [reservations])
 
   useEffect(() => {
     if (selectedDates) {
@@ -312,7 +332,7 @@ Les animaux sont acceptés avec un supplément de 1 € par jour et par animal
 En juillet et août, les locations se font du samedi 15h au samedi suivant 11h.`}
           </Text.Paragraph>
         </Container.Column>
-        <Container.Row direction="row" width="33vw" mWidth="100%" alignItrems="flex-start" gap="1.25rem" >
+        <Container.Row direction="row" width="33vw" mWidth="100%" alignItems="flex-start" gap="1.25rem" >
           <Container.Column paddingBottom="3.75rem" alignItems="flex-start" gap="1.25rem" flex="1 0 0">
             <Visual.Image src="/assets/images/reservation/outside1.jpg" width="100%" height="18.75rem" objectFit="cover" alignSelf="stretch" borderRadius="10px" />
             <Visual.Image src="/assets/images/reservation/piscine.jpg" width="100%" height="18.75rem" objectFit="cover" alignSelf="stretch" borderRadius="10px" />
@@ -360,7 +380,7 @@ En juillet et août, les locations se font du samedi 15h au samedi suivant 11h.`
             <Text.Paragraph alignSelf="center">Réservé</Text.Paragraph>
           </Container.Row>
         </Container.Column>
-        <Container.Column alignItems="felx-start" gap="2.2rem" alignSelf="stretch">
+        <Container.Column alignItems="flex-start" gap="2.2rem" alignSelf="stretch">
           <Container.Row justifyContent="space-between" alignItems="flex-start" alignSelf="stretch">
             <Calendrier
               side="none"
@@ -369,6 +389,7 @@ En juillet et août, les locations se font du samedi 15h au samedi suivant 11h.`
               setDates={() => { }}
               onDatesChange={() => { }}
               dates={{ startDate: null, endDate: null }}
+              reservedDates={dates}
               currentMonth={new Date(new Date().getFullYear(), 3)}
             />
             <Calendrier
@@ -378,6 +399,7 @@ En juillet et août, les locations se font du samedi 15h au samedi suivant 11h.`
               setDates={() => { }}
               onDatesChange={() => { }}
               dates={{ startDate: null, endDate: null }}
+              reservedDates={dates}
               currentMonth={new Date(new Date().getFullYear(), 4)}
             />
             <Calendrier
@@ -387,6 +409,7 @@ En juillet et août, les locations se font du samedi 15h au samedi suivant 11h.`
               setDates={() => { }}
               onDatesChange={() => { }}
               dates={{ startDate: null, endDate: null }}
+              reservedDates={dates}
               currentMonth={new Date(new Date().getFullYear(), 5)}
             />
           </Container.Row>
@@ -398,6 +421,7 @@ En juillet et août, les locations se font du samedi 15h au samedi suivant 11h.`
               setDates={() => { }}
               onDatesChange={() => { }}
               dates={{ startDate: null, endDate: null }}
+              reservedDates={dates}
               currentMonth={new Date(new Date().getFullYear(), 6)}
             />
             <Calendrier
@@ -407,6 +431,7 @@ En juillet et août, les locations se font du samedi 15h au samedi suivant 11h.`
               setDates={() => { }}
               onDatesChange={() => { }}
               dates={{ startDate: null, endDate: null }}
+              reservedDates={dates}
               currentMonth={new Date(new Date().getFullYear(), 7)}
             />
             <Calendrier
@@ -416,6 +441,7 @@ En juillet et août, les locations se font du samedi 15h au samedi suivant 11h.`
               setDates={() => { }}
               onDatesChange={() => { }}
               dates={{ startDate: null, endDate: null }}
+              reservedDates={dates}
               currentMonth={new Date(new Date().getFullYear(), 8)}
             />
           </Container.Row>

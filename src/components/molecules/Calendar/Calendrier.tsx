@@ -10,7 +10,7 @@ import {
 } from 'date-fns'
 import { fr } from 'date-fns/locale'
 import { Action, Container, Text, Visual } from '../../atoms'
-import { darkBlue, lightGreen, white } from '../../../assets/color'
+import { darkBlue, lightGreen, white, dark } from '../../../assets/color'
 import { Dates } from '../../../types/App.type'
 
 const daysOfWeek = ['LUN', 'MAR', 'MER', 'JEU', 'VEN', 'SAM', 'DIM']
@@ -23,9 +23,10 @@ type CustomCalendarProps = {
   currentMonth: Date
   changeMonth: (direction: number) => void
   isOnMobile: boolean
+  reservedDates?: Dates[]
 }
 
-const Calendrier: React.FC<CustomCalendarProps> = ({ dates, setDates, onDatesChange, side, currentMonth, changeMonth, isOnMobile }) => {
+const Calendrier: React.FC<CustomCalendarProps> = ({ dates, setDates, onDatesChange, side, currentMonth, changeMonth, isOnMobile, reservedDates }) => {
 
   const color = side === "none" ? darkBlue : lightGreen
 
@@ -68,9 +69,11 @@ const Calendrier: React.FC<CustomCalendarProps> = ({ dates, setDates, onDatesCha
     let isSelected = false
     let isStartDate = false
     let isEndDate = false
+
     if (dates.startDate && dates.endDate) {
-      if (isWithinInterval(dateString, { start: new Date(dates.startDate), end: new Date(dates.endDate) }))
+      if (isWithinInterval(new Date(dateString), { start: new Date(dates.startDate), end: new Date(dates.endDate) })) {
         isInRange = true
+      }
     }
     if (dateString === dates.startDate) {
       isStartDate = true
@@ -81,13 +84,51 @@ const Calendrier: React.FC<CustomCalendarProps> = ({ dates, setDates, onDatesCha
       isSelected = true
     }
 
+    reservedDates?.forEach(({ startDate, endDate }) => {
+      if (startDate && dateString === format(startDate, 'yyyy-MM-dd')) {
+        isStartDate = true
+        isSelected = true
+      }
+      if (endDate && dateString === format(endDate, 'yyyy-MM-dd')) {
+        isEndDate = true
+        isSelected = true
+      }
+      if (startDate && endDate && isWithinInterval(new Date(dateString), {
+        start: new Date(startDate),
+        end: new Date(endDate),
+      })) {
+        isInRange = true
+      }
+    })
+
     return (
-      <Action.Button key={dateString} onClick={() => isCurrentMonth && onDayPress(date)} height="30px" opacity={!isCurrentMonth ? 0 : null} borderRadius={isSelected ? isStartDate ? "100px 0 0 100px" : isEndDate ? "0 100px 100px 0" : 0 : 0} padding="4px 0" justifyContent="center" alignItems="center" background={isInRange ? color : null} gap="10px" boxShadow="" flex="1 0 0">
-        {isSelected &&
+      <Action.Button
+        key={dateString}
+        onClick={() => isCurrentMonth && onDayPress(date)}
+        height="30px"
+        opacity={!isCurrentMonth ? 0 : null}
+        borderRadius={
+          isSelected
+            ? isStartDate
+              ? "100px 0 0 100px"
+              : isEndDate
+                ? "0 100px 100px 0"
+                : "0"
+            : "0"
+        }
+        padding="4px 0"
+        justifyContent="center"
+        alignItems="center"
+        background={isInRange ? color : null}
+        gap="10px"
+        boxShadow=""
+        flex="1 0 0"
+      >
+        {(isSelected || isStartDate || isEndDate) && (
           <Container.Row position="absolute" zIndex={1}>
             <Visual.Svg label="round" />
           </Container.Row>
-        }
+        )}
         <Text.Paragraph color={isSelected ? white : null} zIndex={2}>
           {day}
         </Text.Paragraph>

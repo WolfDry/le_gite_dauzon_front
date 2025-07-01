@@ -1,14 +1,16 @@
+import { Client } from "./Client.type"
+import { Supplement } from "./Supplement.type"
+
 export type Reservation = {
+    id: number
     tarif: number
     debut: Date
     fin: Date
+    dateAjout: Date
     nbPersonne: number
     clientId: number
-    nom?: string
-    prenom?: string
-    email?: string
-    telephone?: string
-    verif: boolean
+    client: Client
+    supplement: Supplement[]
 }
 
 export type UpdateReservation = {
@@ -17,5 +19,5 @@ export type UpdateReservation = {
     fin?: Date
     nbPersonne?: number
     clientId?: number
-    verif?: boolean 
+    verif?: boolean
 }
