@@ -28,7 +28,7 @@ const AccueilCommentCard = ({ comment }: Props) => {
           {comment && comment.name}
         </Text.Name>
         <Text.Name>
-          {comment && new Date(comment.created).toLocaleDateString('fr-FR')}
+          {comment && comment.created && new Date(comment.created).toLocaleDateString('fr-FR')}
         </Text.Name>
       </Container.Column>
     </Container.Column>

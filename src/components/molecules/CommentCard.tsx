@@ -27,7 +27,7 @@ const CommentCard = ({ comment, cardIndex }: Props) => {
     >
       <Container.Row direction="row" justifyContent="space-between" alignItems="flex-start" alignSelf="stretch">
         <Text.Paragraph fontWeight="700">{comment.name}</Text.Paragraph>
-        <Text.Paragraph>{new Date(comment.created).toLocaleDateString('fr-FR')}</Text.Paragraph>
+        <Text.Paragraph>{comment.created ? new Date(comment.created).toLocaleDateString('fr-FR') : null}</Text.Paragraph>
       </Container.Row>
 
       <Container.Column alignItems="flex-start" gap="1.875rem" alignSelf="stretch">

@@ -1,7 +1,7 @@
 export type Comment = {
-    id: number
+    id?: number
     verif: boolean
-    created: Date
+    created?: Date
     commentaire: string
     name: string
     note: number
