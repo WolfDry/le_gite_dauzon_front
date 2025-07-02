@@ -1,5 +1,5 @@
 export type Evenement = {
-  id: String
+  id: number
   titre: String
   image: String
   date?: Date
