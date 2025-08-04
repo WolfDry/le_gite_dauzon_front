@@ -5,6 +5,7 @@ import Gite from "../pages/Gite";
 import Visite from "../pages/Visite";
 import Acces from "../pages/Acces";
 import Commentaire from "../pages/Commentaire";
+import Administration from "../pages/Administration";
 
 export const router = createBrowserRouter([
   {
@@ -41,6 +42,12 @@ export const router = createBrowserRouter([
     path: "/commentaire",
     element: (
       <Commentaire />
+    )
+  },
+  {
+    path: "/administration",
+    element: (
+      <Administration />
     )
   },
 ])

@@ -1,0 +1,355 @@
+.admin_content {
+  padding: 50px;
+  margin-left: 80px;
+}
+
+.navigation {
+  position: fixed;
+  top: 0;
+  width: 70px;
+  height: 100%;
+  background: #d3c769;
+  box-shadow: 10px 0 0 #c7b73d;
+  border-left: 5px solid #d3c769;
+  overflow-x: hidden;
+  transition: width 0.5s;
+  z-index: 99999;
+}
+
+.navigation:hover {
+  width: 300px;
+}
+
+.navigation ul {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding-left: 5px;
+  padding-top: 40px;
+}
+
+.navigation ul li {
+  position: relative;
+  list-style: none;
+  width: 100%;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+}
+
+.navigation ul li.active {
+  background: #c7b73d;
+}
+
+.navigation ul li:hover {
+  background: #c7b73d;
+}
+
+.navigation ul li a {
+  position: relative;
+  width: 100%;
+  display: flex;
+  font-family: 'Montserrat', sans-serif;
+  text-decoration: none;
+  color: white;
+
+}
+
+.navigation ul li.active a::before {
+  content: '';
+  position: absolute;
+  top: -30px;
+  right: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  box-shadow: 15px 15px 0 #c7b73d;
+}
+
+.navigation ul li.active a::after {
+  content: '';
+  position: absolute;
+  bottom: -30px;
+  right: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  box-shadow: 15px -15px 0 #c7b73d;
+}
+
+.navigation ul li:hover a::after {
+  content: '';
+  position: absolute;
+  bottom: -30px;
+  right: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  box-shadow: 15px -15px 0 #c7b73d;
+}
+
+.navigation ul li:hover a::before {
+  content: '';
+  position: absolute;
+  top: -30px;
+  right: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  box-shadow: 15px 15px 0 #c7b73d;
+}
+
+.navigation ul li a .icon {
+  position: relative;
+  display: block;
+  min-width: 60px;
+  height: 60px;
+  top: 0px;
+  text-align: center;
+  font-size: 15px;
+}
+
+.navigation ul li.list#gite {
+  margin-bottom: 10px;
+}
+
+.navigation:hover ul li.list#gite {
+  font-size: 150%;
+  transition: font-size 0.5s;
+}
+
+.navigation ul li.list#gite a .icon {
+  top: 13px;
+}
+
+.navigation ul li a .icon ion-icon {
+  position: relative;
+  font-size: 1.5em;
+  z-index: 1;
+}
+
+.navigation ul li a .title {
+  position: relative;
+  display: block;
+  padding-left: 10px;
+  height: 60px;
+  line-height: 60px;
+  white-space: nowrap;
+}
+
+.admin_membre {
+  position: relative;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  margin: 0 auto;
+  text-align: center;
+  background-color: #d3c769;
+}
+
+.admin_title {
+  padding: 50px;
+  font-size: 2em;
+  color: white;
+  background-color: #d3c769;
+}
+
+.container {
+  width: 100%;
+  margin: auto;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 1900px;
+  flex-wrap: wrap;
+  z-index: 1;
+}
+
+.container .card {
+  position: relative;
+  width: 350px;
+  height: 600px;
+  margin: 30px;
+  box-shadow: 20px 20px 50px rgba(0, 0, 0, 0.5);
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-top: 1px solid rgba(0, 0, 0, 0.2);
+  border-left: 1px solid rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(5px);
+}
+
+.container .card h1 {
+  position: absolute;
+  margin: auto;
+  font-size: 2.5em;
+  color: rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+  transition: 0.3s;
+  text-align: center;
+  opacity: 1;
+}
+
+.container .card:hover h1 {
+  opacity: 0;
+  transform: none;
+}
+
+.container .card .content {
+  position: absolute;
+  padding: 20px;
+  text-align: center;
+  transform: translateY(100px);
+  opacity: 0;
+  transition: 0.5s;
+}
+
+.container .card:hover .content {
+  transform: translateY(0px);
+  opacity: 1;
+}
+
+.container .card .content h2 {
+  position: absolute;
+  top: -70px;
+  right: -1px;
+  font-size: 8em;
+  color: rgba(0, 0, 0, 0.2);
+  pointer-events: none;
+}
+
+.container .card .content img {
+  position: absolute;
+  top: -90px;
+  right: -50px;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.container .card .content h3 {
+  font-size: 1.8em;
+  color: #000;
+  z-index: 1;
+}
+
+.container .card .content p {
+  font-size: 1em;
+  color: #000;
+  font-weight: 300;
+}
+
+.container .card .content a {
+  position: relative;
+  display: inline-block;
+  padding: 8px 20px;
+  margin-top: 15px;
+  background: #000;
+  color: #fff;
+  border-radius: 20px;
+  font-weight: 500;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.container#container_admincompte {
+  background: transparent;
+  margin-bottom: 5%;
+}
+
+.container#container_admincompte .card {
+  width: 350px;
+  height: 350px;
+  background-color: white;
+  border: 10px solid #ffce00;
+  border-radius: 50%;
+  box-shadow: 20px 20px 50px rgba(0, 0, 0, 0.5);
+}
+
+.container#container_admincompte .card .content h3 {
+  font-size: 2.5em;
+}
+
+.admin_container {
+  height: 100%;
+  margin: 5%;
+  text-align: center;
+}
+
+.admin_container .mois {
+  margin-bottom: 5em;
+}
+
+.admin_container .mois a {
+  font-size: 1em;
+  background-color: transparent;
+}
+
+.admin_container a {
+  padding: 8px;
+  border-radius: 5px;
+  background-color: rgba(255, 255, 255, 0.6);
+  color: black;
+  font-size: 2em;
+}
+
+.admin_container a i {
+  font-size: 42px;
+}
+
+.admin_container th {
+  background-color: #ffce00;
+}
+
+.admin_container .mois#adminCalendar button {
+  margin: 10px;
+  background-color: #ffce00;
+  border-color: #ffce00;
+}
+
+.table_reservation {
+  margin: 25px 0;
+}
+
+.table_reservation table {
+  margin: auto;
+  border: 1px solid black;
+  border-collapse: collapse;
+  background-color: white;
+  text-align: center;
+  font-size: 20px;
+}
+
+.table_reservation table thead {
+  background-color: #ffce00;
+}
+
+.table_reservation table td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  padding: 5px;
+}
+
+.table_reservation table td p {
+  margin: 0;
+}
+
+.table_reservation table td a {
+  color: black;
+  font-size: 35px;
+}
+
+.table_reservation table td a#delete,
+.table_reservation table td a.verif i.la-times {
+  color: red;
+}
+
+.table_reservation table td a.verif i.la-check {
+  color: green;
+}
+
+.sign-up-form form .input-box#number_admin {
+  width: 40%;
+}
