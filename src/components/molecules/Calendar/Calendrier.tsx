@@ -18,7 +18,6 @@ const daysOfWeek = ['LUN', 'MAR', 'MER', 'JEU', 'VEN', 'SAM', 'DIM']
 type CustomCalendarProps = {
   dates: Dates
   setDates: (dates: Dates) => void
-  onDatesChange: (dates: Dates) => void
   side: string
   currentMonth: Date
   changeMonth: (direction: number) => void
@@ -26,7 +25,7 @@ type CustomCalendarProps = {
   reservedDates?: Dates[]
 }
 
-const Calendrier: React.FC<CustomCalendarProps> = ({ dates, setDates, onDatesChange, side, currentMonth, changeMonth, isOnMobile, reservedDates }) => {
+const Calendrier: React.FC<CustomCalendarProps> = ({ dates, setDates, side, currentMonth, changeMonth, isOnMobile, reservedDates }) => {
 
   const color = side === "none" ? darkBlue : lightGreen
 

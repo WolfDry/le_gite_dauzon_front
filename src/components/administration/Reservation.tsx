@@ -1,16 +1,23 @@
 import React, { useEffect, useState } from 'react'
 import { getReservation } from '../../services/Reservations'
-import { Supplement } from '../../types/Supplement.type'
+import Calendrier from '../molecules/Calendar/Calendrier'
+import { Dates } from '../../types/App.type'
+import { Reservation as ReservationType } from '../../types/Reservation.type'
+import { Container } from '../atoms'
 
 type Personne = {
   nb: number
   label: string
 }
 
-const Reservation = () => {
+type Props = {
+  setPage: any
+}
 
+const Reservation = ({ setPage }: Props) => {
 
   const [reservations, setReservation] = useState<Array<any>>([])
+  const [dates, setDates] = useState<Dates[]>([{ debut: null, fin: null }])
 
   useEffect(() => {
     async function fetchReservations() {
@@ -19,6 +26,13 @@ const Reservation = () => {
         data.forEach((d) => {
           d.total = 0
         })
+        const result = data.map((reservation: ReservationType) => {
+          return {
+            debut: reservation.debut ? new Date(reservation.debut).toISOString() : null,
+            fin: reservation.fin ? new Date(reservation.fin).toISOString() : null
+          }
+        })
+        setDates(result)
         setReservation(data)
       } else {
         setReservation([])
@@ -31,8 +45,67 @@ const Reservation = () => {
   return (
     <div className="admin_content">
       <div className="admin_container">
-        <div className="mois" id='adminCalendar'></div>
-        <a href="/administration/reservation_add"><i className="las la-calendar-plus"></i> Ajouter une réservation</a>
+        <Container.Column alignItems="flex-start" gap="2.2rem" alignSelf="stretch">
+          <Container.Row justifyContent="space-between" alignItems="flex-start" alignSelf="stretch">
+            <Calendrier
+              side="none"
+              isOnMobile={true}
+              changeMonth={() => { }}
+              setDates={() => { }}
+              dates={{ debut: null, fin: null }}
+              reservedDates={dates}
+              currentMonth={new Date(new Date().getFullYear(), 3)}
+            />
+            <Calendrier
+              side="none"
+              isOnMobile={true}
+              changeMonth={() => { }}
+              setDates={() => { }}
+              dates={{ debut: null, fin: null }}
+              reservedDates={dates}
+              currentMonth={new Date(new Date().getFullYear(), 4)}
+            />
+            <Calendrier
+              side="none"
+              isOnMobile={true}
+              changeMonth={() => { }}
+              setDates={() => { }}
+              dates={{ debut: null, fin: null }}
+              reservedDates={dates}
+              currentMonth={new Date(new Date().getFullYear(), 5)}
+            />
+          </Container.Row>
+          <Container.Row justifyContent="space-between" alignItems="flex-start" alignSelf="stretch">
+            <Calendrier
+              side="none"
+              isOnMobile={true}
+              changeMonth={() => { }}
+              setDates={() => { }}
+              dates={{ debut: null, fin: null }}
+              reservedDates={dates}
+              currentMonth={new Date(new Date().getFullYear(), 6)}
+            />
+            <Calendrier
+              side="none"
+              isOnMobile={true}
+              changeMonth={() => { }}
+              setDates={() => { }}
+              dates={{ debut: null, fin: null }}
+              reservedDates={dates}
+              currentMonth={new Date(new Date().getFullYear(), 7)}
+            />
+            <Calendrier
+              side="none"
+              isOnMobile={true}
+              changeMonth={() => { }}
+              setDates={() => { }}
+              dates={{ debut: null, fin: null }}
+              reservedDates={dates}
+              currentMonth={new Date(new Date().getFullYear(), 8)}
+            />
+          </Container.Row>
+        </Container.Column>
+        <a onClick={() => setPage("reservationAdd")}>Ajouter une réservation</a>
       </div>
       <div className="table_reservation">
         <table>

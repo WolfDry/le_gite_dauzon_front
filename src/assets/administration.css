@@ -356,3 +356,96 @@
 .sign-up-form form .input-box#number_admin {
   width: 40%;
 }
+
+.sign-up-form {
+  max-width: 1000px;
+  box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.3);
+  background: white;
+  padding: 50px;
+  margin: 10% auto;
+  text-align: center;
+  border-radius: 15px;
+}
+
+.sign-up-form form {
+  display: flex;
+  flex-direction: column;
+}
+
+.sign-up-form form p {
+  margin-top: 20px;
+}
+
+.sign-up-form h1 {
+  font-size: 3em;
+  margin-bottom: 30px;
+}
+
+.input-container {
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.input {
+  margin: 0 15px;
+  width: 370px;
+}
+
+.input#textarea {
+  width: 100%;
+}
+
+.input#textarea textarea {
+  height: 300px;
+}
+
+.input-box {
+  border-radius: 30px;
+  padding: 10px;
+  margin: 10px 0;
+  width: 100%;
+  border: 1px solid #999;
+  outline: none;
+  font-size: 25px;
+}
+
+.sign-btn {
+  width: 100%;
+  padding: 10px;
+  border-radius: 30px;
+  font-size: 20px;
+  margin: 10px 0;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.sign-up-form ion-icon {
+  border-radius: 20px;
+  background: white;
+  width: 70px;
+  margin-top: -90px;
+  font-size: 55px;
+}
+
+.sign-up-form form select {
+  background-color: white;
+  border: 1px solid grey;
+  border-radius: 30px;
+  padding: 10px;
+  margin: 15px 0;
+  font-size: 20px;
+}
+
+.sign-up-form form input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  margin: 0 5px;
+}
+
+.sign-up-form form .checkbox {
+  font-size: 1.5em;
+  margin: 10px;
+}

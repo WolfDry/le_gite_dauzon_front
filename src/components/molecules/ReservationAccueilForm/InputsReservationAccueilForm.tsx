@@ -73,8 +73,8 @@ const InputsReservationAccueilForm = ({ initialDates }: Props) => {
         <Visual.Svg label="bottomArrow" />
       </Container.Row>
       <Container.Row direction="row" position="absolute" top="65px" display={!isDisplay ? "none" : "flex"} mDisplay={!isDisplay ? "none" : "flex"} alignItems="center" padding="5px" gap="20px" borderRadius="10px" background={white} zIndex={5}>
-        <Calendrier dates={dates} setDates={setDates} side='left' onDatesChange={() => console.log('Changement de date')} currentMonth={currentMonth.left} changeMonth={changeMonth} isOnMobile={true} />
-        <Calendrier dates={dates} setDates={setDates} side='right' onDatesChange={() => console.log('Changement de date')} currentMonth={currentMonth.right} changeMonth={changeMonth} isOnMobile={false} />
+        <Calendrier dates={dates} setDates={setDates} side='left' currentMonth={currentMonth.left} changeMonth={changeMonth} isOnMobile={true} />
+        <Calendrier dates={dates} setDates={setDates} side='right' currentMonth={currentMonth.right} changeMonth={changeMonth} isOnMobile={false} />
       </Container.Row>
     </Container.Column>
   )

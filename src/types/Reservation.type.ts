@@ -1,29 +1,28 @@
 import { Client } from "./Client.type"
 import { Supplement } from "./Supplement.type"
 
+type nbPersonne = {
+    label: string
+    nb: number
+}
+
 export type Reservation = {
-    id: number
+    id?: number
     tarif: number
     debut: Date
     fin: Date
-    dateAjout: Date
-    nbPersonne: {
-        label: string
-        nb: number
-    }
+    dateAjout?: Date
+    nbPersonne: nbPersonne[]
     clientId: number
-    client: Client
-    supplement: Supplement[]
+    client?: Client
+    supplement?: Supplement[]
 }
 
 export type UpdateReservation = {
     tarif?: number
     debut?: Date
     fin?: Date
-    nbPersonne?: {
-        label: string
-        nb: number
-    }
+    nbPersonne?: nbPersonne[]
     clientId?: number
     verif?: boolean
 }

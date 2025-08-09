@@ -395,7 +395,6 @@ En juillet et août, les locations se font du samedi 15h au samedi suivant 11h.`
               isOnMobile={true}
               changeMonth={() => { }}
               setDates={() => { }}
-              onDatesChange={() => { }}
               dates={{ debut: null, fin: null }}
               reservedDates={dates}
               currentMonth={new Date(new Date().getFullYear(), 3)}
@@ -405,7 +404,6 @@ En juillet et août, les locations se font du samedi 15h au samedi suivant 11h.`
               isOnMobile={true}
               changeMonth={() => { }}
               setDates={() => { }}
-              onDatesChange={() => { }}
               dates={{ debut: null, fin: null }}
               reservedDates={dates}
               currentMonth={new Date(new Date().getFullYear(), 4)}
@@ -415,7 +413,6 @@ En juillet et août, les locations se font du samedi 15h au samedi suivant 11h.`
               isOnMobile={true}
               changeMonth={() => { }}
               setDates={() => { }}
-              onDatesChange={() => { }}
               dates={{ debut: null, fin: null }}
               reservedDates={dates}
               currentMonth={new Date(new Date().getFullYear(), 5)}
@@ -427,7 +424,6 @@ En juillet et août, les locations se font du samedi 15h au samedi suivant 11h.`
               isOnMobile={true}
               changeMonth={() => { }}
               setDates={() => { }}
-              onDatesChange={() => { }}
               dates={{ debut: null, fin: null }}
               reservedDates={dates}
               currentMonth={new Date(new Date().getFullYear(), 6)}
@@ -437,7 +433,6 @@ En juillet et août, les locations se font du samedi 15h au samedi suivant 11h.`
               isOnMobile={true}
               changeMonth={() => { }}
               setDates={() => { }}
-              onDatesChange={() => { }}
               dates={{ debut: null, fin: null }}
               reservedDates={dates}
               currentMonth={new Date(new Date().getFullYear(), 7)}
@@ -447,7 +442,6 @@ En juillet et août, les locations se font du samedi 15h au samedi suivant 11h.`
               isOnMobile={true}
               changeMonth={() => { }}
               setDates={() => { }}
-              onDatesChange={() => { }}
               dates={{ debut: null, fin: null }}
               reservedDates={dates}
               currentMonth={new Date(new Date().getFullYear(), 8)}

@@ -12,8 +12,6 @@ const CommentCard = ({ comment, cardIndex }: Props) => {
   const colors = [yellow, lightYellow, lightLightYellow]
   const backgroundColor = colors[cardIndex % colors.length]
 
-  console.log("current comment :", comment)
-
   return (
     <Container.Column
       padding="1.875rem 2.5rem"
