@@ -4,6 +4,7 @@ import Calendrier from '../molecules/Calendar/Calendrier'
 import { Dates } from '../../types/App.type'
 import { Reservation as ReservationType } from '../../types/Reservation.type'
 import { Container } from '../atoms'
+import { differenceInDays, parseISO } from 'date-fns'
 
 type Personne = {
   nb: number
@@ -12,6 +13,18 @@ type Personne = {
 
 type Props = {
   setPage: any
+}
+
+type Supplement = {
+  reservationId: number,
+  supplementId: number,
+  nb: number,
+  supplement: {
+    id: number,
+    label: string,
+    tarif: number,
+    type: string
+  }
 }
 
 const Reservation = ({ setPage }: Props) => {
@@ -24,7 +37,22 @@ const Reservation = ({ setPage }: Props) => {
       const data = await getReservation()
       if (Array.isArray(data)) {
         data.forEach((d) => {
-          d.total = 0
+          const nbAdultes = d.nbPersonne.filter((p: { label: string, nb: number }) => p.label === "Adultes")
+          let { days, fullWeeks, remainingDays } = getReservationDuration(d)
+          d.total = d.tarif
+          d.total += (nbAdultes[0].nb * 1.65 * days)
+          d.supplements?.forEach((supp: Supplement) => {
+            if (supp.supplement.type === "SEJOUR")
+              d.total += supp.supplement.tarif * supp.nb
+            if (supp.supplement.type === "HEBDOMADAIRE") {
+              if (remainingDays > 4)
+                fullWeeks += 1
+              d.total += (supp.supplement.tarif * supp.nb * fullWeeks)
+            }
+            if (supp.supplement.type === "QUOTIDIEN") {
+              d.total += (supp.supplement.tarif * supp.nb * days)
+            }
+          })
         })
         const result = data.map((reservation: ReservationType) => {
           return {
@@ -41,6 +69,24 @@ const Reservation = ({ setPage }: Props) => {
 
     fetchReservations()
   }, [])
+
+  /**
+ * Calcule la durée en jours et semaines (entières + reste).
+ * @param {{ debut: string, fin: string }} reservation
+ * @returns {{ days:number, weeks:number, fullWeeks:number, remainingDays:number }}
+ */
+  function getReservationDuration(reservation: { debut: string; fin: string }) {
+    const start = parseISO(reservation.debut);
+    const end = parseISO(reservation.fin);
+
+    const days = differenceInDays(end, start);
+
+    const weeks = days / 7;
+    const fullWeeks = Math.floor(weeks);
+    const remainingDays = days % 7;
+
+    return { days, weeks, fullWeeks, remainingDays };
+  }
 
   return (
     <div className="admin_content">
