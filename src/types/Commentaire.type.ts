@@ -9,7 +9,6 @@ export type Comment = {
 export type UpdateCommentaire = {
     verif?: boolean;
     commentaire?: string;
-    nom?: string;
-    prenom?: string;
+    name?: string;
     note?: number;
 }

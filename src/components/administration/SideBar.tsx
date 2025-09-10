@@ -3,7 +3,11 @@ import "../../assets/administration.css"
 import { Visual } from '../atoms'
 import { white } from '../../assets/color'
 
-const SideBar = () => {
+type Props = {
+  setPage: any
+}
+
+const SideBar = ({ setPage }: Props) => {
   return (
     <div className="navigation">
       <ul>
@@ -13,7 +17,7 @@ const SideBar = () => {
           </a>
         </li>
         <li id="home" className="list active">
-          <a href="/administration">
+          <a onClick={() => setPage("home")}>
             <span className="icon">
               <Visual.Svg label="logo" width={60} height={60} />
             </span>
@@ -21,7 +25,7 @@ const SideBar = () => {
           </a>
         </li>
         <li id="reservations" className="list">
-          <a href="/administration/reservation">
+          <a onClick={() => setPage("reservation")}>
             <span className="icon">
               <Visual.Svg label="calendar" width={60} height={60} fill={white} />
             </span>
@@ -29,7 +33,7 @@ const SideBar = () => {
           </a>
         </li>
         <li id="clients" className="list">
-          <a href="/administration/client">
+          <a onClick={() => setPage("client")}>
             <span className="icon">
               <Visual.Svg label="users" width={60} height={60} fill={white} />
             </span>
@@ -37,7 +41,7 @@ const SideBar = () => {
           </a>
         </li>
         <li id="commentaires" className="list">
-          <a href="/administration/commentaire">
+          <a onClick={() => setPage("commentaire")}>
             <span className="icon">
               <Visual.Svg label="comment" width={60} height={60} fill={white} />
             </span>
@@ -45,7 +49,7 @@ const SideBar = () => {
           </a>
         </li>
         <li id="user" className="list">
-          <a href="/administration/user">
+          <a onClick={() => setPage("user")}>
             <span className="icon">
               <Visual.Svg label="defendUser" width={60} height={60} fill={white} />
             </span>
@@ -53,7 +57,7 @@ const SideBar = () => {
           </a>
         </li>
         <li className="list">
-          <a href="/administration/logout">
+          <a onClick={() => setPage("logout")}>
             <span className="icon">
               <Visual.Svg label="logout" width={60} height={60} fill={white} />
             </span>

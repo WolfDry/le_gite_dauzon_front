@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { Visual } from '../atoms'
 import { lightGrey } from '../../assets/color'
 import { getReservation } from '../../services/Reservations'
+import { getCommentaire } from '../../services/Commentaires'
+import { getClient } from '../../services/Clients'
 
 type Props = {
   setPage: any
@@ -10,18 +12,36 @@ type Props = {
 const Home = ({ setPage }: Props) => {
 
   const [reservationCount, setReservationCount] = useState(0)
+  const [commentCount, setCommentCount] = useState(0)
+  const [clientCount, setClientCount] = useState(0)
 
   useEffect(() => {
     async function fetchReservations() {
       const data = await getReservation()
-      if (Array.isArray(data)) {
+      if (Array.isArray(data))
         setReservationCount(data.length)
-      } else {
+      else
         setReservationCount(0)
-      }
+
+    }
+    async function fetchComments() {
+      const data = await getCommentaire()
+      if (Array.isArray(data))
+        setCommentCount(data.length)
+      else
+        setCommentCount(0)
+    }
+    async function fetchClients() {
+      const data = await getClient()
+      if (Array.isArray(data))
+        setClientCount(data.length)
+      else
+        setClientCount(0)
     }
 
     fetchReservations()
+    fetchComments()
+    fetchClients()
   }, [])
 
   return (
@@ -46,8 +66,8 @@ const Home = ({ setPage }: Props) => {
               <Visual.Svg label="users" width={100} height={100} fill={lightGrey} />
             </h2>
             <h3>Clients</h3>
-            <p>Vous avez {0} clients</p>
-            <a onClick={() => setPage()}>Aller sur la page</a>
+            <p>Vous avez {clientCount} clients</p>
+            <a onClick={() => setPage("client")}>Aller sur la page</a>
           </div>
         </div>
         <div className="card">
@@ -57,8 +77,8 @@ const Home = ({ setPage }: Props) => {
               <Visual.Svg label="comment" width={100} height={100} fill={lightGrey} />
             </h2>
             <h3>Commentaires</h3>
-            <p>Vous avez {0} commentaires</p>
-            <a onClick={() => setPage()}>Aller sur la page</a>
+            <p>Vous avez {commentCount} commentaires</p>
+            <a onClick={() => setPage("commentaire")}>Aller sur la page</a>
           </div>
         </div>
         <div className="card">
@@ -69,7 +89,7 @@ const Home = ({ setPage }: Props) => {
             </h2>
             <h3>Utilisateurs</h3>
             <p>Vous avez {0} utilisateurs</p>
-            <a onClick={() => setPage()}>Aller sur la page</a>
+            <a onClick={() => setPage("utilisateur")}>Aller sur la page</a>
           </div>
         </div>
         <div className="card">
