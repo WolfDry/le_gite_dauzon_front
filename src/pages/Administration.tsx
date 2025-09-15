@@ -8,6 +8,7 @@ import ReservationAdd from '../components/administration/ReservationAdd'
 import Client from '../components/administration/Client'
 import Commentaire from '../components/administration/Commentaire'
 import CommentaireList from '../components/administration/CommentaireList'
+import ClientAdd from '../components/administration/ClientAdd'
 
 const Administration = () => {
 
@@ -20,6 +21,7 @@ const Administration = () => {
       {page === "reservation" ? <Reservation setPage={setPage} /> : null}
       {page === "reservationAdd" ? <ReservationAdd setPage={setPage} /> : null}
       {page === "client" ? <Client setPage={setPage} /> : null}
+      {page === "clientAdd" ? <ClientAdd setPage={setPage} /> : null}
       {page === "commentaire" ? <Commentaire setPage={setPage} /> : null}
       {page === "commentaireListe" ? <CommentaireList setPage={setPage} /> : null}
     </Container.Column>
