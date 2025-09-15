@@ -15,7 +15,7 @@ const Administration = () => {
 
   return (
     <Container.Column>
-      <SideBar setPage={setPage} />
+      <SideBar currentPage={page} setPage={setPage} />
       {page === "home" ? <Home setPage={setPage} /> : null}
       {page === "reservation" ? <Reservation setPage={setPage} /> : null}
       {page === "reservationAdd" ? <ReservationAdd setPage={setPage} /> : null}
