@@ -9,6 +9,7 @@ import Client from '../components/administration/Client'
 import Commentaire from '../components/administration/Commentaire'
 import CommentaireList from '../components/administration/CommentaireList'
 import ClientAdd from '../components/administration/ClientAdd'
+import CommentaireAdd from '../components/administration/CommentaireAdd'
 
 const Administration = () => {
 
@@ -24,6 +25,7 @@ const Administration = () => {
       {page === "clientAdd" ? <ClientAdd setPage={setPage} /> : null}
       {page === "commentaire" ? <Commentaire setPage={setPage} /> : null}
       {page === "commentaireListe" ? <CommentaireList setPage={setPage} /> : null}
+      {page === "commentaireAdd" ? <CommentaireAdd setPage={setPage} /> : null}
     </Container.Column>
   )
 }

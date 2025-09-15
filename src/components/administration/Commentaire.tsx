@@ -76,7 +76,7 @@ const Commentaire = ({ setPage }: Props) => {
           </tbody>
         </table>
       </div>
-      <a href="/administration/commentaire_add"><i className="las la-comment-medical"></i> Ajouter un commentaire</a>
+      <a onClick={() => setPage("commentaireAdd")}><i className="las la-comment-medical"></i> Ajouter un commentaire</a>
       <a onClick={() => setPage("commentaireListe")}>Voir la liste complete des commentaires</a>
     </div>
   )
