@@ -13,6 +13,8 @@ import { useDispatch } from 'react-redux'
 import { AppDispatch } from '../types/Redux.type'
 import { createAskReservation, getAllReservations } from '../stores/thunks/reservationThunks'
 import { AskReservation, Reservation as ReservationType } from '../types/Reservation.type'
+import { Tarif } from '../types/Tarif.type'
+import { getTarif } from '../services/Tarifs'
 
 type NbPersonne = {
   label: string
@@ -32,6 +34,21 @@ const Reservation = () => {
   })
   const [dates, setDates] = useState([{ debut: null, fin: null }])
   const reservations = useSelector((state: any) => state.reservation.reservation)
+  const [prices, setPrices] = useState<Tarif[]>([])
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await getTarif()
+      let data = response.map((tarif: Tarif) => ({
+        ...tarif,
+        desc: tarif.desc == " " ? null : tarif.desc,
+        frequence: tarif.frequence.map((f) => f.toLowerCase()).join(" / ")
+      }))
+      data = data.sort((a: { id: number }, b: { id: number }) => a.id - b.id)
+      setPrices(data)
+    }
+    fetchData()
+  }, [])
 
   useEffect(() => {
     dispatch(getAllReservations())
@@ -83,6 +100,8 @@ const Reservation = () => {
 
     dispatch(createAskReservation(dataToSend))
   }
+
+  console.log(prices)
 
 
   return (
@@ -140,8 +159,8 @@ const Reservation = () => {
           <Action.Button onClick={() => addAskReservation()} background={blue}>
             Envoyer ma demande
           </Action.Button>
-          <Container.Row paddingLeft="10px" justifyContent="center" alignItems="center" gap="10px" alignSelf="stretch" mHeight="16rem" borderLeft={`2px solid ${blue}`}>
-            <Text.Paragraph flex="1 0 0">
+          <Container.Row paddingLeft="10px" justifyContent="center" alignItems="center" gap="10px" alignSelf="stretch" borderLeft={`2px solid ${blue}`}>
+            <Text.Paragraph flex="1 0 0" overflow="visible">
               {`Important :
 Ce formulaire vous permet de faire une demande de réservation. Il ne s’agit pas d’une réservation immédiate.
 Nous vous contacterons rapidement pour vous confirmer la disponibilité du gîte aux dates souhaitées et finaliser la réservation avec vous.`}
@@ -157,34 +176,14 @@ Nous vous contacterons rapidement pour vous confirmer la disponibilité du gîte
                 Saison
               </Text.Paragraph>
             </Cell>
-            <Cell flex="1 0 0" background={lightBlue}>
-              <Text.Paragraph fontSize="1.25rem">
-                Haute Saison
-              </Text.Paragraph>
-            </Cell>
-            <Cell flex="1 0 0" background={lightBlue}>
-              <Text.Paragraph fontSize="1.25rem">
-                Moyenne Saison
-              </Text.Paragraph>
-            </Cell>
-            <Cell flex="1 0 0" background={lightBlue}>
-              <Text.Paragraph fontSize="1.25rem">
-                Basse Saison
-              </Text.Paragraph>
-            </Cell>
-            <Cell flex="1 0 0" background={lightBlue}>
-              <Text.Paragraph fontSize="1.25rem">
-                Week-end
-              </Text.Paragraph>
-            </Cell>
-            <Cell flex="1 0 0" background={lightBlue}>
-              <Text.Paragraph fontSize="1.25rem">
-                Taxe de séjour
-              </Text.Paragraph>
-              <Text.Paragraph fontSize="0.75rem">
-                pour les + de 18 ans
-              </Text.Paragraph>
-            </Cell>
+            {prices.map((tarif) => (
+              <Cell key={tarif.id} flex="1 0 0" background={lightBlue}>
+                <Text.Paragraph fontSize="1.25rem">
+                  {tarif.label}
+                </Text.Paragraph>
+                {tarif.desc && <Text.Paragraph fontSize="0.75rem">{tarif.desc}</Text.Paragraph>}
+              </Cell>
+            ))}
           </Ligne>
           <Ligne>
             <Cell width="9vw" background={blue}>
@@ -192,32 +191,20 @@ Nous vous contacterons rapidement pour vous confirmer la disponibilité du gîte
                 Périodes
               </Text.Paragraph>
             </Cell>
-            <Cell flex="1 0 0" background={white}>
-              <Text.Paragraph fontSize="1">
-                Du 05/07 au 30/08
-              </Text.Paragraph>
-            </Cell>
-            <Cell flex="1 0 0" background={white}>
-              <Text.Paragraph fontSize="1">
-                {`Du 01/05 au 05/07
-Du 30/08 au 27/09
-Vacances scolaires`}
-              </Text.Paragraph>
-            </Cell>
-            <Cell flex="1 0 0" background={white}>
-              <Text.Paragraph fontSize="1">
-              </Text.Paragraph>
-            </Cell>
-            <Cell flex="1 0 0" background={white}>
-              <Text.Paragraph fontSize="1">
-                2 jours / 1 nuit
-              </Text.Paragraph>
-            </Cell>
-            <Cell flex="1 0 0" background={white}>
-              <Text.Paragraph fontSize="1">
-
-              </Text.Paragraph>
-            </Cell>
+            {prices.map((tarif) => (
+              <Cell key={tarif.id} flex="1 0 0" background={white}>
+                {tarif.date.map((period, index) => (
+                  <Text.Paragraph key={index} fontSize="1">
+                    {period}
+                  </Text.Paragraph>
+                ))}
+                {tarif.vacance && (
+                  <Text.Paragraph fontSize="1">
+                    Vacances scolaires
+                  </Text.Paragraph>
+                )}
+              </Cell>
+            ))}
           </Ligne>
           <Ligne>
             <Cell width="9vw" background={blue}>
@@ -225,31 +212,13 @@ Vacances scolaires`}
                 Tarifs
               </Text.Paragraph>
             </Cell>
-            <Cell flex="1 0 0" background={white}>
-              <Text.Paragraph fontSize="1">
-                675 € / semaine
-              </Text.Paragraph>
-            </Cell>
-            <Cell flex="1 0 0" background={white}>
-              <Text.Paragraph fontSize="1">
-                455 € / semaine
-              </Text.Paragraph>
-            </Cell>
-            <Cell flex="1 0 0" background={white}>
-              <Text.Paragraph fontSize="1">
-                296 € / semaine
-              </Text.Paragraph>
-            </Cell>
-            <Cell flex="1 0 0" background={white}>
-              <Text.Paragraph fontSize="1">
-                117 € / week-end
-              </Text.Paragraph>
-            </Cell>
-            <Cell flex="1 0 0" background={white}>
-              <Text.Paragraph fontSize="1">
-                1.65 €/ jour/ personne
-              </Text.Paragraph>
-            </Cell>
+            {prices.map((tarif) => (
+              <Cell key={tarif.id} flex="1 0 0" background={white}>
+                <Text.Paragraph fontSize="1">
+                  {tarif.prix} € / {tarif.frequence}
+                </Text.Paragraph>
+              </Cell>
+            ))}
           </Ligne>
         </Container.Column>
         <Container.Row padding="5px 0 5px 10px" justifyContent="center" gap="25px" borderLeft={`4px solid ${blue}`}>
@@ -261,64 +230,41 @@ Vacances scolaires`}
       </Container.Column>
       <Container.Column display="none" mDisplay="flex" padding="0 1.25rem" alignItems="center" gap="10px" alignSelf="stretch">
         <Container.Column justifyContent="center" alignItems="center" gap="10px" alignSelf="stretch">
-          <Container.Column padding="10px" alignItems="center" gap="10px" alignSelf="stretch" borderRadius="10px" background={darkBlue}>
-            <Text.Paragraph fontSize="1.25rem" fontWeight="500" color={white} textAlign="center">
-              Haute saison
-            </Text.Paragraph>
-            <Text.Paragraph color={white} textAlign="center">
-              Du 05/07 au 30/08
-            </Text.Paragraph>
-            <Text.Paragraph color={white} textAlign="center">
-              675 € / semaine
-            </Text.Paragraph>
-          </Container.Column>
-          <Container.Column padding="10px" alignItems="center" gap="10px" alignSelf="stretch" borderRadius="10px" background={"rgba(0, 153, 204, 0.20)"}>
-            <Text.Paragraph fontSize="1.25rem" fontWeight="500" textAlign="center">
-              Moyenne saison
-            </Text.Paragraph>
-            <Text.Paragraph textAlign="center">
-              {`Du 01/05 au 05/07
-Du 30/08 au 27/09
-Vacances scolaires`}
-            </Text.Paragraph>
-            <Text.Paragraph textAlign="center">
-              455 € / semaine
-            </Text.Paragraph>
-          </Container.Column>
-          <Container.Column padding="10px" alignItems="center" gap="10px" alignSelf="stretch" borderRadius="10px" background={darkBlue}>
-            <Text.Paragraph fontSize="1.25rem" fontWeight="500" color={white} textAlign="center">
-              Basse saison
-            </Text.Paragraph>
-            <Text.Paragraph color={white} textAlign="center">
-              295 € / semaine
-            </Text.Paragraph>
-          </Container.Column>
-          <Container.Column padding="10px" alignItems="center" gap="10px" alignSelf="stretch" borderRadius="10px" background={"rgba(0, 153, 204, 0.20)"}>
-            <Text.Paragraph fontSize="1.25rem" fontWeight="500" textAlign="center">
-              Week-end
-            </Text.Paragraph>
-            <Text.Paragraph textAlign="center">
-              2 jours / 1 nuit
-            </Text.Paragraph>
-            <Text.Paragraph textAlign="center">
-              117 € / week-end
-            </Text.Paragraph>
-          </Container.Column>
-          <Container.Column padding="10px" alignItems="center" gap="10px" alignSelf="stretch" borderRadius="10px" background={darkBlue}>
-            <Text.Paragraph fontSize="1.25rem" fontWeight="500" color={white} textAlign="center">
-              Taxe de séjour
-            </Text.Paragraph>
-            <Text.Paragraph color={white} textAlign="center">
-              pour les + de 18 ans
-            </Text.Paragraph>
-            <Text.Paragraph color={white} textAlign="center">
-              1.65€/ jour/ personne
-            </Text.Paragraph>
-          </Container.Column>
+          {
+            prices.map((tarif, index) => (
+              <Container.Column key={index} padding="10px" alignItems="center" gap="10px" alignSelf="stretch" borderRadius="10px" background={index % 2 === 0 ? darkBlue : "rgba(0, 153, 204, 0.20)"}>
+                <Text.Paragraph fontSize="1.25rem" fontWeight="500" color={index % 2 === 0 ? white : null} textAlign="center">
+                  {tarif.label}
+                </Text.Paragraph>
+                {tarif.desc !== null && (
+                  <Text.Paragraph color={index % 2 === 0 ? white : null} textAlign="center">
+                    {tarif.desc}
+                  </Text.Paragraph>
+                )}
+                {tarif.date.length > 0 && (
+                  <Container.Column>
+                    {tarif.date.map((period, PeriodIndex) => (
+                      <Text.Paragraph key={PeriodIndex} color={index % 2 === 0 ? white : null} textAlign="center">
+                        {period}
+                      </Text.Paragraph>
+                    ))}
+                    {tarif.vacance && (
+                      <Text.Paragraph color={index % 2 === 0 ? white : null} textAlign="center">
+                        Vacances scolaires
+                      </Text.Paragraph>
+                    )}
+                  </Container.Column>
+                )}
+                <Text.Paragraph color={index % 2 === 0 ? white : null} textAlign="center">
+                  {tarif.prix} € / {tarif.frequence}
+                </Text.Paragraph>
+              </Container.Column>
+            ))
+          }
         </Container.Column>
-        <Container.Row direction="row" padding="5px 0 5px 10px" justifyContent="center" alignItems="center" gap="1.25rem" alignSelf="stretch" borderLeft={`3px solid ${blue}`}>
+        <Container.Row direction="row" padding="5px 0 5px 10px" justifyContent="center" alignItems="center" gap="1.25rem" borderLeft={`3px solid ${blue}`}>
           <Visual.Image src="/assets/images/reservation/ancv.png" width="6.2rem" height="3.75rem" aspectRatio="33/20" />
-          <Text.Paragraph>
+          <Text.Paragraph alignSelf="center">
             Chèques vacances acceptés
           </Text.Paragraph>
         </Container.Row>

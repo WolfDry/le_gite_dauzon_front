@@ -6,9 +6,9 @@ const ParagraphStyled = styled.p<CssProps>`
   display: ${(props) => props.display ?? '-webkit-box'};
   align-self: ${(props) => props.alignSelf ?? 'stretch'};
   height: ${(props) => props.height ?? ""};
-  overflow: ${(props) => props.overflow ?? "hidden  "};
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 10;
+  overflow: ${(props) => props.overflow ?? "hidden"};
+  -webkit-box-orient: ${(props) => props.overflow ? null : 'vertical'};
+  -webkit-line-clamp: ${(props) => props.overflow ? null : '10'};
   color: ${(props) => props.color ?? dark};
   font-family: Poppins;
   font-size: ${(props) => props.fontSize ?? '1rem'};

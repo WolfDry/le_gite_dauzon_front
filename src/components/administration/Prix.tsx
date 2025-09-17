@@ -9,7 +9,6 @@ const Prix = ({ setPage }: any) => {
   useEffect(() => {
     const fetchData = async () => {
       const response = await getTarif()
-      console.log(response)
       setPrix(response)
     }
     fetchData()
