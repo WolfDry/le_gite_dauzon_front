@@ -1,26 +1,27 @@
-enum TarifFrequence {
-  SEMAINE,
-  JOUR,
-  WEEKEND,
-  PERSONNE,
+// types/Tarif.type.ts
+export enum TarifFrequence {
+  SEMAINE = "SEMAINE",
+  JOUR = "JOUR",
+  WEEKEND = "WEEKEND",
+  PERSONNE = "PERSONNE",
 }
 
+
 export type Tarif = {
-    desc: string
-    label: string
-    start_date: Date[]
-    end_date: Date[]
-    vacance?: boolean
-    prix: number
-    frequence: TarifFrequence[]
+  id?: number
+  desc: string
+  label: string
+  date: string[]
+  vacance?: boolean
+  prix: number
+  frequence: TarifFrequence[]
 }
 
 export type UpdateTarif = {
-    desc?: string
-    label?: string
-    start_date?: Date[]
-    end_date?: Date[]
-    vacance?: boolean
-    prix?: number
-    frequence?: TarifFrequence[]
+  desc?: string
+  label?: string
+  start_date?: string[]
+  vacance?: boolean
+  prix?: number
+  frequence?: TarifFrequence[]
 }

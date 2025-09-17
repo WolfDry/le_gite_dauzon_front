@@ -10,6 +10,8 @@ import Commentaire from '../components/administration/Commentaire'
 import CommentaireList from '../components/administration/CommentaireList'
 import ClientAdd from '../components/administration/ClientAdd'
 import CommentaireAdd from '../components/administration/CommentaireAdd'
+import Prix from '../components/administration/Prix'
+import PrixAdd from '../components/administration/PrixAdd'
 
 const Administration = () => {
 
@@ -26,6 +28,8 @@ const Administration = () => {
       {page === "commentaire" ? <Commentaire setPage={setPage} /> : null}
       {page === "commentaireListe" ? <CommentaireList setPage={setPage} /> : null}
       {page === "commentaireAdd" ? <CommentaireAdd setPage={setPage} /> : null}
+      {page === "prix" ? <Prix setPage={setPage} /> : null}
+      {page === "prixAdd" ? <PrixAdd setPage={setPage} /> : null}
     </Container.Column>
   )
 }
