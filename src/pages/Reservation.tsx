@@ -101,9 +101,6 @@ const Reservation = () => {
     dispatch(createAskReservation(dataToSend))
   }
 
-  console.log(prices)
-
-
   return (
     <Container.Column background={lightLightBlue}>
       <HeroBanner height="60vh" />

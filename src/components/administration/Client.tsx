@@ -23,6 +23,10 @@ const Client = ({ setPage }: any) => {
     }
   }
 
+  const modifyClient = (id: number) => {
+    setPage("clientAdd", id)
+  }
+
   return (
     <div className="admin_container">
       <div className="table_reservation">
@@ -67,8 +71,9 @@ const Client = ({ setPage }: any) => {
                       <div onClick={() => suppClient(client.id)} style={{ cursor: 'pointer' }}>
                         <Visual.Svg label='delete' width={24} height={24} />
                       </div>
-                      <a href="/administration/client_add/<?= $c->id ?>"><i className="las la-cog"></i></a>
-                      <a href="/administration/deleteClient/<?= $c->id ?>" id="delete"><i className="las la-user-slash"></i></a>
+                      <div onClick={() => modifyClient(client.id)} style={{ cursor: 'pointer' }}>
+                        <Visual.Svg label='modify' width={24} height={24} />
+                      </div>
                     </td>
                   </tr>
                 )

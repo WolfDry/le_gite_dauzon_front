@@ -33,7 +33,6 @@ const CommentaireAdd = ({ setPage }: any) => {
       value = target.value
     }
 
-    console.log(name, value)
     setFormData({ ...formData, [name]: value } as unknown as FormData)
   }
 

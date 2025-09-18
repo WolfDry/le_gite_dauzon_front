@@ -41,8 +41,6 @@ const PrixAdd = ({ setPage }: any) => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    console.log(formData)
-
     if (formData.desc === "")
       formData.desc = " "
 

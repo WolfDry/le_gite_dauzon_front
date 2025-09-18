@@ -1,7 +1,7 @@
-import React from 'react'
-import { createClient } from '../../services/Clients'
+import React, { useEffect } from 'react'
+import { createClient, getClientById, updateClient } from '../../services/Clients'
 
-const ClientAdd = ({ setPage }: any) => {
+const ClientAdd = ({ setPage, id }: any) => {
 
   const [formData, setFormData] = React.useState({
     nom: "",
@@ -11,6 +11,17 @@ const ClientAdd = ({ setPage }: any) => {
   })
   const [error, setError] = React.useState(false)
 
+  useEffect(() => {
+    if (id) {
+      // Fetch client data by id and populate formData
+      const fetchClientData = async () => {
+        const clientData = await getClientById(id)
+        setFormData(clientData)
+      }
+      fetchClientData()
+    }
+  }, [id])
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
     setFormData({ ...formData, [name]: value })
@@ -19,7 +30,13 @@ const ClientAdd = ({ setPage }: any) => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    const result = await createClient(formData)
+    let result
+    if (id) {
+      result = await updateClient(formData, id)
+    } else {
+      result = await createClient(formData)
+    }
+
     if (result.statusCode) {
       setError(true)
     } else {
@@ -35,7 +52,7 @@ const ClientAdd = ({ setPage }: any) => {
 
   return (
     <div className="sign-up-form">
-      <h1>Ajouter un client</h1>
+      <h1>{id ? "Modifier un client" : "Ajouter un client"}</h1>
       <form onSubmit={handleSubmit}>
         <div className="input-container">
           <div className="input">
@@ -60,7 +77,7 @@ const ClientAdd = ({ setPage }: any) => {
         {
           error && <p style={{ color: "red" }}>Erreur sur l'ajout du client</p>
         }
-        <button type="submit" className="sign-btn">Ajouter</button>
+        <button type="submit" className="sign-btn">{id ? "Modifier" : "Ajouter"}</button>
       </form>
     </div>
   )

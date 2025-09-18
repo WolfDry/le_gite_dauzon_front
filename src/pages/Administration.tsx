@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import "../assets/administration.css"
 import { Container } from '../components/atoms'
 import SideBar from '../components/administration/SideBar'
@@ -16,20 +16,26 @@ import PrixAdd from '../components/administration/PrixAdd'
 const Administration = () => {
 
   const [page, setPage] = useState("home")
+  const [id, setId] = useState<number | null>(null)
+
+  const changePage = (newPage: string, newId: number | null) => {
+    setPage(newPage)
+    setId(newId)
+  }
 
   return (
     <Container.Column>
-      <SideBar currentPage={page} setPage={setPage} />
-      {page === "home" ? <Home setPage={setPage} /> : null}
-      {page === "reservation" ? <Reservation setPage={setPage} /> : null}
-      {page === "reservationAdd" ? <ReservationAdd setPage={setPage} /> : null}
-      {page === "client" ? <Client setPage={setPage} /> : null}
-      {page === "clientAdd" ? <ClientAdd setPage={setPage} /> : null}
-      {page === "commentaire" ? <Commentaire setPage={setPage} /> : null}
-      {page === "commentaireListe" ? <CommentaireList setPage={setPage} /> : null}
-      {page === "commentaireAdd" ? <CommentaireAdd setPage={setPage} /> : null}
-      {page === "prix" ? <Prix setPage={setPage} /> : null}
-      {page === "prixAdd" ? <PrixAdd setPage={setPage} /> : null}
+      <SideBar currentPage={page} setPage={changePage} />
+      {page === "home" ? <Home setPage={changePage} /> : null}
+      {page === "reservation" ? <Reservation setPage={changePage} /> : null}
+      {page === "reservationAdd" ? <ReservationAdd setPage={changePage} /> : null}
+      {page === "client" ? <Client setPage={changePage} /> : null}
+      {page === "clientAdd" ? <ClientAdd setPage={changePage} id={id} /> : null}
+      {page === "commentaire" ? <Commentaire setPage={changePage} /> : null}
+      {page === "commentaireListe" ? <CommentaireList setPage={changePage} /> : null}
+      {page === "commentaireAdd" ? <CommentaireAdd setPage={changePage} /> : null}
+      {page === "prix" ? <Prix setPage={changePage} /> : null}
+      {page === "prixAdd" ? <PrixAdd setPage={changePage} /> : null}
     </Container.Column>
   )
 }
