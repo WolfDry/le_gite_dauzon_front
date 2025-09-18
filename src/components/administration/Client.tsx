@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { getClient } from '../../services/Clients'
+import { deleteClient, getClient } from '../../services/Clients'
+import { Visual } from '../atoms'
 
 const Client = ({ setPage }: any) => {
 
@@ -12,6 +13,15 @@ const Client = ({ setPage }: any) => {
     }
     fetchClients()
   }, [])
+
+  const suppClient = async (id: number) => {
+    if (window.confirm("Êtes-vous sûr de vouloir supprimer ce client ?")) {
+      const result = await deleteClient(id)
+      if (result) {
+        setClients(clients.filter(client => client.id !== id))
+      }
+    }
+  }
 
   return (
     <div className="admin_container">
@@ -40,7 +50,7 @@ const Client = ({ setPage }: any) => {
             {
               clients.map((client) => {
                 return (
-                  <tr>
+                  <tr key={client.id}>
                     <td>
                       {client.nom}
                     </td>
@@ -54,6 +64,9 @@ const Client = ({ setPage }: any) => {
                       {client.telephone}
                     </td>
                     <td>
+                      <div onClick={() => suppClient(client.id)} style={{ cursor: 'pointer' }}>
+                        <Visual.Svg label='delete' width={24} height={24} />
+                      </div>
                       <a href="/administration/client_add/<?= $c->id ?>"><i className="las la-cog"></i></a>
                       <a href="/administration/deleteClient/<?= $c->id ?>" id="delete"><i className="las la-user-slash"></i></a>
                     </td>
