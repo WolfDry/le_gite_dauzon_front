@@ -13,7 +13,6 @@ const ClientAdd = ({ setPage, id }: any) => {
 
   useEffect(() => {
     if (id) {
-      // Fetch client data by id and populate formData
       const fetchClientData = async () => {
         const clientData = await getClientById(id)
         setFormData(clientData)

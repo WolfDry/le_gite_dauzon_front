@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { getClient } from '../../services/Clients'
-import { createReservation } from '../../services/Reservations'
+import { createReservation, getReservationById, updateReservation } from '../../services/Reservations'
 import InputPersonne from '../molecules/ReservationAccueilForm/InputPersonne'
 import { getSupplements } from '../../services/Supplements'
 
 type Props = {
   setPage: any
+  id?: number | null
 }
 
 type SuppValue = {
@@ -13,12 +14,22 @@ type SuppValue = {
   nb: number
 }
 
-const ReservationAdd = ({ setPage }: Props) => {
+const ReservationAdd = ({ setPage, id }: Props) => {
 
   const [clients, setClients] = useState([])
   const [supplements, setSupplements] = useState([])
   const [suppValue, setSuppValue] = useState<SuppValue[]>([])
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<{
+    debut: string,
+    fin: string,
+    tarif: string,
+    clientId: string,
+    email?: string,
+    nom?: string,
+    prenom?: string,
+    telephone?: string,
+    verif: boolean
+  }>({
     debut: "",
     fin: "",
     tarif: "",
@@ -56,6 +67,42 @@ const ReservationAdd = ({ setPage }: Props) => {
     fetchClient()
     fetchSupplements()
   }, [])
+  const toYmd = (v: unknown) => {
+    if (!v) return ""
+    if (typeof v === "string") {
+      if (/^\d{4}-\d{2}-\d{2}$/.test(v)) return v
+      const d = new Date(v)
+      return isNaN(d.getTime()) ? "" : d.toISOString().slice(0, 10)
+    }
+    if (v instanceof Date) return isNaN(v.getTime()) ? "" : v.toISOString().slice(0, 10)
+    return ""
+  }
+
+  useEffect(() => {
+    if (!id) return
+    (async () => {
+      const r = await getReservationById(id)
+
+      setNbPersonne(r.nbPersonne)
+      setSuppValue(
+        r.supplements?.map((s: any) => ({ supplementId: s.supplementId, nb: s.nb })) ?? []
+      )
+
+      setFormData(prev => ({
+        ...prev,
+        debut: toYmd(r.debut),
+        fin: toYmd(r.fin),
+        tarif: r.tarif != null ? String(r.tarif) : "",
+        clientId: r.clientId != null ? String(r.clientId) : "",
+        email: r.client.email ?? "",
+        nom: r.client.nom ?? "",
+        prenom: r.client.prenom ?? "",
+        telephone: r.client.telephone ?? "",
+        verif: r.verif ?? true
+      }))
+    })()
+  }, [id])
+
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -74,19 +121,60 @@ const ReservationAdd = ({ setPage }: Props) => {
     })
   }
 
+  function buildClientPatch(fd: {
+    clientId?: string
+    email?: string
+    nom?: string
+    prenom?: string
+    telephone?: string
+  }) {
+    const idNum = fd.clientId ? parseInt(fd.clientId, 10) : undefined
+
+    const trimOrUndef = (v?: string) => (v && v.trim() !== "" ? v.trim() : undefined)
+
+    const update: any = {}
+    const email = trimOrUndef(fd.email)
+    const nom = trimOrUndef(fd.nom)
+    const prenom = trimOrUndef(fd.prenom)
+    const telephone = trimOrUndef(fd.telephone)
+    if (email) update.email = email
+    if (nom) update.nom = nom
+    if (prenom) update.prenom = prenom
+    if (telephone) update.telephone = telephone
+
+    if (idNum) {
+      return Object.keys(update).length
+        ? { connect: { id: idNum }, update }
+        : { connect: { id: idNum } }
+    } else {
+      if (email && nom && prenom && telephone) {
+        return { create: { email, nom, prenom, telephone } }
+      }
+      return undefined
+    }
+  }
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    const payload = {
-      ...formData,
-      nbPersonne: nbPersonne,
-      tarif: parseInt(formData.tarif),
+    setError(false)
+
+    const clientPatch = buildClientPatch(formData)
+
+    const payload: any = {
       debut: new Date(formData.debut),
       fin: new Date(formData.fin),
-      clientId: formData.clientId ? parseInt(formData.clientId) : -1,
-      supplements: suppValue
+      tarif: parseInt(formData.tarif, 10),
+      verif: formData.verif,
+      nbPersonne,
+      ...(clientPatch ? { client: clientPatch } : {}),
+      supplements: suppValue,
     }
-    const result = await createReservation(payload)
+
+    let result
+    if (id) result = await updateReservation(payload, id)
+    else result = await createReservation(payload)
+
     if (result.statusCode) {
       setError(true)
     } else {
@@ -105,9 +193,11 @@ const ReservationAdd = ({ setPage }: Props) => {
     }
   }
 
+  console.log(formData)
+
   return (
     <div className="sign-up-form">
-      <h1>Ajouter une réservation</h1>
+      <h1>{id ? "Modifier" : "Ajouter"} une réservation</h1>
       <form onSubmit={handleSubmit}>
         <div className="input-container">
           <div className="input">
@@ -227,7 +317,7 @@ const ReservationAdd = ({ setPage }: Props) => {
         {
           error && <p style={{ color: "red" }}>Erreur sur l'ajout de la réservation</p>
         }
-        <button className="sign-btn" type='submit'> Ajouter </button>
+        <button className="sign-btn" type='submit'>{id ? "Modifier" : "Ajouter"}</button>
       </form>
     </div >
   )

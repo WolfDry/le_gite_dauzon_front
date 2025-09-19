@@ -17,14 +17,9 @@ const Client = ({ setPage }: any) => {
   const suppClient = async (id: number) => {
     if (window.confirm("Êtes-vous sûr de vouloir supprimer ce client ?")) {
       const result = await deleteClient(id)
-      if (result) {
+      if (result)
         setClients(clients.filter(client => client.id !== id))
-      }
     }
-  }
-
-  const modifyClient = (id: number) => {
-    setPage("clientAdd", id)
   }
 
   return (
@@ -71,7 +66,7 @@ const Client = ({ setPage }: any) => {
                       <div onClick={() => suppClient(client.id)} style={{ cursor: 'pointer' }}>
                         <Visual.Svg label='delete' width={24} height={24} />
                       </div>
-                      <div onClick={() => modifyClient(client.id)} style={{ cursor: 'pointer' }}>
+                      <div onClick={() => setPage("clientAdd", client.id)} style={{ cursor: 'pointer' }}>
                         <Visual.Svg label='modify' width={24} height={24} />
                       </div>
                     </td>

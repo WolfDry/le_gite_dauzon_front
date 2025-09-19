@@ -28,7 +28,7 @@ const Administration = () => {
       <SideBar currentPage={page} setPage={changePage} />
       {page === "home" ? <Home setPage={changePage} /> : null}
       {page === "reservation" ? <Reservation setPage={changePage} /> : null}
-      {page === "reservationAdd" ? <ReservationAdd setPage={changePage} /> : null}
+      {page === "reservationAdd" ? <ReservationAdd setPage={changePage} id={id} /> : null}
       {page === "client" ? <Client setPage={changePage} /> : null}
       {page === "clientAdd" ? <ClientAdd setPage={changePage} id={id} /> : null}
       {page === "commentaire" ? <Commentaire setPage={changePage} /> : null}

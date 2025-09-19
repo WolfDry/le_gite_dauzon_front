@@ -1,18 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import { getReservation } from '../../services/Reservations'
+import { deleteReservation, getReservation } from '../../services/Reservations'
 import Calendrier from '../molecules/Calendar/Calendrier'
 import { Dates } from '../../types/App.type'
 import { Reservation as ReservationType } from '../../types/Reservation.type'
-import { Container } from '../atoms'
+import { Container, Visual } from '../atoms'
 import { differenceInDays, parseISO } from 'date-fns'
 
 type Personne = {
   nb: number
   label: string
-}
-
-type Props = {
-  setPage: any
 }
 
 type Supplement = {
@@ -27,7 +23,7 @@ type Supplement = {
   }
 }
 
-const Reservation = ({ setPage }: Props) => {
+const Reservation = ({ setPage }: any) => {
 
   const [reservations, setReservation] = useState<Array<any>>([])
   const [dates, setDates] = useState<Dates[]>([{ debut: null, fin: null }])
@@ -75,17 +71,25 @@ const Reservation = ({ setPage }: Props) => {
  * @param {{ debut: string, fin: string }} reservation
  * @returns {{ days:number, weeks:number, fullWeeks:number, remainingDays:number }}
  */
-  function getReservationDuration(reservation: { debut: string; fin: string }) {
-    const start = parseISO(reservation.debut);
-    const end = parseISO(reservation.fin);
+  function getReservationDuration(reservation: { debut: string, fin: string }) {
+    const start = parseISO(reservation.debut)
+    const end = parseISO(reservation.fin)
 
-    const days = differenceInDays(end, start);
+    const days = differenceInDays(end, start)
 
-    const weeks = days / 7;
-    const fullWeeks = Math.floor(weeks);
-    const remainingDays = days % 7;
+    const weeks = days / 7
+    const fullWeeks = Math.floor(weeks)
+    const remainingDays = days % 7
 
-    return { days, weeks, fullWeeks, remainingDays };
+    return { days, weeks, fullWeeks, remainingDays }
+  }
+
+  const suppReservation = async (id: number) => {
+    if (window.confirm("Êtes-vous sûr de vouloir supprimer cette réservation ?")) {
+      const result = await deleteReservation(id)
+      if (result)
+        setReservation(reservations.filter(reservation => reservation.id !== id))
+    }
   }
 
   return (
@@ -151,17 +155,14 @@ const Reservation = ({ setPage }: Props) => {
             />
           </Container.Row>
         </Container.Column>
-        <a onClick={() => setPage("reservationAdd")}>Ajouter une réservation</a>
+        <a style={{ cursor: "pointer" }} onClick={() => setPage("reservationAdd")}>Ajouter une réservation</a>
       </div>
       <div className="table_reservation">
         <table>
           <thead>
             <tr>
               <td>
-                Nom du client
-              </td>
-              <td>
-                Prénom du client
+                Client
               </td>
               <td>
                 Date d'arrivée
@@ -192,10 +193,7 @@ const Reservation = ({ setPage }: Props) => {
                 return (
                   <tr>
                     <td>
-                      {reservation.client.nom}
-                    </td>
-                    <td>
-                      {reservation.client.prenom}
+                      {reservation.client.nom + " " + reservation.client.prenom}
                     </td>
                     <td>
                       {new Date(reservation.debut).toLocaleDateString('fr-FR')}
@@ -226,8 +224,12 @@ const Reservation = ({ setPage }: Props) => {
                       })}
                     </td>
                     <td>
-                      <a href="/administration/reservation_add/<?= $r->id ?>"><i className="las la-cog"></i></a>
-                      <a href="/administration/reservation_delete/<?= $r->id ?>" id="delete"><i className="las la-calendar-minus"></i></a>
+                      <div onClick={() => suppReservation(reservation.id)} style={{ cursor: 'pointer' }}>
+                        <Visual.Svg label='delete' width={24} height={24} />
+                      </div>
+                      <div onClick={() => setPage("reservationAdd", reservation.id)} style={{ cursor: 'pointer' }}>
+                        <Visual.Svg label='modify' width={24} height={24} />
+                      </div>
                     </td>
                   </tr>
                 )
