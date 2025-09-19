@@ -35,7 +35,7 @@ const Administration = () => {
       {page === "commentaireListe" ? <CommentaireList setPage={changePage} /> : null}
       {page === "commentaireAdd" ? <CommentaireAdd setPage={changePage} /> : null}
       {page === "prix" ? <Prix setPage={changePage} /> : null}
-      {page === "prixAdd" ? <PrixAdd setPage={changePage} /> : null}
+      {page === "prixAdd" ? <PrixAdd setPage={changePage} id={id} /> : null}
     </Container.Column>
   )
 }

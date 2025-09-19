@@ -1,9 +1,8 @@
-import React from 'react'
-import { createClient } from '../../services/Clients'
-import { createTarif } from '../../services/Tarifs'
+import React, { useEffect } from 'react'
+import { createTarif, getTarifById, updateTarif } from '../../services/Tarifs'
 import { TarifFrequence } from '../../types/Tarif.type'
 
-const PrixAdd = ({ setPage }: any) => {
+const PrixAdd = ({ setPage, id }: any) => {
 
   const [formData, setFormData] = React.useState({
     label: "",
@@ -14,6 +13,17 @@ const PrixAdd = ({ setPage }: any) => {
     frequence: [] as TarifFrequence[]
   })
   const [error, setError] = React.useState(false)
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (id) {
+        // If id is provided, fetch the existing tarif data to edit
+        const response = await getTarifById(id)
+        setFormData(response)
+      }
+    }
+    fetchData()
+  }, [id])
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, type, value, checked } = e.target
@@ -44,7 +54,13 @@ const PrixAdd = ({ setPage }: any) => {
     if (formData.desc === "")
       formData.desc = " "
 
-    const result = await createTarif(formData)
+    let result
+    if (id) {
+      result = await updateTarif(formData, id)
+    } else {
+      result = await createTarif(formData)
+    }
+
     if (result.statusCode) {
       setError(true)
     } else {
@@ -62,7 +78,7 @@ const PrixAdd = ({ setPage }: any) => {
 
   return (
     <div className="sign-up-form">
-      <h1>Ajouter un prix</h1>
+      <h1>{id ? "Modifier" : "Ajouter"} un prix</h1>
       <form onSubmit={handleSubmit}>
         <div className="input-container">
           <div className="input">
@@ -142,7 +158,7 @@ const PrixAdd = ({ setPage }: any) => {
         </div>
 
         {error && <p style={{ color: "red" }}>Erreur sur l'ajout du prix</p>}
-        <button type="submit" className="sign-btn">Ajouter</button>
+        <button type="submit" className="sign-btn">{id ? "Modifier" : "Ajouter"} un prix</button>
       </form>
     </div>
   )

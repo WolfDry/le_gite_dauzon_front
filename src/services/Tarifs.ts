@@ -6,7 +6,7 @@ const API_KEY = process.env.REACT_APP_API_URL
 export const getTarif = async () => {
   try {
     const response = await axios.get(`${API_KEY}/tarifs`)
-    return response.data    
+    return response.data
   } catch (error) {
     console.error(error)
   }
@@ -15,7 +15,7 @@ export const getTarif = async () => {
 export const getTarifById = async (id: number) => {
   try {
     const response = await axios.get(`${API_KEY}/tarifs/${id}`)
-    return response.data  
+    return response.data
   } catch (error) {
     console.error(error)
   }
@@ -30,7 +30,7 @@ export const createTarif = async (payload: Tarif) => {
   }
 }
 
-export const updateTarif = async (payload:UpdateTarif, id: number) => {
+export const updateTarif = async (payload: UpdateTarif, id: number) => {
   try {
     const response = await axios.patch(`${API_KEY}/tarifs/${id}`, payload)
     return response.data
@@ -41,6 +41,7 @@ export const updateTarif = async (payload:UpdateTarif, id: number) => {
 
 export const deleteTarif = async (id: number) => {
   try {
+    console.log("Deleting tarif with id:", id) // Debugging line
     const response = await axios.delete(`${API_KEY}/tarifs/${id}`)
     return response.data
   } catch (error) {

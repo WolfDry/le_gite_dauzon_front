@@ -1,6 +1,17 @@
 import React, { useEffect } from 'react'
-import { getTarif } from '../../services/Tarifs'
-import { Tarif } from '../../types/Tarif.type'
+import { deleteTarif, getTarif } from '../../services/Tarifs'
+import { Visual } from '../atoms'
+import { TarifFrequence } from '../../types/Tarif.type'
+
+type Tarif = {
+  id: number
+  desc: string
+  label: string
+  date: string[]
+  vacance?: boolean
+  prix: number
+  frequence: TarifFrequence[]
+}
 
 const Prix = ({ setPage }: any) => {
 
@@ -13,6 +24,18 @@ const Prix = ({ setPage }: any) => {
     }
     fetchData()
   }, [])
+
+  const handleDelete = async (id: number) => {
+    console.log("Attempting to delete tarif with id:", id) // Debugging line
+    if (window.confirm("Êtes-vous sûr de vouloir supprimer ce prix ?")) {
+      const result = await deleteTarif(id)
+      console.log(result)
+      if (result) {
+        const newPrix = prix.filter((p: Tarif) => p.id !== id)
+        setPrix(newPrix)
+      }
+    }
+  }
 
   return (
     <div className="admin_container">
@@ -38,6 +61,9 @@ const Prix = ({ setPage }: any) => {
               <td>
                 Fréquence
               </td>
+              <td>
+                Actions
+              </td>
             </tr>
           </thead>
           <tbody>
@@ -49,6 +75,14 @@ const Prix = ({ setPage }: any) => {
                 <td>{p.prix} €</td>
                 <td>{p.vacance ? "Oui" : "Non"}</td>
                 <td>{p.frequence.join(", ")}</td>
+                <td>
+                  <div onClick={() => handleDelete(p.id)} style={{ cursor: 'pointer' }}>
+                    <Visual.Svg label='delete' width={24} height={24} />
+                  </div>
+                  <div onClick={() => setPage("prixAdd", p.id)} style={{ cursor: 'pointer' }}>
+                    <Visual.Svg label='modify' width={24} height={24} />
+                  </div>
+                </td>
               </tr>
             ))}
           </tbody>
