@@ -1,4 +1,4 @@
-import { createReservation, createReservationRequest, getReservation } from "../../services/Reservations"
+import { createReservationRequest, getReservation } from "../../services/Reservations"
 import { AppDispatch } from "../../types/Redux.type"
 import { AskReservation } from "../../types/Reservation.type"
 import { createAskReservationFailure, createAskReservationRequest, createAskReservationSuccess, getReservationsFailure, getReservationsRequest, getReservationsSuccess } from "../actions/reservationAction"

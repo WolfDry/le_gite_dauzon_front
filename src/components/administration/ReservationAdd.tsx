@@ -193,8 +193,6 @@ const ReservationAdd = ({ setPage, id }: Props) => {
     }
   }
 
-  console.log(formData)
-
   return (
     <div className="sign-up-form">
       <h1>{id ? "Modifier" : "Ajouter"} une réservation</h1>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import HeroBanner from '../components/molecules/HeroBanner'
 import { Action, Container, Form, Text, Visual } from '../components/atoms'
 import { blue, darkBlue, lightBlue, lightLightBlue, white } from '../assets/color'
@@ -41,7 +41,7 @@ const Reservation = () => {
       const response = await getTarif()
       let data = response.map((tarif: Tarif) => ({
         ...tarif,
-        desc: tarif.desc == " " ? null : tarif.desc,
+        desc: tarif.desc === " " ? null : tarif.desc,
         frequence: tarif.frequence.map((f) => f.toLowerCase()).join(" / ")
       }))
       data = data.sort((a: { id: number }, b: { id: number }) => a.id - b.id)
@@ -73,19 +73,22 @@ const Reservation = () => {
     }
   }, [selectedDates])
 
+  const changeInputsValue = useCallback(
+    (field: keyof typeof inputsValue, value: any) => {
+      setInputsValue(prev => ({
+        ...prev,
+        [field]: value
+      }))
+    },
+    []
+  )
+
   useEffect(() => {
     if (nbPersonne) {
       changeInputsValue("nbPersonne", nbPersonne)
     }
-  }, [nbPersonne])
+  }, [nbPersonne, changeInputsValue])
 
-
-  const changeInputsValue = (field: keyof typeof inputsValue, value: any) => {
-    setInputsValue(prev => ({
-      ...prev,
-      [field]: value
-    }))
-  }
 
   const setNbPersonne = (data: NbPersonne[]) => {
     changeInputsValue("nbPersonne", data)

@@ -9,7 +9,7 @@ type FormData = {
   verif: boolean
 }
 
-const CommentaireAdd = ({ setPage }: any) => {
+const CommentaireAdd = () => {
 
   const [formData, setFormData] = React.useState<FormData>({
     name: "",
@@ -38,7 +38,7 @@ const CommentaireAdd = ({ setPage }: any) => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const result = createCommentaire(formData)
+    createCommentaire(formData)
   }
 
   return (

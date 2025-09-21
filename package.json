@@ -37,7 +37,10 @@
       "react-app",
       "react-app/jest",
       "plugin:storybook/recommended"
-    ]
+    ],
+    "rules": {
+      "jsx-a11y/anchor-is-valid": "warn"
+    }
   },
   "browserslist": {
     "production": [

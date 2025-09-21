@@ -18,7 +18,7 @@ const SideBar = ({ setPage, currentPage }: Props) => {
             <span className="icon">Le Gîte d'Auzon</span>
           </a>
         </li>
-        <li id="home" className={currentPage == "home" ? "list active" : "list"}>
+        <li id="home" className={currentPage === "home" ? "list active" : "list"}>
           <a onClick={() => setPage("home")}>
             <span className="icon">
               <Visual.Svg label="logo" width={60} height={60} />
@@ -26,7 +26,7 @@ const SideBar = ({ setPage, currentPage }: Props) => {
             <span className="title">Home</span>
           </a>
         </li>
-        <li id="reservations" className={currentPage == "reservation" ? "list active" : "list"}>
+        <li id="reservations" className={currentPage === "reservation" ? "list active" : "list"}>
           <a onClick={() => setPage("reservation")}>
             <span className="icon">
               <Visual.Svg label="calendar" width={60} height={60} fill={white} />
@@ -34,7 +34,7 @@ const SideBar = ({ setPage, currentPage }: Props) => {
             <span className="title">Réservations</span>
           </a>
         </li>
-        <li id="clients" className={currentPage == "client" ? "list active" : "list"}>
+        <li id="clients" className={currentPage === "client" ? "list active" : "list"}>
           <a onClick={() => setPage("client")}>
             <span className="icon">
               <Visual.Svg label="users" width={60} height={60} fill={white} />
@@ -42,7 +42,7 @@ const SideBar = ({ setPage, currentPage }: Props) => {
             <span className="title">Clients</span>
           </a>
         </li>
-        <li id="commentaires" className={currentPage == "commentaire" ? "list active" : "list"}>
+        <li id="commentaires" className={currentPage === "commentaire" ? "list active" : "list"}>
           <a onClick={() => setPage("commentaire")}>
             <span className="icon">
               <Visual.Svg label="comment" width={60} height={60} fill={white} />
@@ -50,7 +50,7 @@ const SideBar = ({ setPage, currentPage }: Props) => {
             <span className="title">Commentaires</span>
           </a>
         </li>
-        <li id="prix" className={currentPage == "prix" ? "list active" : "list"}>
+        <li id="prix" className={currentPage === "prix" ? "list active" : "list"}>
           <a onClick={() => setPage("prix")}>
             <span className="icon">
               <Visual.Svg label="prix" width={60} height={60} fill={white} />
@@ -58,7 +58,7 @@ const SideBar = ({ setPage, currentPage }: Props) => {
             <span className="title">Prix</span>
           </a>
         </li>
-        <li id="user" className={currentPage == "user" ? "list active" : "list"}>
+        <li id="user" className={currentPage === "user" ? "list active" : "list"}>
           <a onClick={() => setPage("user")}>
             <span className="icon">
               <Visual.Svg label="defendUser" width={60} height={60} fill={white} />
@@ -66,7 +66,7 @@ const SideBar = ({ setPage, currentPage }: Props) => {
             <span className="title">Utilisateurs</span>
           </a>
         </li>
-        <li className={currentPage == "logout" ? "list active" : "list"}>
+        <li className={currentPage === "logout" ? "list active" : "list"}>
           <a onClick={() => setPage("logout")}>
             <span className="icon">
               <Visual.Svg label="logout" width={60} height={60} fill={white} />
