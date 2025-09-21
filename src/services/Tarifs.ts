@@ -41,7 +41,6 @@ export const updateTarif = async (payload: UpdateTarif, id: number) => {
 
 export const deleteTarif = async (id: number) => {
   try {
-    console.log("Deleting tarif with id:", id) // Debugging line
     const response = await axios.delete(`${API_KEY}/tarifs/${id}`)
     return response.data
   } catch (error) {

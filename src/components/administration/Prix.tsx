@@ -26,10 +26,8 @@ const Prix = ({ setPage }: any) => {
   }, [])
 
   const handleDelete = async (id: number) => {
-    console.log("Attempting to delete tarif with id:", id) // Debugging line
     if (window.confirm("Êtes-vous sûr de vouloir supprimer ce prix ?")) {
       const result = await deleteTarif(id)
-      console.log(result)
       if (result) {
         const newPrix = prix.filter((p: Tarif) => p.id !== id)
         setPrix(newPrix)
