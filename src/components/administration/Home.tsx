@@ -56,7 +56,7 @@ const Home = ({ setPage }: Props) => {
             </h2>
             <h3>Réservations</h3>
             <p>Vous avez {reservationCount} réservations</p>
-            <a onClick={() => setPage("reservation")}>Aller sur la page</a>
+            <div className="a" onClick={() => setPage("reservation")}>Aller sur la page</div>
           </div>
         </div>
         <div className="card">
@@ -67,7 +67,7 @@ const Home = ({ setPage }: Props) => {
             </h2>
             <h3>Clients</h3>
             <p>Vous avez {clientCount} clients</p>
-            <a onClick={() => setPage("client")}>Aller sur la page</a>
+            <div className="a" onClick={() => setPage("client")}>Aller sur la page</div>
           </div>
         </div>
         <div className="card">
@@ -78,7 +78,7 @@ const Home = ({ setPage }: Props) => {
             </h2>
             <h3>Commentaires</h3>
             <p>Vous avez {commentCount} commentaires</p>
-            <a onClick={() => setPage("commentaire")}>Aller sur la page</a>
+            <div className="a" onClick={() => setPage("commentaire")}>Aller sur la page</div>
           </div>
         </div>
         <div className="card">
@@ -88,7 +88,7 @@ const Home = ({ setPage }: Props) => {
               <Visual.Svg label="prix" width={100} height={100} fill={lightGrey} />
             </h2>
             <h3>Prix</h3>
-            <a onClick={() => setPage("prix")}>Aller sur la page</a>
+            <div className="a" onClick={() => setPage("prix")}>Aller sur la page</div>
           </div>
         </div>
         <div className="card">
@@ -99,7 +99,7 @@ const Home = ({ setPage }: Props) => {
             </h2>
             <h3>Utilisateurs</h3>
             <p>Vous avez {0} utilisateurs</p>
-            <a onClick={() => setPage("utilisateur")}>Aller sur la page</a>
+            <div className="a" onClick={() => setPage("utilisateur")}>Aller sur la page</div>
           </div>
         </div>
         <div className="card">
@@ -109,7 +109,7 @@ const Home = ({ setPage }: Props) => {
               <Visual.Svg label="logout" width={100} height={100} fill={lightGrey} />
             </h2>
             <h3>
-              <a onClick={() => setPage()}>Déconnexion</a>
+              <div className="a" onClick={() => setPage()}>Déconnexion</div>
             </h3>
           </div>
         </div>

@@ -77,7 +77,7 @@ const Client = ({ setPage }: any) => {
           </tbody>
         </table>
       </div>
-      <a onClick={() => setPage("clientAdd")}><i className="las la-user-plus"></i> Ajouter un client</a>
+      <div className="a" onClick={() => setPage("clientAdd")}><i className="las la-user-plus"></i> Ajouter un client</div>
     </div>
   )
 }

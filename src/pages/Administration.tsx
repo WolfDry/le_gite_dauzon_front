@@ -12,11 +12,21 @@ import ClientAdd from '../components/administration/ClientAdd'
 import CommentaireAdd from '../components/administration/CommentaireAdd'
 import Prix from '../components/administration/Prix'
 import PrixAdd from '../components/administration/PrixAdd'
+import Login from '../components/administration/Login'
 
 const Administration = () => {
 
-  const [page, setPage] = useState("home")
+  const [page, setPage] = useState("login")
   const [id, setId] = useState<number | null>(null)
+
+  useEffect(() => {
+    const token = localStorage.getItem("token")
+    if (!token) {
+      setPage("login")
+    } else {
+      setPage("home")
+    }
+  }, [])
 
   const changePage = (newPage: string, newId: number | null) => {
     setPage(newPage)
@@ -25,7 +35,8 @@ const Administration = () => {
 
   return (
     <Container.Column>
-      <SideBar currentPage={page} setPage={changePage} />
+      {page !== "login" && <SideBar currentPage={page} setPage={changePage} />}
+      {page === "login" ? <Login /> : null}
       {page === "home" ? <Home setPage={changePage} /> : null}
       {page === "reservation" ? <Reservation setPage={changePage} /> : null}
       {page === "reservationAdd" ? <ReservationAdd setPage={changePage} id={id} /> : null}
@@ -33,7 +44,7 @@ const Administration = () => {
       {page === "clientAdd" ? <ClientAdd setPage={changePage} id={id} /> : null}
       {page === "commentaire" ? <Commentaire setPage={changePage} /> : null}
       {page === "commentaireListe" ? <CommentaireList setPage={changePage} /> : null}
-      {page === "commentaireAdd" ? <CommentaireAdd setPage={changePage} /> : null}
+      {page === "commentaireAdd" ? <CommentaireAdd /> : null}
       {page === "prix" ? <Prix setPage={changePage} /> : null}
       {page === "prixAdd" ? <PrixAdd setPage={changePage} id={id} /> : null}
     </Container.Column>

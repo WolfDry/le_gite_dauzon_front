@@ -64,11 +64,9 @@ const Commentaire = ({ setPage }: Props) => {
                     {new Date(commentaire.created).toLocaleDateString('fr-FR')}
                   </td>
                   <td>
-                    <a href="/administration/commentaire_add/<?= $c->id ?>"><i className="las la-cog"></i></a>
                     <div style={{ cursor: "pointer" }} onClick={() => checkComment(commentaire.id)}>
                       <Visual.Svg label="check" width={25} height={25} fill={green} />
                     </div>
-                    <a href="/administration/commentaire_delete/<?= $c->id ?>" id="delete" ><i className="las la-comment-slash"></i></a>
                   </td>
                 </tr>
               )
@@ -76,8 +74,8 @@ const Commentaire = ({ setPage }: Props) => {
           </tbody>
         </table>
       </div>
-      <a onClick={() => setPage("commentaireAdd")}><i className="las la-comment-medical"></i> Ajouter un commentaire</a>
-      <a onClick={() => setPage("commentaireListe")}>Voir la liste complete des commentaires</a>
+      <div className="a" onClick={() => setPage("commentaireAdd")}><i className="las la-comment-medical"></i> Ajouter un commentaire</div>
+      <div className="a" onClick={() => setPage("commentaireListe")}>Voir la liste complete des commentaires</div>
     </div>
   )
 }

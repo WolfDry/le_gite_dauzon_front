@@ -155,7 +155,7 @@ const Reservation = ({ setPage }: any) => {
             />
           </Container.Row>
         </Container.Column>
-        <a style={{ cursor: "pointer" }} onClick={() => setPage("reservationAdd")}>Ajouter une réservation</a>
+        <div className="a" style={{ cursor: "pointer" }} onClick={() => setPage("reservationAdd")}>Ajouter une réservation</div>
       </div>
       <div className="table_reservation">
         <table>

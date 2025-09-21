@@ -18,61 +18,61 @@ const SideBar = ({ setPage, currentPage }: Props) => {
             <span className="icon">Le Gîte d'Auzon</span>
           </a>
         </li>
-        <li id="home" className={currentPage == "home" ? "list active" : "list"}>
-          <a onClick={() => setPage("home")}>
+        <li id="home" className={currentPage === "home" ? "list active" : "list"}>
+          <div className="a" onClick={() => setPage("home")}>
             <span className="icon">
               <Visual.Svg label="logo" width={60} height={60} />
             </span>
             <span className="title">Home</span>
-          </a>
+          </div>
         </li>
-        <li id="reservations" className={currentPage == "reservation" ? "list active" : "list"}>
-          <a onClick={() => setPage("reservation")}>
+        <li id="reservations" className={currentPage === "reservation" ? "list active" : "list"}>
+          <div className="a" onClick={() => setPage("reservation")}>
             <span className="icon">
               <Visual.Svg label="calendar" width={60} height={60} fill={white} />
             </span>
             <span className="title">Réservations</span>
-          </a>
+          </div>
         </li>
-        <li id="clients" className={currentPage == "client" ? "list active" : "list"}>
-          <a onClick={() => setPage("client")}>
+        <li id="clients" className={currentPage === "client" ? "list active" : "list"}>
+          <div className="a" onClick={() => setPage("client")}>
             <span className="icon">
               <Visual.Svg label="users" width={60} height={60} fill={white} />
             </span>
             <span className="title">Clients</span>
-          </a>
+          </div>
         </li>
-        <li id="commentaires" className={currentPage == "commentaire" ? "list active" : "list"}>
-          <a onClick={() => setPage("commentaire")}>
+        <li id="commentaires" className={currentPage === "commentaire" ? "list active" : "list"}>
+          <div className="a" onClick={() => setPage("commentaire")}>
             <span className="icon">
               <Visual.Svg label="comment" width={60} height={60} fill={white} />
             </span>
             <span className="title">Commentaires</span>
-          </a>
+          </div>
         </li>
-        <li id="prix" className={currentPage == "prix" ? "list active" : "list"}>
-          <a onClick={() => setPage("prix")}>
+        <li id="prix" className={currentPage === "prix" ? "list active" : "list"}>
+          <div className="a" onClick={() => setPage("prix")}>
             <span className="icon">
               <Visual.Svg label="prix" width={60} height={60} fill={white} />
             </span>
             <span className="title">Prix</span>
-          </a>
+          </div>
         </li>
-        <li id="user" className={currentPage == "user" ? "list active" : "list"}>
-          <a onClick={() => setPage("user")}>
+        <li id="user" className={currentPage === "user" ? "list active" : "list"}>
+          <div className="a" onClick={() => setPage("user")}>
             <span className="icon">
               <Visual.Svg label="defendUser" width={60} height={60} fill={white} />
             </span>
             <span className="title">Utilisateurs</span>
-          </a>
+          </div>
         </li>
-        <li className={currentPage == "logout" ? "list active" : "list"}>
-          <a onClick={() => setPage("logout")}>
+        <li className={currentPage === "logout" ? "list active" : "list"}>
+          <div className="a" onClick={() => setPage("logout")}>
             <span className="icon">
               <Visual.Svg label="logout" width={60} height={60} fill={white} />
             </span>
             <span className="title">Déconnexion</span>
-          </a>
+          </div>
         </li>
       </ul>
     </div>

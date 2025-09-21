@@ -46,7 +46,7 @@
   background: #c7b73d;
 }
 
-.navigation ul li a {
+.navigation ul li .a {
   position: relative;
   width: 100%;
   display: flex;
@@ -56,7 +56,7 @@
 
 }
 
-.navigation ul li.active a::before {
+.navigation ul li.active .a::before {
   content: '';
   position: absolute;
   top: -30px;
@@ -67,7 +67,7 @@
   box-shadow: 15px 15px 0 #c7b73d;
 }
 
-.navigation ul li.active a::after {
+.navigation ul li.active .a::after {
   content: '';
   position: absolute;
   bottom: -30px;
@@ -78,7 +78,7 @@
   box-shadow: 15px -15px 0 #c7b73d;
 }
 
-.navigation ul li:hover a::after {
+.navigation ul li:hover .a::after {
   content: '';
   position: absolute;
   bottom: -30px;
@@ -89,7 +89,7 @@
   box-shadow: 15px -15px 0 #c7b73d;
 }
 
-.navigation ul li:hover a::before {
+.navigation ul li:hover .a::before {
   content: '';
   position: absolute;
   top: -30px;
@@ -100,7 +100,7 @@
   box-shadow: 15px 15px 0 #c7b73d;
 }
 
-.navigation ul li a .icon {
+.navigation ul li .a .icon {
   position: relative;
   display: block;
   min-width: 60px;
@@ -119,17 +119,17 @@
   transition: font-size 0.5s;
 }
 
-.navigation ul li.list#gite a .icon {
+.navigation ul li.list#gite .a .icon {
   top: 13px;
 }
 
-.navigation ul li a .icon ion-icon {
+.navigation ul li .a .icon ion-icon {
   position: relative;
   font-size: 1.5em;
   z-index: 1;
 }
 
-.navigation ul li a .title {
+.navigation ul li .a .title {
   position: relative;
   display: block;
   padding-left: 10px;
@@ -243,7 +243,7 @@
   font-weight: 300;
 }
 
-.container .card .content a {
+.container .card .content .a {
   position: relative;
   display: inline-block;
   padding: 8px 20px;
@@ -285,20 +285,21 @@
   margin-bottom: 5em;
 }
 
-.admin_container .mois a {
+.admin_container .mois .a {
   font-size: 1em;
   background-color: transparent;
 }
 
-.admin_container a {
+.admin_container .a {
   padding: 8px;
   border-radius: 5px;
   background-color: rgba(255, 255, 255, 0.6);
   color: black;
   font-size: 2em;
+  cursor: pointer;
 }
 
-.admin_container a i {
+.admin_container .a i {
   font-size: 42px;
 }
 
@@ -339,17 +340,17 @@
   margin: 0;
 }
 
-.table_reservation table td a {
+.table_reservation table td .a {
   color: black;
   font-size: 35px;
 }
 
-.table_reservation table td a#delete,
-.table_reservation table td a.verif i.la-times {
+.table_reservation table td .a#delete,
+.table_reservation table td .a.verif i.la-times {
   color: red;
 }
 
-.table_reservation table td a.verif i.la-check {
+.table_reservation table td .a.verif i.la-check {
   color: green;
 }
 
