@@ -33,11 +33,11 @@ const Commentaire = () => {
 Vous hésitez encore ? Leurs témoignages vous aideront à vous faire une idée précise de ce qui vous attend au Gîte d’Auzon, en plein cœur de l’Ardèche méridionale.`}
         </Text.Paragraph>
       </Container.Row>
-      <Container.Masonry columnCount={3} padding="3.75rem 6.25rem" mPadding="1.25rem 1.25rem 2.5rem 1.25rem" columnGap="2.1875rem" mColumnGap="3.125rem" alignSelf="stretch">
+      <Container.Wrap padding="3.75rem 6.25rem" mPadding="1.25rem 1.25rem 2.5rem 1.25rem" gap="2.1875rem" mColumnGap="3.125rem" alignSelf="stretch">
         {validComments && validComments.map((comment: Comment, index: number) => {
           return (<CommentCard comment={comment} cardIndex={index} />)
         })}
-      </Container.Masonry>
+      </Container.Wrap>
       <CommentFooter />
     </Container.Column>
   )

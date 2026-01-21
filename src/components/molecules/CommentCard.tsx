@@ -51,6 +51,7 @@ const CommentCard = ({ comment, cardIndex }: Props) => {
       borderRadius="1.25rem"
       background={backgroundColor}
       boxShadow="4px 4px 20px 0 rgba(23, 28, 25, 0.10)"
+      width="34.2rem"
     >
       <Container.Row direction="row" justifyContent="space-between" alignItems="flex-start" alignSelf="stretch">
         <Text.Paragraph fontWeight="700">{comment.name}</Text.Paragraph>
