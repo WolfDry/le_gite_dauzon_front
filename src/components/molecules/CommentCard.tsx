@@ -1,8 +1,9 @@
-import React from 'react'
-import { Container, Text, Visual } from '../atoms'
+import React, { useState } from 'react'
+import { Action, Container, Text, Visual } from '../atoms'
 import { yellow, lightYellow, lightLightYellow } from '../../assets/color'
 import { Comment } from '../../types/Commentaire.type'
 import he from 'he'
+import Modal from './Modal'
 
 type Props = {
   comment: Comment
@@ -12,30 +13,28 @@ type Props = {
 const CommentCard = ({ comment, cardIndex }: Props) => {
   const colors = [yellow, lightYellow, lightLightYellow]
   const backgroundColor = colors[cardIndex % colors.length]
+  const [displayModal, setDisplayModal] = useState(false)
 
   const formatComment = (raw?: string): string => {
     if (!raw) return '';
 
     let str = raw.trim();
 
-    // Si la string est entourée de \" ... \"
     if (str.startsWith('\\"') && str.endsWith('\\"')) {
       str = str.slice(2, -2);
     }
 
-    // Dé-escape des séquences JSON/JS
     str = str
-      .replace(/\\\\/g, '\\')               // \\ -> \
-      .replace(/\\"/g, '"')                 // \" -> "
-      .replace(/\\'/g, "'")                 // \' -> '
-      .replace(/\\n/g, '\n')                // \n -> retour à la ligne
-      .replace(/\\r/g, '\r')                // \r -> retour chariot
-      .replace(/\\t/g, '\t')                // \t -> tab
+      .replace(/\\\\/g, '\\')
+      .replace(/\\"/g, '"')
+      .replace(/\\'/g, "'")
+      .replace(/\\n/g, '\n')
+      .replace(/\\r/g, '\r')
+      .replace(/\\t/g, '\t')
       .replace(/\\u([\da-fA-F]{4})/g, (_, hex) =>
         String.fromCharCode(parseInt(hex, 16))
-      );                                    // \u2764 -> ❤️ etc.
+      );
 
-    // Decode des entités HTML (&eacute; &agrave; &nbsp; ...)
     return he.decode(str);
   }
 
@@ -65,10 +64,18 @@ const CommentCard = ({ comment, cardIndex }: Props) => {
           ))}
         </Container.Row>
 
-        <Text.Paragraph alignSelf="stretch" overflow="visible">
+        <Text.Paragraph alignSelf="stretch">
           {displayedComment}
         </Text.Paragraph>
+        {displayedComment.length > 300 &&
+          <Action.Button padding="0.625rem 1.25rem" borderRadius="0.625rem" background={"black"} color="white" fontWeight="600" fontSize="0.875rem" cursor="pointer" onClick={() => setDisplayModal(true)}>
+            Voir plus
+          </Action.Button>
+        }
       </Container.Column>
+      {displayModal &&
+        <Modal comment={displayedComment} closeModal={() => setDisplayModal(false)} />
+      }
     </Container.Column>
   )
 }
