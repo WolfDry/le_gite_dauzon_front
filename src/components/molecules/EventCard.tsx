@@ -34,6 +34,7 @@ const EventCard = ({ event }: Props) => {
           <Text.Paragraph
             height={event.type === "EVENT" ? "8.5rem" : event.lien ? "10.625rem" : "14rem"}
             alignSelf="stretch"
+            overflow="scroll"
           >
             {event.description}
           </Text.Paragraph>

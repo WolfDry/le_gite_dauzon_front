@@ -42,13 +42,13 @@ const Visite = () => {
     <Container.Column background={cream}>
       <HeroBanner height="40vh" paddingTop="60px" text="Quelques endroits à visiter !" />
       <Container.Wrap padding="3.75rem 6.25rem 0 6.25rem" mPadding="2.5rem 1.25rem 0 1.25rem" justifyContent="center" alignItems="flex-start" gap="15px" alignSelf="stretch">
-        <Action.Button onClick={() => filterEvents("EVENT")} padding="7px 15px" borderRadius="5px" background={activeButton === "event" ? green : lightGreen}>
+        <Action.Button onClick={() => filterEvents("EVENT")} padding="7px 15px" borderRadius="5px" background={activeButton === "EVENT" ? green : lightGreen}>
           Événements
         </Action.Button>
-        <Action.Button onClick={() => filterEvents("VISIT")} padding="7px 15px" borderRadius="5px" background={activeButton === "visit" ? green : lightGreen}>
+        <Action.Button onClick={() => filterEvents("VISIT")} padding="7px 15px" borderRadius="5px" background={activeButton === "VISIT" ? green : lightGreen}>
           Lieux à visiter
         </Action.Button>
-        <Action.Button onClick={() => filterEvents("RANDO")} padding="7px 15px" borderRadius="5px" background={activeButton === "rando" ? green : lightGreen}>
+        <Action.Button onClick={() => filterEvents("RANDO")} padding="7px 15px" borderRadius="5px" background={activeButton === "RANDO" ? green : lightGreen}>
           Randonnées
         </Action.Button>
         <Action.Button onClick={() => filterEvents("all")} padding="7px 15px" borderRadius="5px" background={activeButton === "all" ? green : lightGreen}>
