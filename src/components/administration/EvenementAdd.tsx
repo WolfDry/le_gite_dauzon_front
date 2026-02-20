@@ -43,7 +43,7 @@ const EvenementAdd = ({ setPage, id }: Props) => {
   }, [id])
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target
     setFormData(prev => ({ ...prev, [name]: value }))
@@ -81,18 +81,54 @@ const EvenementAdd = ({ setPage, id }: Props) => {
     <div className="sign-up-form">
       <h1>{id ? "Modifier" : "Ajouter"} un événement</h1>
       <form onSubmit={handleSubmit}>
-        <select name="type" id="type" onChange={handleChange} value={formData.type}>
-          <option value="">Type d'événement</option>
-          <option value="RANDO">Randonné</option>
-          <option value="VISIT">Visite</option>
-          <option value="EVENT">Evenement</option>
-        </select>
-        <input type="text" name="titre" placeholder="Titre de l'événement" onChange={handleChange} value={formData.titre} />
-        <input type="text" name="description" placeholder="Description de l'événement" onChange={handleChange} value={formData.description} />
-        <input type="file" name="image" placeholder="Nom de l'image de l'événement (ex: event1.jpg)" onChange={handleChange} value={formData.image} />
-        <input type="text" name="lien" placeholder="Lien de l'événement" onChange={handleChange} value={formData.lien} />
-        <input type="text" name="localisation" placeholder="Localisation de l'événement" onChange={handleChange} value={formData.localisation} />
-        <input type="date" name="date" onChange={handleChange} value={formData.date} />
+        <div className="input-container">
+          <div className="input">
+            <p>Titre :</p>
+            <select name="type" id="type" onChange={handleChange} value={formData.type}>
+              <option value="">Type d'événement</option>
+              <option value="RANDO">Randonné</option>
+              <option value="VISIT">Visite</option>
+              <option value="EVENT">Evenement</option>
+            </select>
+          </div>
+        </div>
+        <div className="input-container">
+          <div className="input">
+            <p>Titre :</p>
+            <input className="input-box" type="text" name="titre" placeholder="Titre de l'événement" onChange={handleChange} value={formData.titre} />
+          </div>
+        </div>
+        <div className="input-container">
+          <div className="input">
+            <p>Description :</p>
+            <textarea className="input-box" name="description" placeholder="Description de l'événement" onChange={handleChange} value={formData.description} />
+          </div>
+        </div>
+        <div className="input-container">
+          <div className="input">
+            <p>Image :</p>
+            <input className="input-box" type="file" name="image" placeholder="Nom de l'image de l'événement (ex: event1.jpg)" onChange={handleChange} value={formData.image} />
+          </div>
+        </div>
+        <div className="input-container">
+          <div className="input">
+            <p>Lien :</p>
+            <input className="input-box" type="text" name="lien" placeholder="Lien de l'événement" onChange={handleChange} value={formData.lien} />
+          </div>
+        </div>
+
+        <div className="input-container">
+          <div className="input">
+            <p>Localisation :</p>
+            <input className="input-box" type="text" name="localisation" placeholder="Localisation de l'événement" onChange={handleChange} value={formData.localisation} />
+          </div>
+        </div>
+        <div className="input-container">
+          <div className="input">
+            <p>Date :</p>
+            <input className="input-box" type="date" name="date" onChange={handleChange} value={formData.date} />
+          </div>
+        </div>
         {
           error && <p style={{ color: "red" }}>Erreur sur l'ajout de l'événement</p>
         }
