@@ -66,6 +66,14 @@ const SideBar = ({ setPage, currentPage }: Props) => {
             <span className="title">Utilisateurs</span>
           </div>
         </li>
+        <li className={currentPage === "evenement" ? "list active" : "list"}>
+          <div className="a" onClick={() => setPage("evenement")}>
+            <span className="icon">
+              <Visual.Svg label="marche" width={60} height={60} fill={white} />
+            </span>
+            <span className="title">Événements</span>
+          </div>
+        </li>
         <li className={currentPage === "logout" ? "list active" : "list"}>
           <div className="a" onClick={() => setPage("logout")}>
             <span className="icon">

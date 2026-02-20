@@ -92,6 +92,16 @@ const Home = ({ setPage }: Props) => {
           </div>
         </div>
         <div className="card">
+          <h1>Événements</h1>
+          <div className="content">
+            <h2>
+              <Visual.Svg label="marche" width={100} height={100} fill={lightGrey} />
+            </h2>
+            <h3>Événements</h3>
+            <div className="a" onClick={() => setPage("evenement")}>Aller sur la page</div>
+          </div>
+        </div>
+        <div className="card">
           <h1>Utilisateurs</h1>
           <div className="content">
             <h2>
