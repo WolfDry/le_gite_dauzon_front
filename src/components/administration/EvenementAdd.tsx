@@ -37,7 +37,7 @@ const EvenementAdd = ({ setPage, id }: Props) => {
         description: evenement.description,
         lien: evenement.lien,
         localisation: evenement.localisation,
-        date: evenement.date,
+        date: new Date(evenement.date).toISOString().split('T')[0],
       })
     })()
   }, [id])
