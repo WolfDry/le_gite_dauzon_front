@@ -3,6 +3,8 @@ import { Visual } from '../atoms'
 import { deleteEvenement, getEvenements } from '../../services/Evenements'
 import { Evenement as EvenementType } from '../../types/Evenement.type'
 
+const API_URL = process.env.REACT_APP_API_URL
+
 const Evenement = ({ setPage }: any) => {
 
   const [prix, setPrix] = React.useState<EvenementType[]>([])
@@ -52,7 +54,7 @@ const Evenement = ({ setPage }: any) => {
             {prix.map((e: EvenementType) => (
               <tr key={e.id}>
                 <td>{e.titre}</td>
-                <td><Visual.Image src={`/assets/images/events/${e.image}`} height="100%" width="100%" /></td>
+                <td><Visual.Image src={`${API_URL}/uploads/${e.image}`} height="100%" width="100%" /></td>
                 <td>{e.type}</td>
                 <td>{e.description}</td>
                 <td>

@@ -6,6 +6,8 @@ type Props = {
   id?: number | null
 }
 
+const API_URL = process.env.REACT_APP_API_URL
+
 const EvenementAdd = ({ setPage, id }: Props) => {
 
   const [formData, setFormData] = useState<{
@@ -24,7 +26,6 @@ const EvenementAdd = ({ setPage, id }: Props) => {
     lien: "",
   })
   const [error, setError] = useState(false)
-
 
   useEffect(() => {
     if (!id) return
@@ -68,7 +69,7 @@ const EvenementAdd = ({ setPage, id }: Props) => {
     } else {
       setFormData({
         titre: "",
-        image: "",
+        image: undefined,
         type: "",
         description: "",
         lien: "",
@@ -76,6 +77,24 @@ const EvenementAdd = ({ setPage, id }: Props) => {
       setPage("evenement")
     }
   }
+
+  const handleUpload = async (file: File | undefined) => {
+    if (!file) return
+    const formData = new FormData()
+    formData.append("image", file)
+
+    const response = await fetch(`${API_URL}/upload`, {
+      method: "POST",
+      body: formData,
+    })
+    if (response.ok) {
+      const data = await response.json();
+      setFormData(prev => ({ ...prev, image: data.filename }))
+    } else {
+      setError(true)
+    }
+  }
+
 
   return (
     <div className="sign-up-form">
@@ -107,7 +126,7 @@ const EvenementAdd = ({ setPage, id }: Props) => {
         <div className="input-container">
           <div className="input">
             <p>Image :</p>
-            <input className="input-box" type="file" name="image" placeholder="Nom de l'image de l'événement (ex: event1.jpg)" onChange={handleChange} value={formData.image} />
+            <input className="input-box" type="file" accept="image/*" name="image" placeholder="Nom de l'image de l'événement (ex: event1.jpg)" onChange={(e) => handleUpload(e.target.files?.[0])} />
           </div>
         </div>
         <div className="input-container">
