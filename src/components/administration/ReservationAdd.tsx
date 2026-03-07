@@ -67,6 +67,7 @@ const ReservationAdd = ({ setPage, id }: Props) => {
     fetchClient()
     fetchSupplements()
   }, [])
+
   const toYmd = (v: unknown) => {
     if (!v) return ""
     if (typeof v === "string") {
@@ -121,45 +122,9 @@ const ReservationAdd = ({ setPage, id }: Props) => {
     })
   }
 
-  function buildClientPatch(fd: {
-    clientId?: string
-    email?: string
-    nom?: string
-    prenom?: string
-    telephone?: string
-  }) {
-    const idNum = fd.clientId ? parseInt(fd.clientId, 10) : undefined
-
-    const trimOrUndef = (v?: string) => (v && v.trim() !== "" ? v.trim() : undefined)
-
-    const update: any = {}
-    const email = trimOrUndef(fd.email)
-    const nom = trimOrUndef(fd.nom)
-    const prenom = trimOrUndef(fd.prenom)
-    const telephone = trimOrUndef(fd.telephone)
-    if (email) update.email = email
-    if (nom) update.nom = nom
-    if (prenom) update.prenom = prenom
-    if (telephone) update.telephone = telephone
-
-    if (idNum) {
-      return Object.keys(update).length
-        ? { connect: { id: idNum }, update }
-        : { connect: { id: idNum } }
-    } else {
-      if (email && nom && prenom && telephone) {
-        return { create: { email, nom, prenom, telephone } }
-      }
-      return undefined
-    }
-  }
-
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError(false)
-
-    const clientPatch = buildClientPatch(formData)
 
     const payload: any = {
       debut: new Date(formData.debut),
@@ -167,7 +132,11 @@ const ReservationAdd = ({ setPage, id }: Props) => {
       tarif: parseInt(formData.tarif, 10),
       verif: formData.verif,
       nbPersonne,
-      ...(clientPatch ? { client: clientPatch } : {}),
+      clientId: parseInt(formData.clientId),
+      email: formData.email,
+      nom: formData.nom,
+      prenom: formData.prenom,
+      telephone: formData.telephone,
       supplements: suppValue,
     }
 
