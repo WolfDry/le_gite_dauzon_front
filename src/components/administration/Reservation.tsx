@@ -56,6 +56,9 @@ const Reservation = ({ setPage }: any) => {
             fin: reservation.fin ? new Date(reservation.fin).toISOString() : null
           }
         })
+        data.sort((a, b) => {
+          return new Date(a.debut).getTime() + new Date(b.debut).getTime()
+        })
         setDates(result)
         setReservation(data)
       } else {
