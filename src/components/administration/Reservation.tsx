@@ -35,7 +35,7 @@ const Reservation = ({ setPage }: any) => {
         data.forEach((d) => {
           const nbAdultes = d.nbPersonne.filter((p: { label: string, nb: number }) => p.label === "Adultes")
           let { days, fullWeeks, remainingDays } = getReservationDuration(d)
-          d.total = d.tarif
+          d.total = d.tarif * (fullWeeks > 0 ? fullWeeks : 1)
           d.total += (nbAdultes[0].nb * 1.65 * days)
           d.supplements?.forEach((supp: Supplement) => {
             if (supp.supplement.type === "SEJOUR")
