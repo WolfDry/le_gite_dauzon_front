@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { getCommentaire, updateCommentaire } from '../../services/Commentaires'
+import { deleteCommentaire, getCommentaire, updateCommentaire } from '../../services/Commentaires'
 import { Visual } from '../atoms'
 import { green } from '../../assets/color'
+import { Comment } from '../../types/Commentaire.type'
 
 type Props = {
   setPage: any
@@ -22,6 +23,16 @@ const Commentaire = ({ setPage }: Props) => {
 
   const checkComment = async (id: number) => {
     await updateCommentaire({ verif: true }, id)
+  }
+
+  const handleDelete = async (id: number) => {
+    if (window.confirm("Êtes-vous sûr de vouloir supprimer ce commentaire ?")) {
+      const result = await deleteCommentaire(id)
+      if (result) {
+        const newCommentaires = commentaires.filter((c: Comment) => c.id !== id)
+        setCommentaires(newCommentaires)
+      }
+    }
   }
 
   return (
@@ -65,7 +76,13 @@ const Commentaire = ({ setPage }: Props) => {
                   </td>
                   <td>
                     <div style={{ cursor: "pointer" }} onClick={() => checkComment(commentaire.id)}>
-                      <Visual.Svg label="check" width={25} height={25} fill={green} />
+                      <Visual.Svg label={!commentaire.verif ? "check" : "close"} width={25} height={25} fill={green} />
+                    </div>
+                    <div onClick={() => handleDelete(commentaire.id)} style={{ cursor: 'pointer' }}>
+                      <Visual.Svg label='delete' width={24} height={24} />
+                    </div>
+                    <div onClick={() => console.log("coucou")} style={{ cursor: 'pointer' }}>
+                      <Visual.Svg label='modify' width={24} height={24} />
                     </div>
                   </td>
                 </tr>

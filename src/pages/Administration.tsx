@@ -46,7 +46,7 @@ const Administration = () => {
       {page === "clientAdd" ? <ClientAdd setPage={changePage} id={id} /> : null}
       {page === "commentaire" ? <Commentaire setPage={changePage} /> : null}
       {page === "commentaireListe" ? <CommentaireList setPage={changePage} /> : null}
-      {page === "commentaireAdd" ? <CommentaireAdd /> : null}
+      {page === "commentaireAdd" ? <CommentaireAdd setPage={changePage} id={id} /> : null}
       {page === "prix" ? <Prix setPage={changePage} /> : null}
       {page === "prixAdd" ? <PrixAdd setPage={changePage} id={id} /> : null}
       {page === "evenement" ? <Evenement setPage={changePage} /> : null}

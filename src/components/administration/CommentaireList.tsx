@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { getCommentaire } from '../../services/Commentaires'
+import { deleteCommentaire, getCommentaire, updateCommentaire } from '../../services/Commentaires'
+import { Visual } from '../atoms'
+import { green } from '../../assets/color'
+import { Comment } from '../../types/Commentaire.type'
 
 const CommentaireList = ({ setPage }: any) => {
 
@@ -12,6 +15,22 @@ const CommentaireList = ({ setPage }: any) => {
     }
     fetchComments()
   }, [])
+
+  const checkComment = async (id: number, verif: boolean) => {
+    await updateCommentaire({ verif: !verif }, id)
+    const data = await getCommentaire()
+    setCommentaires(data)
+  }
+
+  const handleDelete = async (id: number) => {
+    if (window.confirm("Êtes-vous sûr de vouloir supprimer ce commentaire ?")) {
+      const result = await deleteCommentaire(id)
+      if (result) {
+        const newCommentaires = commentaires.filter((c: Comment) => c.id !== id)
+        setCommentaires(newCommentaires)
+      }
+    }
+  }
 
   return (
     <div className="admin_content">
@@ -55,8 +74,15 @@ const CommentaireList = ({ setPage }: any) => {
                         {new Date(commentaire.created).toLocaleDateString('fr-FR')}
                       </td>
                       <td>
-                        <a href="/administration/commentaire_add/<?= $c->id ?>"><i className="las la-cog"></i></a>
-                        <a href="/administration/commentaire_delete/<?= $c->id ?>" id="delete"><i className="las la-comment-slash"></i></a>
+                        <div style={{ cursor: "pointer" }} onClick={() => checkComment(commentaire.id, commentaire.verif)}>
+                          <Visual.Svg label={!commentaire.verif ? "check" : "close"} width={25} height={25} fill={!commentaire.verif ? green : "red"} />
+                        </div>
+                        <div onClick={() => handleDelete(commentaire.id)} style={{ cursor: 'pointer' }}>
+                          <Visual.Svg label='delete' width={24} height={24} />
+                        </div>
+                        <div onClick={() => setPage("commentaireAdd", commentaire.id)} style={{ cursor: 'pointer' }}>
+                          <Visual.Svg label='modify' width={24} height={24} />
+                        </div>
                       </td>
                     </tr>
                   )

@@ -1,5 +1,5 @@
-import React from 'react'
-import { createCommentaire } from '../../services/Commentaires'
+import React, { useEffect, useState } from 'react'
+import { createCommentaire, getCommentaireById, updateCommentaire } from '../../services/Commentaires'
 
 type FormData = {
   name: string
@@ -9,7 +9,12 @@ type FormData = {
   verif: boolean
 }
 
-const CommentaireAdd = () => {
+type Props = {
+  setPage: any
+  id?: number | null
+}
+
+const CommentaireAdd = ({ setPage, id }: Props) => {
 
   const [formData, setFormData] = React.useState<FormData>({
     name: "",
@@ -18,6 +23,21 @@ const CommentaireAdd = () => {
     note: 0,
     verif: false
   })
+  const [error, setError] = useState(false)
+
+  useEffect(() => {
+    if (!id) return
+    (async () => {
+      const commentaire = await getCommentaireById(id)
+      setFormData({
+        name: commentaire.name,
+        created: new Date(commentaire.created).toISOString().slice(0, 10),
+        commentaire: commentaire.commentaire,
+        note: commentaire.note,
+        verif: commentaire.verif
+      })
+    })()
+  }, [id])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const target = e.target as HTMLInputElement | HTMLTextAreaElement
@@ -33,17 +53,36 @@ const CommentaireAdd = () => {
       value = target.value
     }
 
-    setFormData({ ...formData, [name]: value } as unknown as FormData)
+    console.log(name, value)
+
+    setFormData({ ...formData, [name]: value } as FormData)
   }
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    createCommentaire(formData)
+
+    const payload: any = {
+      ...formData,
+      created: new Date(formData.created ?? "")
+    }
+
+    let result
+
+    if (id)
+      result = await updateCommentaire(payload, id)
+    else
+      result = await createCommentaire(payload)
+    console.log(result)
+    if (result.statusCode) {
+      setError(true)
+    } else {
+      setPage("commentaireListe")
+    }
   }
 
   return (
     <div className="sign-up-form">
-      <h1>Ajouter un commentaire</h1>
+      <h1>{id ? 'Modifier' : 'Ajouter'} un commentaire</h1>
       <form method="POST" onSubmit={handleSubmit}>
         <div className="input-container">
           <div className="input">
@@ -76,7 +115,10 @@ const CommentaireAdd = () => {
             <input type="checkbox" className="input-box" name="verif" checked={formData.verif} onChange={handleChange} />
           </div>
         </div>
-        <button type="submit" className="sign-btn">Ajouter</button>
+        {
+          error && <p style={{ color: "red" }}>Erreur sur l'ajout de l'événement</p>
+        }
+        <button type="submit" className="sign-btn">{id ? 'Modifier' : 'Ajouter'}</button>
       </form>
     </div>
   )
