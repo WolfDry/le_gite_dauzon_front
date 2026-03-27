@@ -127,7 +127,7 @@ const Reservation = () => {
               <Form.Input
                 type="date"
                 value={inputsValue.fin || ''}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => changeInputsValue('debut', e.target.value)} />
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => changeInputsValue('fin', e.target.value)} />
             </Container.Column>
             <Container.Column alignItems="flex-start" gap="7px" flex="1 0 0" alignSelf="stretch">
               <Text.Label>
