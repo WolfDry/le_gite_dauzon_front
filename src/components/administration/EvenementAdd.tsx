@@ -105,7 +105,7 @@ const EvenementAdd = ({ setPage, id }: Props) => {
             <p>Titre :</p>
             <select name="type" id="type" onChange={handleChange} value={formData.type}>
               <option value="">Type d'événement</option>
-              <option value="RANDO">Randonné</option>
+              <option value="RANDO">Randonnée</option>
               <option value="VISIT">Visite</option>
               <option value="EVENT">Evenement</option>
             </select>

@@ -32,7 +32,7 @@ const Header = () => {
         </Container.Row>
         <Container.Row mDisplay="none" justifyContent="center" alignItems="center" gap="2.7vw" alignSelf="stretch">
           <Action.NavLink to={"/gite"} fontSize="1.25rem" end>Le gite</Action.NavLink>
-          <Action.NavLink to={"/reservation"} fontSize="1.25rem">Réserver</Action.NavLink>
+          <Action.NavLink to={"/reservation"} fontSize="1.25rem">Disponibilité</Action.NavLink>
           <Action.NavLink to={"/visite"} fontSize="1.25rem">A visiter</Action.NavLink>
           <Action.NavLink to={"/acces"} fontSize="1.25rem">Accès</Action.NavLink>
           <Action.NavLink to={"/commentaire"} fontSize="1.25rem">Livre d'or</Action.NavLink>
@@ -49,7 +49,9 @@ const Header = () => {
           </Action.Link>
         </Container.Row>
         <Container.Column display="none" mDisplay="flex">
-          <Visual.Svg label="mobile_logo" fill={color.dark} />
+          <Action.Link to={"/"} gap="15px">
+            <Visual.Svg label="mobile_logo" fill={color.dark} />
+          </Action.Link>
         </Container.Column>
         <Action.Button onClick={() => changeDisplayMenu()} display="none" mDisplay="flex" width="4rem" height="4rem" padding="15px" borderRadius="2.8rem" background={white} flexShrink="0">
           <Visual.Svg width={64} label="burger" />

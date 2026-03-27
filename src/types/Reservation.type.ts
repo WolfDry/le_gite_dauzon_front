@@ -13,9 +13,10 @@ export type Reservation = {
     fin: Date
     dateAjout?: Date
     nbPersonne: nbPersonne[]
-    clientId: number
+    clientId?: number
     client?: Client
     supplement?: Supplement[]
+    verif: boolean
 }
 
 export type UpdateReservation = {

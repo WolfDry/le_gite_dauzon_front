@@ -17,7 +17,7 @@ const MobileMenu = ({ changeDisplayMenu }: Props) => {
           Le gîte
         </Action.Link>
         <Action.Link to={"/reservation"} color={white}>
-          Réserver
+          Disponibilité
         </Action.Link>
         <Action.Link to={"/visite"} color={white}>
           À visiter

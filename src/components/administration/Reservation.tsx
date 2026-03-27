@@ -196,7 +196,7 @@ const Reservation = ({ setPage }: any) => {
                 return (
                   <tr>
                     <td>
-                      {reservation.client.nom + " " + reservation.client.prenom}
+                      {reservation.client ? reservation.client.nom + " " + reservation.client.prenom : ""}
                     </td>
                     <td>
                       {new Date(reservation.debut).toLocaleDateString('fr-FR')}
