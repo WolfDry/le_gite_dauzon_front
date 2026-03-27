@@ -17,7 +17,6 @@ const PrixAdd = ({ setPage, id }: any) => {
   useEffect(() => {
     const fetchData = async () => {
       if (id) {
-        // If id is provided, fetch the existing tarif data to edit
         const response = await getTarifById(id)
         setFormData(response)
       }
