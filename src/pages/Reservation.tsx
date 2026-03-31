@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import HeroBanner from '../components/molecules/HeroBanner'
 import { Action, Container, Form, Text, Visual } from '../components/atoms'
-import { blue, darkBlue, lightBlue, lightLightBlue, white } from '../assets/color'
+import { blue, darkBlue, green, lightBlue, lightLightBlue, white } from '../assets/color'
 import Cell from '../components/molecules/Table/Cell'
 import Ligne from '../components/molecules/Table/Ligne'
 import Calendrier from '../components/molecules/Calendar/Calendrier'
@@ -24,6 +24,7 @@ type NbPersonne = {
 const Reservation = () => {
 
   const dispatch = useDispatch<AppDispatch>()
+  const askReservation = useSelector((state: any) => state.reservation.askReservation)
   const { selectedDates, nbPersonne } = useSelector((state: any) => state.app)
   const [inputsValue, setInputsValue] = useState<AskReservation>({
     debut: null,
@@ -36,6 +37,7 @@ const Reservation = () => {
   const reservations = useSelector((state: any) => state.reservation.reservation)
   const [prices, setPrices] = useState<Tarif[]>([])
   const [isPersonneDisplay, setIsPersonneDisplay] = useState(false)
+  const [isEmailSend, setIsEmailSend] = useState(false)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -90,6 +92,29 @@ const Reservation = () => {
     }
   }, [nbPersonne, changeInputsValue])
 
+  useEffect(() => {
+    if (isEmailSend) {
+      const timer = setTimeout(() => {
+        setIsEmailSend(false)
+      }, 10000)
+      return () => clearTimeout(timer)
+    }
+  }, [isEmailSend])
+
+  useEffect(() => {
+    if (askReservation) {
+      if (askReservation.id) {
+        setIsEmailSend(true)
+        setInputsValue({
+          debut: null,
+          fin: null,
+          nbPersonne,
+          email: "",
+          phone: ""
+        })
+      }
+    }
+  }, [askReservation, nbPersonne])
 
   const setNbPersonne = (data: NbPersonne[]) => {
     changeInputsValue("nbPersonne", data)
@@ -101,8 +126,21 @@ const Reservation = () => {
       debut: inputsValue.debut ? new Date(inputsValue.debut) : null,
       fin: inputsValue.fin ? new Date(inputsValue.fin) : null
     }
-
     dispatch(createAskReservation(dataToSend))
+    if (askReservation) {
+      if (askReservation.id) {
+        setIsEmailSend(true)
+        setInputsValue({
+          debut: null,
+          fin: null,
+          nbPersonne,
+          email: "",
+          phone: ""
+        })
+      } else
+        setIsEmailSend(false)
+    } else
+      setIsEmailSend(false)
   }
 
   const handleClick = (calendarDisplay: boolean | null, personneDisplay: boolean | null) => {
@@ -163,8 +201,8 @@ const Reservation = () => {
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => changeInputsValue('phone', e.target.value)} />
             </Container.Column>
           </Container.Row>
-          <Action.Button onClick={() => addAskReservation()} background={blue}>
-            Envoyer ma demande
+          <Action.Button onClick={() => addAskReservation()} background={isEmailSend ? green : blue}>
+            {isEmailSend ? "Demande envoyée !" : "Envoyer ma demande"}
           </Action.Button>
           <Container.Row paddingLeft="10px" justifyContent="center" alignItems="center" gap="10px" alignSelf="stretch" borderLeft={`2px solid ${blue}`}>
             <Text.Paragraph flex="1 0 0" overflow="visible">
