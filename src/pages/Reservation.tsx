@@ -35,6 +35,7 @@ const Reservation = () => {
   const [dates, setDates] = useState([{ debut: null, fin: null }])
   const reservations = useSelector((state: any) => state.reservation.reservation)
   const [prices, setPrices] = useState<Tarif[]>([])
+  const [isPersonneDisplay, setIsPersonneDisplay] = useState(false)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -104,6 +105,12 @@ const Reservation = () => {
     dispatch(createAskReservation(dataToSend))
   }
 
+  const handleClick = (calendarDisplay: boolean | null, personneDisplay: boolean | null) => {
+    if (personneDisplay !== null) {
+      setIsPersonneDisplay(personneDisplay)
+    }
+  }
+
   return (
     <Container.Column background={lightLightBlue}>
       <HeroBanner height="60vh" />
@@ -133,7 +140,7 @@ const Reservation = () => {
               <Text.Label>
                 Nombre de personnes*
               </Text.Label>
-              <InputPersonne isInReservation={true} value={inputsValue.nbPersonne} setValue={setNbPersonne} />
+              <InputPersonne isInReservation={true} value={inputsValue.nbPersonne} setValue={setNbPersonne} isDisplay={isPersonneDisplay} handleDisplay={handleClick} />
             </Container.Column>
           </Container.Row>
           <Container.Row alignItems="start" gap="1.25rem" alignSelf="stretch">

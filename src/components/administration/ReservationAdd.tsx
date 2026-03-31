@@ -53,6 +53,7 @@ const ReservationAdd = ({ setPage, id }: Props) => {
     nb: 0
   }])
   const [error, setError] = useState(false)
+  const [isPersonneDisplay, setIsPersonneDisplay] = useState(false)
 
   useEffect(() => {
     async function fetchClient() {
@@ -162,6 +163,13 @@ const ReservationAdd = ({ setPage, id }: Props) => {
     }
   }
 
+  const handleClick = (calendarDisplay: boolean | null, personneDisplay: boolean | null) => {
+    if (personneDisplay !== null) {
+      setIsPersonneDisplay(personneDisplay)
+    }
+  }
+
+
   return (
     <div className="sign-up-form">
       <h1>{id ? "Modifier" : "Ajouter"} une réservation</h1>
@@ -203,7 +211,7 @@ const ReservationAdd = ({ setPage, id }: Props) => {
           </div>
         </div>
         <p>Nombre d'adultes :</p>
-        <InputPersonne isInReservation={false} value={nbPersonne} setValue={setNbPersonne} />
+        <InputPersonne isInReservation={false} value={nbPersonne} setValue={setNbPersonne} isDisplay={isPersonneDisplay} handleDisplay={handleClick} />
         <h2 style={{ margin: "15px 0" }}>Suppléments :</h2>
         {supplements.map((supplement: any) => {
           const current = suppValue.find(s => s.supplementId === supplement.id)?.nb ?? 0

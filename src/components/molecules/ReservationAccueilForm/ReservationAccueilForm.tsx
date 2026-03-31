@@ -15,6 +15,8 @@ const ReservationAccueilForm = () => {
     debut: null,
     fin: null
   })
+  const [isCalendarDisplay, setIsCalendarDisplay] = useState(false)
+  const [isPersonneDisplay, setIsPersonneDisplay] = useState(false)
 
   const [nbPersonne, setNbPersonne] = useState<Value[]>([{
     label: "Adultes",
@@ -29,10 +31,21 @@ const ReservationAccueilForm = () => {
     nb: 0
   }])
 
+  const handleClick = (calendarDisplay: boolean | null, personneDisplay: boolean | null) => {
+    if (calendarDisplay !== null) {
+      setIsCalendarDisplay(calendarDisplay)
+      setIsPersonneDisplay(false)
+    }
+    if (personneDisplay !== null) {
+      setIsCalendarDisplay(false)
+      setIsPersonneDisplay(personneDisplay)
+    }
+  }
+
   return (
     <Container.Row width="fit-content" mobileWidth="21.25rem" padding="5px" alignItem="center" gap="5px" background={darkGreen} borderRadius="12.5rem" mBorderRadius="1.25rem">
-      <InputsReservationAccueilForm initialDates={initialDates} />
-      <InputPersonne isInReservation={false} value={nbPersonne} setValue={setNbPersonne} />
+      <InputsReservationAccueilForm initialDates={initialDates} isDisplay={isCalendarDisplay} handleDisplay={handleClick} />
+      <InputPersonne isInReservation={false} value={nbPersonne} setValue={setNbPersonne} isDisplay={isPersonneDisplay} handleDisplay={handleClick} />
       <Action.Link to={"/reservation"} borderRadius="6.25rem" mBorderRadius="7px 7px 15px 15px" padding="0.75rem 2.5rem" background={white} fontSize="1.125rem">Faire une demande</Action.Link>
     </Container.Row>
   )

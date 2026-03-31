@@ -13,12 +13,13 @@ type Props = {
     debut: string | null
     fin: string | null
   }
+  isDisplay: boolean
+  handleDisplay: (calendarDisplay: boolean | null, personneDisplay: boolean | null) => void
 }
 
-const InputsReservationAccueilForm = ({ initialDates }: Props) => {
+const InputsReservationAccueilForm = ({ initialDates, isDisplay, handleDisplay }: Props) => {
 
   const dispatch = useDispatch<AppDispatch>()
-  const [isDisplay, setIsDisplay] = useState(false)
   const [currentMonth, setCurrentMonth] = useState(() => ({
     left: new Date(),
     right: addMonths(new Date(), 1),
@@ -45,13 +46,9 @@ const InputsReservationAccueilForm = ({ initialDates }: Props) => {
     setCurrentMonth(newMonth)
   }
 
-  const show = () => {
-    setIsDisplay(!isDisplay)
-  }
-
   return (
     <Container.Column position="relative">
-      <Container.Row onClick={() => show()} direction="row" height="100%" mHeight="3.1875rem" padding="12px 30px 12px 20px" justifyContent="center" alignItems="center" gap="14px" alignSelf="stretch" borderRadius="100px 7px 7px 100px" mBorderRadius="15px 15px 7px 7px" background={white} cursor="pointer">
+      <Container.Row onClick={() => handleDisplay(!isDisplay, null)} direction="row" height="100%" mHeight="3.1875rem" padding="12px 30px 12px 20px" justifyContent="center" alignItems="center" gap="14px" alignSelf="stretch" borderRadius="100px 7px 7px 100px" mBorderRadius="15px 15px 7px 7px" background={white} cursor="pointer">
         <Visual.Svg label="calendar" />
         <Text.Paragraph alignSelf="center">
           {dates.debut

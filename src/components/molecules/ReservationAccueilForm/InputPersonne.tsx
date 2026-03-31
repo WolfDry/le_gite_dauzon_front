@@ -15,21 +15,17 @@ type Props = {
   isInReservation: boolean
   value: Value[]
   setValue: ((value: any) => void)
+  isDisplay: boolean
+  handleDisplay: (calendarDisplay: boolean | null, personneDisplay: boolean | null) => void
 }
 
-const InputPersonne = ({ isInReservation, value, setValue }: Props) => {
+const InputPersonne = ({ isInReservation, value, setValue, isDisplay, handleDisplay }: Props) => {
 
   const dispatch = useDispatch<AppDispatch>()
-
-  const [isDisplay, setIsDisplay] = useState(false)
 
   useEffect(() => {
     dispatch(updateNbPersonne(value))
   }, [value, dispatch])
-
-  const show = () => {
-    setIsDisplay(!isDisplay)
-  }
 
   const updateData = (action: string, newData: { label: string, nb: number }) => {
     const updatedValue = value.map(item => {
@@ -44,7 +40,7 @@ const InputPersonne = ({ isInReservation, value, setValue }: Props) => {
 
   return (
     <Container.Column position="relative" alignSelf={isInReservation ? "stretch" : ""} height="100%">
-      <Container.Row direction="row" height="100%" border={`1px solid ${dark}`} onClick={() => show()} padding={isInReservation ? "15px" : "12px 30px 12px 20px"} justifyContent="space-between" alignItems="center" gap="14px" alignSelf="stretch" borderRadius={isInReservation ? "10px" : "7px 6.25rem 6.25rem 7px"} mBorderRadius="7px" background={white} cursor="pointer">
+      <Container.Row direction="row" height="100%" border={`1px solid ${dark}`} onClick={() => handleDisplay(null, !isDisplay)} padding={isInReservation ? "15px" : "12px 30px 12px 20px"} justifyContent="space-between" alignItems="center" gap="14px" alignSelf="stretch" borderRadius={isInReservation ? "10px" : "7px 6.25rem 6.25rem 7px"} mBorderRadius="7px" background={white} cursor="pointer">
         {!isInReservation &&
           <Visual.Svg label="personne" />
         }
