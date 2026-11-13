@@ -5,7 +5,7 @@ const API_KEY = process.env.REACT_APP_API_URL
 
 export const getReservation = async () => {
   try {
-    const response = await axios.get(`${API_KEY}/reservations`)
+    const response = await axios.get(`${API_KEY}/reservations/disponibilites`)
     return response.data
   } catch (error) {
     console.error(error)
