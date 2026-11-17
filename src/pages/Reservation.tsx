@@ -1,7 +1,7 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import HeroBanner from '../components/molecules/HeroBanner'
 import { Action, Container, Form, Text, Visual } from '../components/atoms'
-import { blue, darkBlue, green, lightBlue, lightLightBlue, white } from '../assets/color'
+import { blue, darkBlue, darkGreen, lightBlue, lightLightBlue, white } from '../assets/color'
 import Cell from '../components/molecules/Table/Cell'
 import Ligne from '../components/molecules/Table/Ligne'
 import Calendrier from '../components/molecules/Calendar/Calendrier'
@@ -11,44 +11,91 @@ import { useSelector } from 'react-redux'
 import InputPersonne from '../components/molecules/ReservationAccueilForm/InputPersonne'
 import { useDispatch } from 'react-redux'
 import { AppDispatch } from '../types/Redux.type'
-import { createAskReservation, getAllReservations } from '../stores/thunks/reservationThunks'
-import { AskReservation, Reservation as ReservationType } from '../types/Reservation.type'
+import { getAllReservations } from '../stores/thunks/reservationThunks'
+import { AskReservation, Disponibilite } from '../types/Reservation.type'
 import { Tarif } from '../types/Tarif.type'
 import { getTarif } from '../services/Tarifs'
+import { createReservationRequest } from '../services/Reservations'
+import { submitErrorMessage } from '../services/errors'
 
 type NbPersonne = {
   label: string
   nb: number
 }
 
+type FieldName = 'debut' | 'fin' | 'nbPersonne' | 'nom' | 'email' | 'phone' | 'message'
+type FieldErrors = Partial<Record<FieldName, string>>
+type SubmitStatus = 'idle' | 'sending' | 'success' | 'error'
+
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+const MESSAGE_MAX_LENGTH = 2000
+
+const pad = (n: number) => String(n).padStart(2, '0')
+
+/** Date du jour du visiteur au format AAAA-MM-JJ (celui des champs date). */
+const todayYmd = () => {
+  const now = new Date()
+  return `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`
+}
+
+/** Mêmes règles que l'API, pour signaler l'erreur à côté du champ avant l'envoi. */
+const validate = (values: AskReservation): FieldErrors => {
+  const errors: FieldErrors = {}
+  if (!values.debut) errors.debut = "Indiquez votre date d'arrivée."
+  else if (values.debut < todayYmd()) errors.debut = "La date d'arrivée est déjà passée."
+  if (!values.fin) errors.fin = 'Indiquez votre date de départ.'
+  else if (values.debut && values.fin <= values.debut) errors.fin = "La date de départ doit être après la date d'arrivée."
+  if ((values.nbPersonne.find((p) => p.label === 'Adultes')?.nb ?? 0) < 1) errors.nbPersonne = 'Indiquez au moins un adulte.'
+  if (!values.nom.trim()) errors.nom = 'Indiquez votre prénom et votre nom.'
+  else if (values.nom.trim().length > 100) errors.nom = 'Le nom est trop long (100 caractères maximum).'
+  if (!EMAIL_PATTERN.test(values.email.trim()) || values.email.trim().length > 254) errors.email = 'Indiquez une adresse e-mail valide.'
+  const digits = values.phone.replace(/\D/g, '')
+  if (digits.length < 6 || values.phone.trim().length > 30) errors.phone = 'Indiquez un numéro de téléphone valide.'
+  if ((values.message ?? '').length > MESSAGE_MAX_LENGTH) errors.message = `Le message est trop long (${MESSAGE_MAX_LENGTH} caractères maximum).`
+  return errors
+}
+
+const FieldError = ({ message }: { message?: string }) =>
+  message ? <Text.Paragraph color="red" fontSize="0.875rem" role="alert">{message}</Text.Paragraph> : null
+
 const Reservation = () => {
 
   const dispatch = useDispatch<AppDispatch>()
-  const askReservation = useSelector((state: any) => state.reservation.askReservation)
   const { selectedDates, nbPersonne } = useSelector((state: any) => state.app)
   const [inputsValue, setInputsValue] = useState<AskReservation>({
-    debut: null,
-    fin: null,
+    debut: '',
+    fin: '',
     nbPersonne,
-    email: "",
-    phone: ""
+    nom: '',
+    email: '',
+    phone: '',
+    message: '',
   })
-  const [dates, setDates] = useState([{ debut: null, fin: null }])
-  const reservations = useSelector((state: any) => state.reservation.reservation)
+  const [errors, setErrors] = useState<FieldErrors>({})
+  const [status, setStatus] = useState<SubmitStatus>('idle')
+  const [submitError, setSubmitError] = useState('')
+  const reservations: Disponibilite[] = useSelector((state: any) => state.reservation.reservations)
+  const reservationsError = useSelector((state: any) => state.reservation.error)
+  const dates = useMemo(() => reservations.map(({ debut, fin }) => ({ debut, fin })), [reservations])
   const [prices, setPrices] = useState<Tarif[]>([])
+  const [pricesError, setPricesError] = useState(false)
   const [isPersonneDisplay, setIsPersonneDisplay] = useState(false)
-  const [isEmailSend, setIsEmailSend] = useState(false)
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await getTarif()
-      let data = response.map((tarif: Tarif) => ({
-        ...tarif,
-        desc: tarif.desc === " " ? null : tarif.desc,
-        frequence: tarif.frequence.map((f) => f.toLowerCase()).join(" / ")
-      }))
-      data = data.sort((a: { id: number }, b: { id: number }) => a.id - b.id)
-      setPrices(data)
+      try {
+        const response = await getTarif()
+        let data = response.map((tarif: Tarif) => ({
+          ...tarif,
+          desc: tarif.desc === " " ? null : tarif.desc,
+          frequence: tarif.frequence.map((f) => f.toLowerCase()).join(" / ")
+        }))
+        data = data.sort((a: { id: number }, b: { id: number }) => a.id - b.id)
+        setPrices(data)
+      } catch (error) {
+        console.error(error)
+        setPricesError(true)
+      }
     }
     fetchData()
   }, [])
@@ -56,15 +103,6 @@ const Reservation = () => {
   useEffect(() => {
     dispatch(getAllReservations())
   }, [dispatch])
-
-  useEffect(() => {
-    if (reservations) {
-      const result = reservations.map((reservation: ReservationType) => {
-        return { debut: reservation.debut, fin: reservation.fin }
-      })
-      setDates(result)
-    }
-  }, [reservations])
 
   useEffect(() => {
     if (selectedDates) {
@@ -77,70 +115,57 @@ const Reservation = () => {
   }, [selectedDates])
 
   const changeInputsValue = useCallback(
-    (field: keyof typeof inputsValue, value: any) => {
+    (field: FieldName, value: any) => {
       setInputsValue(prev => ({
         ...prev,
         [field]: value
       }))
+      setErrors(prev => ({ ...prev, [field]: undefined }))
+      // Une nouvelle saisie après un envoi réussi ou échoué efface le message précédent.
+      setStatus(prev => (prev === 'sending' ? prev : 'idle'))
     },
     []
   )
 
+  // Nombre de personnes choisi sur la page d'accueil.
   useEffect(() => {
     if (nbPersonne) {
-      changeInputsValue("nbPersonne", nbPersonne)
+      setInputsValue(prev => ({ ...prev, nbPersonne }))
     }
-  }, [nbPersonne, changeInputsValue])
-
-  useEffect(() => {
-    if (isEmailSend) {
-      const timer = setTimeout(() => {
-        setIsEmailSend(false)
-      }, 10000)
-      return () => clearTimeout(timer)
-    }
-  }, [isEmailSend])
-
-  useEffect(() => {
-    if (askReservation) {
-      if (askReservation.id) {
-        setIsEmailSend(true)
-        setInputsValue({
-          debut: null,
-          fin: null,
-          nbPersonne,
-          email: "",
-          phone: ""
-        })
-      }
-    }
-  }, [askReservation, nbPersonne])
+  }, [nbPersonne])
 
   const setNbPersonne = (data: NbPersonne[]) => {
     changeInputsValue("nbPersonne", data)
   }
 
-  const addAskReservation = () => {
-    const dataToSend = {
-      ...inputsValue,
-      debut: inputsValue.debut ? new Date(inputsValue.debut) : null,
-      fin: inputsValue.fin ? new Date(inputsValue.fin) : null
+  const addAskReservation = async () => {
+    if (status === 'sending') return
+
+    const found = validate(inputsValue)
+    setErrors(found)
+    if (Object.values(found).some(Boolean)) {
+      setStatus('idle')
+      return
     }
-    dispatch(createAskReservation(dataToSend))
-    if (askReservation) {
-      if (askReservation.id) {
-        setIsEmailSend(true)
-        setInputsValue({
-          debut: null,
-          fin: null,
-          nbPersonne,
-          email: "",
-          phone: ""
-        })
-      } else
-        setIsEmailSend(false)
-    } else
-      setIsEmailSend(false)
+
+    setStatus('sending')
+    try {
+      await createReservationRequest({
+        debut: inputsValue.debut,
+        fin: inputsValue.fin,
+        nbPersonne: inputsValue.nbPersonne,
+        nom: inputsValue.nom.trim(),
+        email: inputsValue.email.trim(),
+        phone: inputsValue.phone.trim(),
+        message: inputsValue.message?.trim() || undefined,
+      })
+      setStatus('success')
+      setInputsValue(prev => ({ ...prev, debut: '', fin: '', nom: '', email: '', phone: '', message: '' }))
+    } catch (error) {
+      console.error(error)
+      setSubmitError(submitErrorMessage(error))
+      setStatus('error')
+    }
   }
 
   const handleClick = (calendarDisplay: boolean | null, personneDisplay: boolean | null) => {
@@ -156,54 +181,117 @@ const Reservation = () => {
         <Container.Column width="100%" padding="1.875rem 3.75rem" alignItems="center" gap="1.875rem" flex="1 0 0" borderRadius="1.25rem" background={white} boxShadow="4px 4px 20px 0 rgba(128, 226, 255, 0.25)">
           <Container.Row alignItems="start" gap="1.25rem" alignSelf="stretch">
             <Container.Column alignItems="flex-start" gap="7px" flex="1 0 0" alignSelf="stretch">
-              <Text.Label>
+              <Text.Label htmlFor="reservation-debut">
                 Date d'arrivée*
               </Text.Label>
               <Form.Input
+                id="reservation-debut"
                 type="date"
-                value={inputsValue.debut || ''}
+                min={todayYmd()}
+                required
+                aria-invalid={!!errors.debut}
+                value={inputsValue.debut}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => changeInputsValue('debut', e.target.value)}
               />
+              <FieldError message={errors.debut} />
             </Container.Column>
             <Container.Column alignItems="flex-start" gap="7px" flex="1 0 0" alignSelf="stretch">
-              <Text.Label>
+              <Text.Label htmlFor="reservation-fin">
                 Date de départ*
               </Text.Label>
               <Form.Input
+                id="reservation-fin"
                 type="date"
-                value={inputsValue.fin || ''}
+                min={inputsValue.debut || todayYmd()}
+                required
+                aria-invalid={!!errors.fin}
+                value={inputsValue.fin}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => changeInputsValue('fin', e.target.value)} />
+              <FieldError message={errors.fin} />
             </Container.Column>
             <Container.Column alignItems="flex-start" gap="7px" flex="1 0 0" alignSelf="stretch">
               <Text.Label>
                 Nombre de personnes*
               </Text.Label>
               <InputPersonne isInReservation={true} value={inputsValue.nbPersonne} setValue={setNbPersonne} isDisplay={isPersonneDisplay} handleDisplay={handleClick} />
+              <FieldError message={errors.nbPersonne} />
             </Container.Column>
           </Container.Row>
           <Container.Row alignItems="start" gap="1.25rem" alignSelf="stretch">
             <Container.Column alignItems="flex-start" gap="7px" flex="1 0 0" alignSelf="stretch">
-              <Text.Label>
+              <Text.Label htmlFor="reservation-nom">
+                Prénom et nom*
+              </Text.Label>
+              <Form.Input
+                id="reservation-nom"
+                type="text"
+                autoComplete="name"
+                maxLength={100}
+                required
+                aria-invalid={!!errors.nom}
+                value={inputsValue.nom}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => changeInputsValue('nom', e.target.value)} />
+              <FieldError message={errors.nom} />
+            </Container.Column>
+            <Container.Column alignItems="flex-start" gap="7px" flex="1 0 0" alignSelf="stretch">
+              <Text.Label htmlFor="reservation-email">
                 Adresse mail*
               </Text.Label>
               <Form.Input
+                id="reservation-email"
                 type="email"
-                value={inputsValue.email || ''}
+                autoComplete="email"
+                maxLength={254}
+                required
+                aria-invalid={!!errors.email}
+                value={inputsValue.email}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => changeInputsValue('email', e.target.value)} />
+              <FieldError message={errors.email} />
             </Container.Column>
             <Container.Column alignItems="flex-start" gap="7px" flex="1 0 0" alignSelf="stretch">
-              <Text.Label>
+              <Text.Label htmlFor="reservation-phone">
                 Numéro de téléphone*
               </Text.Label>
               <Form.Input
+                id="reservation-phone"
                 type="tel"
-                value={inputsValue.phone || ''}
+                autoComplete="tel"
+                maxLength={30}
+                required
+                aria-invalid={!!errors.phone}
+                value={inputsValue.phone}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => changeInputsValue('phone', e.target.value)} />
+              <FieldError message={errors.phone} />
             </Container.Column>
           </Container.Row>
-          <Action.Button onClick={() => addAskReservation()} background={isEmailSend ? green : blue}>
-            {isEmailSend ? "Demande envoyée !" : "Envoyer ma demande"}
+          <Container.Column alignItems="flex-start" gap="7px" alignSelf="stretch">
+            <Text.Label htmlFor="reservation-message">
+              Message (facultatif)
+            </Text.Label>
+            <Form.TextArea
+              id="reservation-message"
+              maxLength={MESSAGE_MAX_LENGTH}
+              placeholder="Heure d'arrivée, questions, besoins particuliers…"
+              aria-invalid={!!errors.message}
+              value={inputsValue.message}
+              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => changeInputsValue('message', e.target.value)}
+            />
+            <FieldError message={errors.message} />
+          </Container.Column>
+          <Action.Button onClick={addAskReservation} disabled={status === 'sending'} aria-busy={status === 'sending'} background={blue}>
+            {status === 'sending' ? "Envoi en cours…" : "Envoyer ma demande"}
           </Action.Button>
+          {status === 'success' && (
+            <Text.Paragraph color={darkGreen} textAlign="center" role="status">
+              {`Merci, votre demande a bien été envoyée !
+Nous vous recontactons rapidement pour confirmer la disponibilité du gîte.`}
+            </Text.Paragraph>
+          )}
+          {status === 'error' && (
+            <Text.Paragraph color="red" textAlign="center" role="alert">
+              {submitError}
+            </Text.Paragraph>
+          )}
           <Container.Row paddingLeft="10px" justifyContent="center" alignItems="center" gap="10px" alignSelf="stretch" borderLeft={`2px solid ${blue}`}>
             <Text.Paragraph flex="1 0 0" overflow="visible">
               {`Important :
@@ -213,6 +301,13 @@ Nous vous contacterons rapidement pour vous confirmer la disponibilité du gîte
           </Container.Row>
         </Container.Column>
       </Container.Row>
+      {pricesError && (
+        <Container.Row padding="1.25rem 6.25rem 0 6.25rem" mPadding="0 1.25rem" justifyContent="center" alignSelf="stretch">
+          <Text.Paragraph color="red" textAlign="center" role="alert">
+            Les tarifs n'ont pas pu être chargés. Rechargez la page, ou contactez-nous pour les connaître.
+          </Text.Paragraph>
+        </Container.Row>
+      )}
       <Container.Column mDisplay="none" maxWidth="100vw" padding="2.5rem 6.25rem" alignItems="center" gap="1.875rem">
         <Container.Column justifyContent="center" alignItems="flex-start" gap="10px" alignSelf="stretch">
           <Ligne>
@@ -351,6 +446,11 @@ En juillet et août, les locations se font du samedi 15h au samedi suivant 11h.`
             <Text.Paragraph textAlign="center">
               Mis à jour le 08 mai 2025
             </Text.Paragraph>
+            {reservationsError && (
+              <Text.Paragraph color="red" role="alert">
+                Les disponibilités n'ont pas pu être chargées : le calendrier ci-dessous peut être incomplet. Envoyez-nous votre demande, nous vous confirmerons la disponibilité.
+              </Text.Paragraph>
+            )}
           </Container.Column>
           <Container.Row direction="row" justifyContent="center" alignItems="center" gap="10px">
             <Container.Row direction="row" alignItems="center">

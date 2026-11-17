@@ -1,42 +1,81 @@
 import React, { useState } from "react"
 import { Container, Form, Text, Visual } from "../atoms"
 import { usePageColor } from "../../hooks/usePageColor"
-import { useDispatch } from "react-redux"
-import { AppDispatch } from "../../types/Redux.type"
-import { createComment } from "../../stores/thunks/commentaireThunks"
-import { Comment } from "../../types/Commentaire.type"
+import { dark } from "../../assets/color"
+import { createCommentaire } from "../../services/Commentaires"
+import { submitErrorMessage } from "../../services/errors"
+
+type Inputs = {
+  name: string
+  commentaire: string
+  note: number
+}
+
+type FieldErrors = Partial<Record<keyof Inputs, string>>
+type SubmitStatus = "idle" | "sending" | "success" | "error"
+
+const emptyInputs: Inputs = { name: "", commentaire: "", note: 0 }
+
+/** Mêmes règles que l'API, pour signaler l'erreur à côté du champ avant l'envoi. */
+const validate = (inputs: Inputs): FieldErrors => {
+  const errors: FieldErrors = {}
+  if (!inputs.name.trim()) errors.name = "Indiquez votre prénom et votre nom."
+  else if (inputs.name.trim().length > 100) errors.name = "Le nom est trop long (100 caractères maximum)."
+  if (!inputs.commentaire.trim()) errors.commentaire = "Écrivez quelques mots sur votre séjour."
+  else if (inputs.commentaire.length > 3000) errors.commentaire = "Le message est trop long (3000 caractères maximum)."
+  if (inputs.note < 1 || inputs.note > 5) errors.note = "Choisissez une note de 1 à 5 étoiles."
+  return errors
+}
+
+const FieldError = ({ message }: { message?: string }) =>
+  message ? <Text.Paragraph color="red" fontSize="0.875rem" role="alert">{message}</Text.Paragraph> : null
 
 const CommentFooter = () => {
   const color = usePageColor()
 
-  const dispatch = useDispatch<AppDispatch>()
-
-  const [inputs, setInputs] = useState<Comment>({
-    name: "",
-    commentaire: "",
-    note: 0,
-    verif: false,
-  })
+  const [inputs, setInputs] = useState<Inputs>(emptyInputs)
+  const [errors, setErrors] = useState<FieldErrors>({})
+  const [status, setStatus] = useState<SubmitStatus>("idle")
+  const [submitError, setSubmitError] = useState("")
 
   const [hoverRating, setHoverRating] = useState(0)
 
+  const update = (field: keyof Inputs, value: string | number) => {
+    setInputs((prev) => ({ ...prev, [field]: value }))
+    setErrors((prev) => ({ ...prev, [field]: undefined }))
+    setStatus((prev) => (prev === "sending" ? prev : "idle"))
+  }
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
-    setInputs((prev) => ({ ...prev, [name]: value }))
+    update(name as keyof Inputs, value)
   }
 
   const handleRatingClick = (value: number) => {
-    setInputs((prev) => ({ ...prev, note: value }))
+    update("note", value)
   }
 
-  const handleSend = () => {
-    dispatch(createComment(inputs))
-    setInputs({
-      name: "",
-      commentaire: "",
-      note: 0,
-      verif: false,
-    })
+  const handleSend = async () => {
+    if (status === "sending") return
+
+    const found = validate(inputs)
+    setErrors(found)
+    if (Object.values(found).some(Boolean)) {
+      setStatus("idle")
+      return
+    }
+
+    setStatus("sending")
+    try {
+      await createCommentaire({ name: inputs.name.trim(), commentaire: inputs.commentaire.trim(), note: inputs.note })
+      // Les champs ne sont vidés qu'une fois l'avis bien reçu.
+      setInputs(emptyInputs)
+      setStatus("success")
+    } catch (error) {
+      console.error(error)
+      setSubmitError(submitErrorMessage(error))
+      setStatus("error")
+    }
   }
 
   return (
@@ -67,22 +106,34 @@ const CommentFooter = () => {
           <Container.Column justifyContent="center" alignItems="flex-start" gap="40px" flex="1">
             <Container.Column gap="20px" alignSelf="stretch" alignItems="flex-start">
               <Container.Column gap="7px" alignSelf="stretch">
-                <Text.Label>Prénom et nom*</Text.Label>
+                <Text.Label htmlFor="avis-nom">Prénom et nom*</Text.Label>
                 <Form.Input
+                  id="avis-nom"
                   type="text"
                   name="name"
+                  autoComplete="name"
+                  maxLength={100}
+                  required
+                  aria-invalid={!!errors.name}
                   value={inputs.name}
                   onChange={handleChange}
                 />
+                <FieldError message={errors.name} />
               </Container.Column>
               <Container.Column gap="7px" alignSelf="stretch">
-                <Text.Label>Message</Text.Label>
+                <Text.Label htmlFor="avis-message">Votre avis*</Text.Label>
                 <Form.TextArea
+                  id="avis-message"
                   name="commentaire"
+                  maxLength={3000}
+                  required
+                  aria-invalid={!!errors.commentaire}
                   value={inputs.commentaire}
                   onChange={handleChange}
                 />
+                <FieldError message={errors.commentaire} />
               </Container.Column>
+              <Text.Label>Votre note*</Text.Label>
               <Container.Row direction="row" justifyContent="center" alignItems="center" gap="15px">
                 {[1, 2, 3, 4, 5].map((star) => (
                   <Container.Column
@@ -100,8 +151,21 @@ const CommentFooter = () => {
                   </Container.Column>
                 ))}
               </Container.Row>
+              <FieldError message={errors.note} />
             </Container.Column>
-            <Form.Button onClick={() => handleSend()}>Envoyer</Form.Button>
+            <Form.Button onClick={handleSend} disabled={status === "sending"} aria-busy={status === "sending"}>
+              {status === "sending" ? "Envoi en cours…" : "Envoyer"}
+            </Form.Button>
+            {status === "success" && (
+              <Text.Paragraph color={dark} role="status">
+                Merci pour votre avis ! Il sera publié sur le site après validation par nos soins.
+              </Text.Paragraph>
+            )}
+            {status === "error" && (
+              <Text.Paragraph color="red" role="alert">
+                {submitError}
+              </Text.Paragraph>
+            )}
           </Container.Column>
         </Container.Row>
       </Container.Column>

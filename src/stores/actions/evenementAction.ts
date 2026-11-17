@@ -6,4 +6,4 @@ export const GET_EVENEMENT_FAILURE = "GET_EVENEMENT_FAILURE"
 
 export const getEvenementsRequest = () => ({ type: GET_EVENEMENT_REQUEST })
 export const getEvenementsSuccess = (evenements: Evenement[]) => ({ type: GET_EVENEMENT_SUCCESS, payload: evenements })
-export const getEvenementsFailure = (error: string) => ({ type: GET_EVENEMENT_FAILURE, error: error })
+export const getEvenementsFailure = (error: string) => ({ type: GET_EVENEMENT_FAILURE, payload: error })

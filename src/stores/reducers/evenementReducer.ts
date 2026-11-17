@@ -15,6 +15,6 @@ export const evenementReducer = (state = initialState, action: any) => {
     case GET_EVENEMENT_FAILURE:
       return { ...state, loading: false, error: action.payload }
     default:
-      return initialState
+      return state
   }
 }

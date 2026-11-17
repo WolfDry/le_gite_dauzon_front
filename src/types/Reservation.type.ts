@@ -16,25 +16,22 @@ export type Reservation = {
     clientId?: number
     client?: Client
     supplement?: Supplement[]
-    verif: boolean
 }
 
-export type UpdateReservation = {
-    tarif?: number
-    debut?: Date
-    fin?: Date
-    nbPersonne?: nbPersonne[]
-    clientId?: number
-    verif?: boolean
+/** Période déjà réservée, telle que renvoyée par la route publique des disponibilités. */
+export type Disponibilite = {
+    debut: string
+    fin: string
 }
 
 export type AskReservation = {
-    debut: Date | null
-    fin: Date | null
-    nbPersonne: [{
-        label: string
-        nb: number
-    }]
+    /** AAAA-MM-JJ */
+    debut: string
+    /** AAAA-MM-JJ */
+    fin: string
+    nbPersonne: nbPersonne[]
+    nom: string
     email: string
     phone: string
+    message?: string
 }

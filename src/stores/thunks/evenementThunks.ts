@@ -8,6 +8,7 @@ export const getAllEvenements = () => async (dispatch: AppDispatch) => {
     const result = await getEvenements()
     dispatch(getEvenementsSuccess(result))
   } catch (error: any) {
-    dispatch(getEvenementsFailure(error))
+    console.error(error)
+    dispatch(getEvenementsFailure(error?.message ?? "Erreur"))
   }
 }

@@ -10,8 +10,8 @@ export const UPDATE_NB_PERSONNE_FAILURE = "UPDATE_NB_PERSONNE_FAILURE"
 
 export const updateSelectedDatesRequest = () => ({ type: UPDATE_SELECTED_DATES_REQUEST })
 export const updateSelectedDatesSuccess = (selectedDates: Dates) => ({ type: UPDATE_SELECTED_DATES_SUCCESS, payload: selectedDates })
-export const updateSelectedDatesFailure = (error: string) => ({ type: UPDATE_SELECTED_DATES_REQUEST, error: error })
+export const updateSelectedDatesFailure = (error: string) => ({ type: UPDATE_SELECTED_DATES_FAILURE, payload: error })
 
 export const updateNbPersonneRequest = () => ({ type: UPDATE_NB_PERSONNE_REQUEST })
 export const updateNbPersonneSuccess = (nbPersonne: NbPersonne[]) => ({ type: UPDATE_NB_PERSONNE_SUCCESS, payload: nbPersonne })
-export const updateNbPersonneFailure = (error: string) => ({ type: UPDATE_NB_PERSONNE_REQUEST, error: error })
+export const updateNbPersonneFailure = (error: string) => ({ type: UPDATE_NB_PERSONNE_FAILURE, payload: error })
