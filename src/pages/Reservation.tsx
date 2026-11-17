@@ -17,6 +17,8 @@ import { Tarif } from '../types/Tarif.type'
 import { getTarif } from '../services/Tarifs'
 import { createReservationRequest } from '../services/Reservations'
 import { submitErrorMessage } from '../services/errors'
+import { addMonths, format, startOfMonth } from 'date-fns'
+import { fr } from 'date-fns/locale'
 
 type NbPersonne = {
   label: string
@@ -31,6 +33,17 @@ const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const MESSAGE_MAX_LENGTH = 2000
 
 const pad = (n: number) => String(n).padStart(2, '0')
+
+/** Le calendrier montre 6 mois à partir du mois en cours, sur deux lignes de 3. */
+const CALENDAR_MONTHS_SHOWN = 6
+const CALENDAR_MONTHS_PER_ROW = 3
+/** Décalage maximal depuis le mois en cours : on peut consulter jusqu'à 18 mois à l'avance. */
+const CALENDAR_MAX_OFFSET = 12
+
+const monthLabel = (month: Date) => {
+  const label = format(month, 'MMMM yyyy', { locale: fr })
+  return label.charAt(0).toUpperCase() + label.slice(1)
+}
 
 /** Date du jour du visiteur au format AAAA-MM-JJ (celui des champs date). */
 const todayYmd = () => {
@@ -80,6 +93,11 @@ const Reservation = () => {
   const [prices, setPrices] = useState<Tarif[]>([])
   const [pricesError, setPricesError] = useState(false)
   const [isPersonneDisplay, setIsPersonneDisplay] = useState(false)
+  const [monthOffset, setMonthOffset] = useState(0)
+  const calendarMonths = useMemo(() => {
+    const first = addMonths(startOfMonth(new Date()), monthOffset)
+    return Array.from({ length: CALENDAR_MONTHS_SHOWN }, (_, i) => addMonths(first, i))
+  }, [monthOffset])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -362,7 +380,7 @@ Nous vous contacterons rapidement pour vous confirmer la disponibilité du gîte
           </Ligne>
         </Container.Column>
         <Container.Row padding="5px 0 5px 10px" justifyContent="center" gap="25px" borderLeft={`4px solid ${blue}`}>
-          <Visual.Image src="/assets/images/reservation/ancv.png" width="8.6vw" height="4.7rem" aspectRatio="124/75" />
+          <Visual.Image src="/assets/images/reservation/ancv.webp" alt="Logo ANCV" loading="lazy" width="8.6vw" height="4.7rem" aspectRatio="124/75" />
           <Text.Paragraph alignSelf="center">
             Chèques vacances acceptés
           </Text.Paragraph>
@@ -403,7 +421,7 @@ Nous vous contacterons rapidement pour vous confirmer la disponibilité du gîte
           }
         </Container.Column>
         <Container.Row direction="row" padding="5px 0 5px 10px" justifyContent="center" alignItems="center" gap="1.25rem" borderLeft={`3px solid ${blue}`}>
-          <Visual.Image src="/assets/images/reservation/ancv.png" width="6.2rem" height="3.75rem" aspectRatio="33/20" />
+          <Visual.Image src="/assets/images/reservation/ancv.webp" alt="Logo ANCV" loading="lazy" width="6.2rem" height="3.75rem" aspectRatio="33/20" />
           <Text.Paragraph alignSelf="center">
             Chèques vacances acceptés
           </Text.Paragraph>
@@ -428,12 +446,12 @@ En juillet et août, les locations se font du samedi 15h au samedi suivant 11h.`
         </Container.Column>
         <Container.Row direction="row" width="33vw" mWidth="100%" alignItems="flex-start" gap="1.25rem" >
           <Container.Column paddingBottom="3.75rem" alignItems="flex-start" gap="1.25rem" flex="1 0 0">
-            <Visual.Image src="/assets/images/reservation/outside1.jpg" width="100%" height="18.75rem" objectFit="cover" alignSelf="stretch" borderRadius="10px" />
-            <Visual.Image src="/assets/images/reservation/piscine.jpg" width="100%" height="18.75rem" objectFit="cover" alignSelf="stretch" borderRadius="10px" />
+            <Visual.Image src="/assets/images/reservation/outside1.webp" alt="Extérieur du gîte" loading="lazy" width="100%" height="18.75rem" objectFit="cover" alignSelf="stretch" borderRadius="10px" />
+            <Visual.Image src="/assets/images/reservation/piscine.webp" alt="La piscine" loading="lazy" width="100%" height="18.75rem" objectFit="cover" alignSelf="stretch" borderRadius="10px" />
           </Container.Column>
           <Container.Column paddingTop="3.75rem" alignItems="flex-start" gap="1.25rem" flex="1 0 0">
-            <Visual.Image src="/assets/images/reservation/terrasse.jpg" width="100%" height="18.75rem" objectFit="cover" alignSelf="stretch" borderRadius="10px" />
-            <Visual.Image src="/assets/images/reservation/outside2.jpg" width="100%" height="18.75rem" objectFit="cover" alignSelf="stretch" borderRadius="10px" />
+            <Visual.Image src="/assets/images/terrasse.webp" alt="La terrasse du gîte" loading="lazy" width="100%" height="18.75rem" objectFit="cover" alignSelf="stretch" borderRadius="10px" />
+            <Visual.Image src="/assets/images/reservation/outside2.webp" alt="Extérieur du gîte" loading="lazy" width="100%" height="18.75rem" objectFit="cover" alignSelf="stretch" borderRadius="10px" />
           </Container.Column>
         </Container.Row>
       </Container.Row>
@@ -443,9 +461,6 @@ En juillet et août, les locations se font du samedi 15h au samedi suivant 11h.`
             <Text.Title>
               Calendrier des disponibilités
             </Text.Title>
-            <Text.Paragraph textAlign="center">
-              Mis à jour le 08 mai 2025
-            </Text.Paragraph>
             {reservationsError && (
               <Text.Paragraph color="red" role="alert">
                 Les disponibilités n'ont pas pu être chargées : le calendrier ci-dessous peut être incomplet. Envoyez-nous votre demande, nous vous confirmerons la disponibilité.
@@ -480,64 +495,49 @@ En juillet et août, les locations se font du samedi 15h au samedi suivant 11h.`
           </Container.Row>
         </Container.Column>
         <Container.Column alignItems="flex-start" gap="2.2rem" alignSelf="stretch">
-          <Container.Row justifyContent="space-between" alignItems="flex-start" alignSelf="stretch">
-            <Calendrier
-              side="none"
-              isOnMobile={true}
-              changeMonth={() => { }}
-              setDates={() => { }}
-              dates={{ debut: null, fin: null }}
-              reservedDates={dates}
-              currentMonth={new Date(new Date().getFullYear(), 3)}
-            />
-            <Calendrier
-              side="none"
-              isOnMobile={true}
-              changeMonth={() => { }}
-              setDates={() => { }}
-              dates={{ debut: null, fin: null }}
-              reservedDates={dates}
-              currentMonth={new Date(new Date().getFullYear(), 4)}
-            />
-            <Calendrier
-              side="none"
-              isOnMobile={true}
-              changeMonth={() => { }}
-              setDates={() => { }}
-              dates={{ debut: null, fin: null }}
-              reservedDates={dates}
-              currentMonth={new Date(new Date().getFullYear(), 5)}
-            />
+          <Container.Row direction="row" justifyContent="space-between" alignItems="center" gap="10px" alignSelf="stretch">
+            <Action.Button
+              onClick={() => setMonthOffset(offset => Math.max(0, offset - CALENDAR_MONTHS_SHOWN))}
+              disabled={monthOffset === 0}
+              opacity={monthOffset === 0 ? 0.4 : null}
+              padding="0.5rem 1.25rem"
+              background={white}
+            >
+              <Visual.Svg label="leftArrow" width={10} height={15} />
+              Mois précédents
+            </Action.Button>
+            <Container.Row mDisplay="none">
+              <Text.Paragraph fontWeight="700" textAlign="center" aria-live="polite">
+                {`${monthLabel(calendarMonths[0])} – ${monthLabel(calendarMonths[calendarMonths.length - 1])}`}
+              </Text.Paragraph>
+            </Container.Row>
+            <Action.Button
+              onClick={() => setMonthOffset(offset => Math.min(CALENDAR_MAX_OFFSET, offset + CALENDAR_MONTHS_SHOWN))}
+              disabled={monthOffset >= CALENDAR_MAX_OFFSET}
+              opacity={monthOffset >= CALENDAR_MAX_OFFSET ? 0.4 : null}
+              padding="0.5rem 1.25rem"
+              background={white}
+            >
+              Mois suivants
+              <Visual.Svg label="rightArrow" width={10} height={15} />
+            </Action.Button>
           </Container.Row>
-          <Container.Row justifyContent="space-between" alignItems="flex-start" alignSelf="stretch">
-            <Calendrier
-              side="none"
-              isOnMobile={true}
-              changeMonth={() => { }}
-              setDates={() => { }}
-              dates={{ debut: null, fin: null }}
-              reservedDates={dates}
-              currentMonth={new Date(new Date().getFullYear(), 6)}
-            />
-            <Calendrier
-              side="none"
-              isOnMobile={true}
-              changeMonth={() => { }}
-              setDates={() => { }}
-              dates={{ debut: null, fin: null }}
-              reservedDates={dates}
-              currentMonth={new Date(new Date().getFullYear(), 7)}
-            />
-            <Calendrier
-              side="none"
-              isOnMobile={true}
-              changeMonth={() => { }}
-              setDates={() => { }}
-              dates={{ debut: null, fin: null }}
-              reservedDates={dates}
-              currentMonth={new Date(new Date().getFullYear(), 8)}
-            />
-          </Container.Row>
+          {[calendarMonths.slice(0, CALENDAR_MONTHS_PER_ROW), calendarMonths.slice(CALENDAR_MONTHS_PER_ROW)].map((row) => (
+            <Container.Row key={row[0].toISOString()} justifyContent="space-between" alignItems="flex-start" alignSelf="stretch">
+              {row.map((month) => (
+                <Calendrier
+                  key={month.toISOString()}
+                  side="none"
+                  isOnMobile={true}
+                  changeMonth={() => { }}
+                  setDates={() => { }}
+                  dates={{ debut: null, fin: null }}
+                  reservedDates={dates}
+                  currentMonth={month}
+                />
+              ))}
+            </Container.Row>
+          ))}
         </Container.Column>
       </Container.Column>
       <Container.Column padding="2.5rem 6.25rem" mPadding="30px 20px 30px 20px" justifyContent="center" alignItems="center" gap="1.875rem" alignSelf="stretch">

@@ -11,7 +11,7 @@ const Gite = () => {
       <Container.Row height="3.75rem" maxWidth="100vw" background={lightLightYellow} />
       <Container.Row position="relative" height="61.25rem" mHeight="87.625rem">
         <Container.Row position="absolute" height="100%" right="0">
-          <Visual.ParallaxAtoms imageSrc="/assets/images/gite/parallax.jpg" width="100vw" height="100%">
+          <Visual.ParallaxAtoms imageSrc="/assets/images/gite/parallax.webp" width="100vw" height="100%">
             <Container.Row alignItems="center" height="42.5rem" mHeight="60rem">
               <Container.Column background={lightLightYellow} width="27.7vw" height="40%" alignItems="center" alignSelf="flex-end" justifyContent="flex-end" />
               <Container.Column padding="2.5rem 5.5vw" mPadding="0 1.25rem" justifyContent="center" alignItems="flex-start" height="100%" gap="1.875rem" flex="1 0 0" background={lightLightYellow}>
@@ -68,12 +68,12 @@ const Gite = () => {
       <Container.Row padding="3.75rem 6.25rem" mPadding="3.75rem 1.25rem" alignItems="center" gap="5rem" alignSelf="stretch">
         <Container.Row direction="row" width="33vw" mWidth="100%" alignItrems="flex-start" gap="1.25rem" >
           <Container.Column paddingBottom="3.75rem" alignItems="flex-start" gap="1.25rem" flex="1 0 0">
-            <Visual.Image src="/assets/images/gite/kitchen.jpg" width="100%" height="18.75rem" objectFit="cover" alignSelf="stretch" borderRadius="10px" />
-            <Visual.Image src="/assets/images/gite/bedroom2.jpg" width="100%" height="18.75rem" objectFit="cover" alignSelf="stretch" borderRadius="10px" />
+            <Visual.Image src="/assets/images/gite/kitchen.webp" alt="La cuisine du gîte" loading="lazy" width="100%" height="18.75rem" objectFit="cover" alignSelf="stretch" borderRadius="10px" />
+            <Visual.Image src="/assets/images/gite/bedroom2.webp" alt="Une chambre du gîte" loading="lazy" width="100%" height="18.75rem" objectFit="cover" alignSelf="stretch" borderRadius="10px" />
           </Container.Column>
           <Container.Column paddingTop="3.75rem" alignItems="flex-start" gap="1.25rem" flex="1 0 0">
-            <Visual.Image src="/assets/images/gite/livingroom.jpg" width="100%" height="18.75rem" objectFit="cover" alignSelf="stretch" borderRadius="10px" />
-            <Visual.Image src="/assets/images/gite/bathroom.jpg" width="100%" height="18.75rem" objectFit="cover" alignSelf="stretch" borderRadius="10px" />
+            <Visual.Image src="/assets/images/gite/livingroom.webp" alt="Le séjour du gîte" loading="lazy" width="100%" height="18.75rem" objectFit="cover" alignSelf="stretch" borderRadius="10px" />
+            <Visual.Image src="/assets/images/gite/bathroom.webp" alt="La salle d'eau du gîte" loading="lazy" width="100%" height="18.75rem" objectFit="cover" alignSelf="stretch" borderRadius="10px" />
           </Container.Column>
         </Container.Row>
         <Container.Column justifyContent="center" alignItems="flex-start" gap="1.875rem" flex="1 0 0">

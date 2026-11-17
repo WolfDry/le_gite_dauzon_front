@@ -50,7 +50,7 @@ const EventCard = ({ event }: Props) => {
           </Text.Paragraph>
         </Container.Column>
         {event.lien &&
-          <Action.ExternalLink to={event.lien} justifyContent="center" alignItems="center" gap="10px">
+          <Action.ExternalLink href={event.lien} target="_blank" rel="noopener noreferrer" justifyContent="center" alignItems="center" gap="10px">
             <Text.Paragraph color={darkGreen}>
               Voir le site
             </Text.Paragraph>

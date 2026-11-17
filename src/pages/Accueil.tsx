@@ -126,11 +126,11 @@ const Accueil = () => {
             </Action.Link>
           </Container.Row>
         </Container.Column>
-        <Visual.Image height="20rem" mHeight="auto" mAlignSelf="stretch" mBorderRadius="1.25rem" src="/assets/images/outside.webp" />
+        <Visual.Image height="20rem" mHeight="auto" mAlignSelf="stretch" mBorderRadius="1.25rem" src="/assets/images/outside.webp" alt="Le gîte vu de l'extérieur" loading="lazy" />
       </Container.Row>
       <Container.Column justifyContent="center" alignItems="center" paddingBottom="2.5rem" gap="2.5rem" alignSelf="stretch">
         <Container.Row justifyContent="space-between" alignSelf="stretch" padding="0 70px" mPadding="0 20px">
-          <Visual.Image width="34.7vw" mWidth="auto" height="40.625rem" mHeight="auto" mAlignSelf="stretch" mBorderRadius="1.25rem" src={currentStay.image} objectFit="cover" />
+          <Visual.Image width="34.7vw" mWidth="auto" height="40.625rem" mHeight="auto" mAlignSelf="stretch" mBorderRadius="1.25rem" src={currentStay.image} alt={currentStay.title} loading="lazy" objectFit="cover" />
           <Container.Column position="relative" width="52.7vw" mWidth="auto" mPadding="4.375rem 1.25rem 1.25rem 0" alignItems="flex-start" height="44rem" mHeight="auto" gap="23.69rem" mGap="1.875rem" alignSelf="stretch" paddingTop="4.375rem">
             <Container.Row padding="0 4.8vw" alignSelf="stretch">
               <Text.Title>Explorez l'Ardèche méridionale</Text.Title>
@@ -149,7 +149,7 @@ const Accueil = () => {
                 <Container.Row direction="row" gap="10px" alignSelf="stretch">
                   {stays.map((stay, index) => {
                     return (
-                      <Visual.Image onClick={() => changeStay(index)} width="13.8vw" mWidth="auto" height="200px" borderRadius="7px" src={stay.image} />
+                      <Visual.Image key={stay.id} onClick={() => changeStay(index)} width="13.8vw" mWidth="auto" height="200px" borderRadius="7px" src={stay.image} alt={stay.title} loading="lazy" />
                     )
                   })}
                 </Container.Row>

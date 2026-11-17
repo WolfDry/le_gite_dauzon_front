@@ -1,6 +1,7 @@
 import React from 'react'
 import { Action, Container, Text, Visual } from '../atoms'
 import { usePageColor } from '../../hooks/usePageColor'
+import { SOCIAL_LINKS } from '../../assets/socials'
 
 const Socials = () => {
   const color = usePageColor()
@@ -18,15 +19,11 @@ const Socials = () => {
         Suivez-nous sur les réseaux !
       </Text.Paragraph>
       <Container.Row direction="row" gap="2.5rem">
-        <Action.Link to="https://www.facebook.com/legitedauzon.fr" target="_blank" rel="noopener noreferrer">
-          <Visual.Image width="3.125rem" height="3.125rem" src="/assets/images/socials/facebook.png" />
-        </Action.Link>
-        <Action.Link to="https://legitedauzon.fr/" target="_blank" rel="noopener noreferrer">
-          <Visual.Image width="3.125rem" height="3.125rem" src="/assets/images/socials/tiktok.png" />
-        </Action.Link>
-        <Action.Link to="https://www.instagram.com/legitedauzon?igsh=MnBoaDQ4Ym1ocW1r&utm_source=qr" target="_blank" rel="noopener noreferrer">
-          <Visual.Image width="3.125rem" height="3.125rem" src="/assets/images/socials/instagram.png" />
-        </Action.Link>
+        {SOCIAL_LINKS.map((social) => (
+          <Action.Link key={social.name} to={social.url} target="_blank" rel="noopener noreferrer">
+            <Visual.Image width="3.125rem" height="3.125rem" src={social.image} alt={social.name} loading="lazy" />
+          </Action.Link>
+        ))}
       </Container.Row>
     </Container.Column>
   )

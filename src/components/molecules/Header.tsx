@@ -3,6 +3,7 @@ import { Action, Container, Visual } from '../atoms'
 import { dark, white } from '../../assets/color'
 import MobileMenu from './MobileMenu'
 import { usePageColor } from '../../hooks/usePageColor'
+import { SOCIAL_LINKS } from '../../assets/socials'
 
 const Header = () => {
 
@@ -38,15 +39,11 @@ const Header = () => {
           <Action.NavLink to={"/commentaire"} fontSize="1.25rem">Livre d'or</Action.NavLink>
         </Container.Row>
         <Container.Row mDisplay="none" width="20.5vw" justifyContent="flex-end" gap="20px">
-          <Action.Link to="https://www.facebook.com/legitedauzon.fr" target="_blank" rel="noopener noreferrer">
-            <Visual.Svg fill={dark} label='fb' />
-          </Action.Link>
-          <Action.Link to="https://legitedauzon.fr/" target="_blank" rel="noopener noreferrer">
-            <Visual.Svg fill={dark} label='tk' />
-          </Action.Link>
-          <Action.Link to="https://www.instagram.com/legitedauzon?igsh=MnBoaDQ4Ym1ocW1r&utm_source=qr" target="_blank" rel="noopener noreferrer">
-            <Visual.Svg fill={dark} label='ig' />
-          </Action.Link>
+          {SOCIAL_LINKS.map((social) => (
+            <Action.Link key={social.name} to={social.url} target="_blank" rel="noopener noreferrer" aria-label={social.name}>
+              <Visual.Svg fill={dark} label={social.svg} />
+            </Action.Link>
+          ))}
         </Container.Row>
         <Container.Column display="none" mDisplay="flex">
           <Action.Link to={"/"} gap="15px">

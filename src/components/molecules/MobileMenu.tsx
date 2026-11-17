@@ -1,6 +1,7 @@
 import React from 'react'
 import { Action, Container, Visual } from '../atoms'
 import { white } from '../../assets/color'
+import { SOCIAL_LINKS } from '../../assets/socials'
 
 type Props = {
   changeDisplayMenu: () => void
@@ -30,9 +31,11 @@ const MobileMenu = ({ changeDisplayMenu }: Props) => {
         </Action.Link>
       </Container.Column>
       <Container.Row direction="row" alignItems="flex-start" gap="20px">
-        <Visual.Svg label="fb" fill={white} />
-        <Visual.Svg label="tk" fill={white} />
-        <Visual.Svg label="ig" fill={white} />
+        {SOCIAL_LINKS.map((social) => (
+          <Action.Link key={social.name} to={social.url} target="_blank" rel="noopener noreferrer" aria-label={social.name}>
+            <Visual.Svg label={social.svg} fill={white} />
+          </Action.Link>
+        ))}
       </Container.Row>
     </Container.Column >
   )
