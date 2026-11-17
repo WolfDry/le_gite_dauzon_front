@@ -1,14 +1,12 @@
 import React, { useState } from 'react'
 import { Container, Form, Text, Visual } from '../atoms'
 import { usePageColor } from '../../hooks/usePageColor'
-import { sendMail } from '../../services/Mails'
+import { ContactMessage, useSendContactMessage } from '../../services/mutations'
 import { dark } from '../../assets/color'
+import LegalBar from './LegalBar'
+import PrivacyNotice from './PrivacyNotice'
 
-type FormData = {
-  name: string
-  email: string
-  message: string
-}
+type FormData = ContactMessage
 
 const Footer = () => {
   const color = usePageColor()
@@ -19,26 +17,33 @@ const Footer = () => {
     message: '',
   })
   const [resutlForm, setResutlForm] = useState<boolean | null>(null)
+  const contact = useSendContactMessage()
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
-  const handleClick = async () => {
-    const result = await sendMail(formData)
-
-    if (result === "Erreur")
+  const handleClick = () => {
+    if (contact.isPending) return
+    if (!formData.email || !formData.message || !formData.name) {
       setResutlForm(false)
-
-    if (result.status === 200) {
-      setFormData({
-        name: '',
-        email: '',
-        message: '',
-      })
-      setResutlForm(true)
+      return
     }
+    contact.mutate(formData, {
+      onSuccess: () => {
+        setFormData({
+          name: '',
+          email: '',
+          message: '',
+        })
+        setResutlForm(true)
+      },
+      onError: (error) => {
+        console.error(error)
+        setResutlForm(false)
+      },
+    })
   }
 
   return (
@@ -94,29 +99,15 @@ const Footer = () => {
               </Container.Column>
               <Text.Paragraph display={resutlForm !== null ? "flex" : "none"} color={resutlForm ? dark : "red"}>{resutlForm ? "Un mail nous a été envoyé, nous vous répondront au plus vite" : "Il y a une erreur sur l'envoi du mail"}</Text.Paragraph>
             </Container.Column>
-            <Form.Button onClick={handleClick}>
+            <PrivacyNotice purpose="répondre à votre message" />
+            <Form.Button onClick={handleClick} disabled={contact.isPending} aria-busy={contact.isPending}>
               Envoyer
             </Form.Button>
           </Container.Column>
         </Container.Row>
       </Container.Column>
 
-      <Container.Row
-        height="5rem"
-        mHeight="auto"
-        padding="10px 8.3vw"
-        mPadding="40px 30px"
-        justifyContent="space-between"
-        mJustifyContent="center"
-        alignItems="center"
-        alignSelf="stretch"
-        mGap="30px"
-      >
-        <Text.Paragraph>Mentions légales</Text.Paragraph>
-        <Text.Paragraph textAlign="center">
-          Copyright © 2025 Le Gite d’Auzon. Tous droits réservés.
-        </Text.Paragraph>
-      </Container.Row>
+      <LegalBar />
     </Container.Column>
   )
 }

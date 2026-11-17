@@ -1,9 +1,16 @@
-import React from 'react'
-import { isRouteErrorResponse, useRouteError } from 'react-router-dom'
+import { isRouteErrorResponse, useRouteError } from 'react-router'
 import { Action, Container, Text } from '../components/atoms'
 import HeroBanner from '../components/molecules/HeroBanner'
 import Footer from '../components/molecules/Footer'
 import { cream, darkGreen, white } from '../assets/color'
+import { pageMeta } from '../seo'
+
+export const meta = () => pageMeta({
+  title: 'Page introuvable',
+  description: "Cette page n'existe pas ou a été déplacée. Retrouvez le Gîte d'Auzon, gîte à Joyeuse en Ardèche, depuis la page d'accueil.",
+  path: '/404',
+  noindex: true,
+})
 
 /**
  * Page affichée pour une adresse inconnue (route `*`) et quand une page plante (`errorElement`).

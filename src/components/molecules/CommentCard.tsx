@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Action, Container, Text, Visual } from '../atoms'
 import { yellow, lightYellow, lightLightYellow } from '../../assets/color'
 import { Comment } from '../../types/Commentaire.type'

@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react-webpack5'
+import type { Meta, StoryObj } from '@storybook/react-vite'
 import { Paragraph } from '../../components/atoms/Text'
 import { dark } from '../../assets/color'
 

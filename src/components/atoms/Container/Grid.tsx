@@ -1,4 +1,3 @@
-import React from "react"
 import { Container } from "../../nanites"
 import { Atom } from "../../../types/Atom.type"
 

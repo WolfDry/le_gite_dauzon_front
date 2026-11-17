@@ -1,46 +1,66 @@
-# Getting Started with Create React App
+# Le Gîte d'Auzon — site public
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Site vitrine et de demande de réservation du gîte. Il consomme l'API NestJS (`../back`) ; le back office est dans `../admin`.
 
-## Available Scripts
+## Stack
 
-In the project directory, you can run:
+- [React Router](https://reactrouter.com) en mode framework, sur [Vite](https://vite.dev) : chaque page est **rendue en HTML au build** (prérendu), puis le JavaScript prend le relais dans le navigateur. Il n'y a pas de serveur à l'exécution : le build est un dossier de fichiers statiques.
+- [TanStack Query](https://tanstack.com/query) : lectures et envois vers l'API (`src/services/queries.ts`, `src/services/mutations.ts`).
+- styled-components : composants de style dans `src/components/nanites`, assemblés en atomes et molécules.
+- Polices Poppins et Handlee hébergées avec le site (`@fontsource`), sans appel à Google Fonts.
 
-### `npm start`
+## Démarrer
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+```bash
+npm install
+npm run dev        # http://localhost:3000
+```
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+L'API doit tourner en parallèle (`npm run start:dev` dans `../back`, port 3001).
 
-### `npm test`
+| Commande                 | Rôle                                                              |
+| ------------------------ | ----------------------------------------------------------------- |
+| `npm run dev`            | serveur de développement                                          |
+| `npm run build`          | build et prérendu de toutes les pages dans `build/client`         |
+| `npm run preview`        | sert `build/client` comme Vercel (port 4173, 404 comprise)        |
+| `npm run typecheck`      | vérification TypeScript                                           |
+| `npm test`               | tests unitaires (Vitest)                                          |
+| `npm run storybook`      | catalogue des composants                                          |
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Configuration
 
-### `npm run build`
+Copier `.env.example` en `.env`. Les variables sont lues **au build** : chez l'hébergeur, elles doivent être définies avant de lancer le build.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+| Variable                     | Rôle                                                                 |
+| ---------------------------- | -------------------------------------------------------------------- |
+| `VITE_API_URL`               | URL de l'API, sans barre finale                                      |
+| `VITE_CLOUDINARY_CLOUD_NAME` | compte Cloudinary des images des idées de visite                     |
+| `VITE_SITE_URL`              | facultatif : adresse publique du site (voir ci-dessous)              |
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+`VITE_SITE_URL` sert aux URL canoniques, à Open Graph et au sitemap. Par défaut : `https://www.legitedauzon.fr`.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Organisation
 
-### `npm run eject`
+```text
+src/
+  root.tsx           document HTML commun, polices, fournisseur TanStack Query
+  routes.ts          liste des pages (une entrée = une page prérendue + une URL du sitemap)
+  entry.server.tsx   rendu HTML au build, avec les styles styled-components
+  seo.ts             balises title, description, canonique, Open Graph, données structurées
+  pages/             une page par fichier, chacune exporte `meta`
+  services/          client axios, requêtes et envois TanStack Query
+  lib/               consentement aux contenus tiers, paramètres de réservation, hydratation
+  components/        nanites (styles) → atoms → molecules
+react-router.config.ts   prérendu, puis génération de 404.html et sitemap.xml
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Points d'attention
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- **Ce qui dépend de la date du jour** (mois du calendrier, date minimale d'un champ) ne doit être rendu qu'après l'hydratation, avec `useHydrated()` (`src/lib/useHydrated.ts`). Sinon la page prérendue (date du build) et la page dans le navigateur diffèrent.
+- **Ajouter une page** : créer le fichier dans `src/pages` avec un export `meta` (`pageMeta(...)`), l'ajouter à `src/routes.ts`. Le prérendu et le sitemap suivent automatiquement.
+- **YouTube et Google Maps** ne se chargent qu'après un clic du visiteur (`ExternalContent`). Le choix « Toujours afficher » est mémorisé dans le navigateur et se retire depuis la page Confidentialité.
+- Les données de l'API (avis, événements, tarifs, disponibilités) sont chargées dans le navigateur : elles ne figurent pas dans le HTML prérendu.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Déploiement (Vercel)
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+`vercel.json` publie `build/client` en fichiers statiques. Vercel sert `404.html` (avec le code 404) pour toute adresse inconnue.

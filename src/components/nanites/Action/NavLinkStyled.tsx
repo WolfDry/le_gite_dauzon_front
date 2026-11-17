@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { CssProps } from '../../../types/CssProps.type';
 import { dark } from '../../../assets/color';
-import { NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router';
 
 const NavLinkStyled = styled(NavLink) <CssProps>`
   color: ${(props) => props.color ?? dark};

@@ -1,5 +1,4 @@
-import React from 'react'
-import { NavLink as RouterNavLink, NavLinkProps } from 'react-router-dom'
+import { NavLink as RouterNavLink, NavLinkProps } from 'react-router'
 import { Action } from '../../nanites'
 import { Atom } from '../../../types/Atom.type'
 

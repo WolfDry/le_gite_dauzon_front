@@ -1,9 +1,16 @@
-import React from 'react'
 import { Container, Text, Visual } from '../components/atoms'
 import HeroBanner from '../components/molecules/HeroBanner'
 import { darkBlue, lightBlue, lightLightBlue, white } from '../assets/color'
 import Socials from '../components/molecules/Socials'
 import Footer from '../components/molecules/Footer'
+import ExternalContent from '../components/molecules/ExternalContent'
+import { pageMeta } from '../seo'
+
+export const meta = () => pageMeta({
+  title: 'Accès et plan',
+  description: "Comment venir au Gîte d'Auzon, 20 impasse du Petit Nice à Joyeuse (Ardèche) : itinéraires en voiture, en train et en car, et plan d'accès.",
+  path: '/acces',
+})
 
 const Acces = () => {
   return (
@@ -61,7 +68,9 @@ const Acces = () => {
         </Container.Column>
       </Container.Row>
       <Container.Column height="15.625rem" padding="0 6.25rem" mPadding="0 1.25rem" jusitifyContent="center" alignItems="flex-start" gap="3.125rem" alignSelf="stretch">
-        <Visual.Maps />
+        <ExternalContent provider="google-maps" borderRadius="1rem">
+          <Visual.Maps />
+        </ExternalContent>
       </Container.Column>
       <Container.Column padding="2.5rem 6.25rem" mPadding="1.875rem 1.25rem" justifyContent="center" alignItems="center" gap="1.875rem" alignSelf="stretch">
         <Socials />

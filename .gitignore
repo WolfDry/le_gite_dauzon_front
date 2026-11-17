@@ -13,6 +13,9 @@
 # production
 /build
 
+# types générés par React Router
+/.react-router/
+
 # misc
 .DS_Store
 .env

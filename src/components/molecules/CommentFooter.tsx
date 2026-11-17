@@ -2,8 +2,10 @@ import React, { useState } from "react"
 import { Container, Form, Text, Visual } from "../atoms"
 import { usePageColor } from "../../hooks/usePageColor"
 import { dark } from "../../assets/color"
-import { createCommentaire } from "../../services/Commentaires"
+import { useCreateCommentaire } from "../../services/mutations"
 import { submitErrorMessage } from "../../services/errors"
+import LegalBar from "./LegalBar"
+import PrivacyNotice from "./PrivacyNotice"
 
 type Inputs = {
   name: string
@@ -12,7 +14,6 @@ type Inputs = {
 }
 
 type FieldErrors = Partial<Record<keyof Inputs, string>>
-type SubmitStatus = "idle" | "sending" | "success" | "error"
 
 const emptyInputs: Inputs = { name: "", commentaire: "", note: 0 }
 
@@ -35,15 +36,14 @@ const CommentFooter = () => {
 
   const [inputs, setInputs] = useState<Inputs>(emptyInputs)
   const [errors, setErrors] = useState<FieldErrors>({})
-  const [status, setStatus] = useState<SubmitStatus>("idle")
-  const [submitError, setSubmitError] = useState("")
+  const send = useCreateCommentaire()
 
   const [hoverRating, setHoverRating] = useState(0)
 
   const update = (field: keyof Inputs, value: string | number) => {
     setInputs((prev) => ({ ...prev, [field]: value }))
     setErrors((prev) => ({ ...prev, [field]: undefined }))
-    setStatus((prev) => (prev === "sending" ? prev : "idle"))
+    if (!send.isPending) send.reset()
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -55,27 +55,21 @@ const CommentFooter = () => {
     update("note", value)
   }
 
-  const handleSend = async () => {
-    if (status === "sending") return
+  const handleSend = () => {
+    if (send.isPending) return
 
     const found = validate(inputs)
     setErrors(found)
     if (Object.values(found).some(Boolean)) {
-      setStatus("idle")
+      send.reset()
       return
     }
 
-    setStatus("sending")
-    try {
-      await createCommentaire({ name: inputs.name.trim(), commentaire: inputs.commentaire.trim(), note: inputs.note })
+    send.mutate({ name: inputs.name.trim(), commentaire: inputs.commentaire.trim(), note: inputs.note }, {
       // Les champs ne sont vidés qu'une fois l'avis bien reçu.
-      setInputs(emptyInputs)
-      setStatus("success")
-    } catch (error) {
-      console.error(error)
-      setSubmitError(submitErrorMessage(error))
-      setStatus("error")
-    }
+      onSuccess: () => setInputs(emptyInputs),
+      onError: (error) => console.error(error),
+    })
   }
 
   return (
@@ -153,39 +147,25 @@ const CommentFooter = () => {
               </Container.Row>
               <FieldError message={errors.note} />
             </Container.Column>
-            <Form.Button onClick={handleSend} disabled={status === "sending"} aria-busy={status === "sending"}>
-              {status === "sending" ? "Envoi en cours…" : "Envoyer"}
+            <PrivacyNotice purpose="publier votre avis sur le site, après relecture" />
+            <Form.Button onClick={handleSend} disabled={send.isPending} aria-busy={send.isPending}>
+              {send.isPending ? "Envoi en cours…" : "Envoyer"}
             </Form.Button>
-            {status === "success" && (
+            {send.isSuccess && (
               <Text.Paragraph color={dark} role="status">
                 Merci pour votre avis ! Il sera publié sur le site après validation par nos soins.
               </Text.Paragraph>
             )}
-            {status === "error" && (
+            {send.isError && (
               <Text.Paragraph color="red" role="alert">
-                {submitError}
+                {submitErrorMessage(send.error)}
               </Text.Paragraph>
             )}
           </Container.Column>
         </Container.Row>
       </Container.Column>
 
-      <Container.Row
-        height="5rem"
-        mHeight="auto"
-        padding="10px 8.3vw"
-        mPadding="40px 30px"
-        justifyContent="space-between"
-        mJustifyContent="center"
-        alignItems="center"
-        alignSelf="stretch"
-        mGap="30px"
-      >
-        <Text.Paragraph>Mentions légales</Text.Paragraph>
-        <Text.Paragraph textAlign="center">
-          Copyright © 2025 Le Gite d’Auzon. Tous droits réservés.
-        </Text.Paragraph>
-      </Container.Row>
+      <LegalBar />
     </Container.Column>
   )
 }

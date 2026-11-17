@@ -1,53 +1,22 @@
-import { useEffect, useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router'
 import { blue, darkBlue, darkGreen, green, yellow } from '../assets/color'
 
-const getColorFromPath = (path: string) => {
-  switch (path) {
-    case '/':
-      return {
-        normal: green,
-        dark: darkGreen
-      }
-    case '/reservation':
-      return {
-        normal: blue,
-        dark: darkBlue
-      }
-    case '/gite':
-      return {
-        normal: yellow,
-        dark: yellow
-      }
-    case '/visite':
-      return {
-        normal: green,
-        dark: darkGreen
-      }
-    case '/acces':
-      return {
-        normal: blue,
-        dark: darkBlue
-      }
-    case '/commentaire':
-      return {
-        normal: yellow,
-        dark: yellow
-      }
-    default:
-      return {
-        normal: green,
-        dark: darkGreen
-      }
-  }
+type PageColor = { normal: string, dark: string }
+
+const GREEN: PageColor = { normal: green, dark: darkGreen }
+const BLUE: PageColor = { normal: blue, dark: darkBlue }
+const YELLOW: PageColor = { normal: yellow, dark: yellow }
+
+const COLORS: Record<string, PageColor> = {
+  '/': GREEN,
+  '/reservation': BLUE,
+  '/gite': YELLOW,
+  '/visite': GREEN,
+  '/acces': BLUE,
+  '/commentaire': YELLOW,
+  '/mentions-legales': GREEN,
+  '/confidentialite': GREEN,
 }
 
-export const usePageColor = () => {
-  const location = useLocation()
-  const [color, setColor] = useState(getColorFromPath(location.pathname))
-
-  useEffect(() => {
-    setColor(getColorFromPath(location.pathname))
-  }, [location.pathname])
-  return color
-}
+/** Couleur dominante de la page courante (en-tête, pied de page). */
+export const usePageColor = (): PageColor => COLORS[useLocation().pathname] ?? GREEN

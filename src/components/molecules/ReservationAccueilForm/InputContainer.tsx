@@ -1,4 +1,3 @@
-import React from 'react'
 import { Container, Form, Text, Visual } from '../../atoms'
 
 type Props = {

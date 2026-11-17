@@ -1,35 +1,22 @@
-import React, { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Container, Text, Visual } from '../../atoms'
 import { white } from '../../../assets/color'
 import Calendrier from '../Calendar/Calendrier'
 import { addMonths, subMonths } from 'date-fns'
 import { Dates } from '../../../types/App.type'
-import { useDispatch } from 'react-redux'
-import { AppDispatch } from '../../../types/Redux.type'
-import { updateSelectedDates } from '../../../stores/thunks/appThunks'
-
 type Props = {
-  initialDates: {
-    debut: string | null
-    fin: string | null
-  }
+  dates: Dates
+  setDates: (dates: Dates) => void
   isDisplay: boolean
   handleDisplay: (calendarDisplay: boolean | null, personneDisplay: boolean | null) => void
 }
 
-const InputsReservationAccueilForm = ({ initialDates, isDisplay, handleDisplay }: Props) => {
+const InputsReservationAccueilForm = ({ dates, setDates, isDisplay, handleDisplay }: Props) => {
 
-  const dispatch = useDispatch<AppDispatch>()
   const [currentMonth, setCurrentMonth] = useState(() => ({
     left: new Date(),
     right: addMonths(new Date(), 1),
   }))
-  const [dates, setDates] = useState<Dates>(initialDates)
-
-  useEffect(() => {
-    dispatch(updateSelectedDates(dates))
-  }, [dates, dispatch])
-
   const changeMonth = (direction: number) => {
     let newMonth = currentMonth
     if (direction === 1) {
@@ -69,10 +56,13 @@ const InputsReservationAccueilForm = ({ initialDates, isDisplay, handleDisplay }
         </Text.Paragraph>
         <Visual.Svg label="bottomArrow" />
       </Container.Row>
-      <Container.Row direction="row" position="absolute" top="65px" display={!isDisplay ? "none" : "flex"} mDisplay={!isDisplay ? "none" : "flex"} alignItems="center" padding="5px" gap="20px" borderRadius="10px" background={white} zIndex={5}>
-        <Calendrier dates={dates} setDates={setDates} side='left' currentMonth={currentMonth.left} changeMonth={changeMonth} isOnMobile={true} />
-        <Calendrier dates={dates} setDates={setDates} side='right' currentMonth={currentMonth.right} changeMonth={changeMonth} isOnMobile={false} />
-      </Container.Row>
+      {/* Rendu seulement à l'ouverture : les mois dépendent de la date du jour, absente de la page prérendue. */}
+      {isDisplay && (
+        <Container.Row direction="row" position="absolute" top="65px" alignItems="center" padding="5px" gap="20px" borderRadius="10px" background={white} zIndex={5}>
+          <Calendrier dates={dates} setDates={setDates} side='left' currentMonth={currentMonth.left} changeMonth={changeMonth} isOnMobile={true} />
+          <Calendrier dates={dates} setDates={setDates} side='right' currentMonth={currentMonth.right} changeMonth={changeMonth} isOnMobile={false} />
+        </Container.Row>
+      )}
     </Container.Column>
   )
 }

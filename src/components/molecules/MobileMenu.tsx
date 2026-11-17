@@ -1,4 +1,3 @@
-import React from 'react'
 import { Action, Container, Visual } from '../atoms'
 import { white } from '../../assets/color'
 import { SOCIAL_LINKS } from '../../assets/socials'

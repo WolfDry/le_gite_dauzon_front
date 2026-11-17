@@ -1,4 +1,3 @@
-import React from 'react'
 import { Action, Container, Text, Visual } from '../atoms'
 
 type Props = {

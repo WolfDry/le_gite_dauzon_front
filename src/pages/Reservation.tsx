@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import { useSearchParams } from 'react-router'
 import HeroBanner from '../components/molecules/HeroBanner'
 import { Action, Container, Form, Text, Visual } from '../components/atoms'
 import { blue, darkBlue, darkGreen, lightBlue, lightLightBlue, white } from '../assets/color'
@@ -7,18 +8,23 @@ import Ligne from '../components/molecules/Table/Ligne'
 import Calendrier from '../components/molecules/Calendar/Calendrier'
 import Socials from '../components/molecules/Socials'
 import Footer from '../components/molecules/Footer'
-import { useSelector } from 'react-redux'
 import InputPersonne from '../components/molecules/ReservationAccueilForm/InputPersonne'
-import { useDispatch } from 'react-redux'
-import { AppDispatch } from '../types/Redux.type'
-import { getAllReservations } from '../stores/thunks/reservationThunks'
-import { AskReservation, Disponibilite } from '../types/Reservation.type'
-import { Tarif } from '../types/Tarif.type'
-import { getTarif } from '../services/Tarifs'
-import { createReservationRequest } from '../services/Reservations'
+import PrivacyNotice from '../components/molecules/PrivacyNotice'
+import { AskReservation } from '../types/Reservation.type'
+import { useDisponibilites, useTarifs } from '../services/queries'
+import { useCreateReservationRequest } from '../services/mutations'
 import { submitErrorMessage } from '../services/errors'
+import { emptyNbPersonne, fromReservationSearch } from '../lib/reservationParams'
+import { useHydrated } from '../lib/useHydrated'
+import { pageMeta } from '../seo'
 import { addMonths, format, startOfMonth } from 'date-fns'
 import { fr } from 'date-fns/locale'
+
+export const meta = () => pageMeta({
+  title: 'Tarifs, disponibilités et demande de réservation',
+  description: "Tarifs par saison, calendrier des disponibilités et demande de réservation en ligne pour le Gîte d'Auzon à Joyeuse, en Ardèche. Chèques-Vacances acceptés.",
+  path: '/reservation',
+})
 
 type NbPersonne = {
   label: string
@@ -27,7 +33,6 @@ type NbPersonne = {
 
 type FieldName = 'debut' | 'fin' | 'nbPersonne' | 'nom' | 'email' | 'phone' | 'message'
 type FieldErrors = Partial<Record<FieldName, string>>
-type SubmitStatus = 'idle' | 'sending' | 'success' | 'error'
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const MESSAGE_MAX_LENGTH = 2000
@@ -73,25 +78,22 @@ const FieldError = ({ message }: { message?: string }) =>
 
 const Reservation = () => {
 
-  const dispatch = useDispatch<AppDispatch>()
-  const { selectedDates, nbPersonne } = useSelector((state: any) => state.app)
+  const hydrated = useHydrated()
+  const [searchParams] = useSearchParams()
   const [inputsValue, setInputsValue] = useState<AskReservation>({
     debut: '',
     fin: '',
-    nbPersonne,
+    nbPersonne: emptyNbPersonne(),
     nom: '',
     email: '',
     phone: '',
     message: '',
   })
   const [errors, setErrors] = useState<FieldErrors>({})
-  const [status, setStatus] = useState<SubmitStatus>('idle')
-  const [submitError, setSubmitError] = useState('')
-  const reservations: Disponibilite[] = useSelector((state: any) => state.reservation.reservations)
-  const reservationsError = useSelector((state: any) => state.reservation.error)
+  const request = useCreateReservationRequest()
+  const { data: reservations = [], isError: reservationsError } = useDisponibilites()
   const dates = useMemo(() => reservations.map(({ debut, fin }) => ({ debut, fin })), [reservations])
-  const [prices, setPrices] = useState<Tarif[]>([])
-  const [pricesError, setPricesError] = useState(false)
+  const { data: prices = [], isError: pricesError } = useTarifs()
   const [isPersonneDisplay, setIsPersonneDisplay] = useState(false)
   const [monthOffset, setMonthOffset] = useState(0)
   const calendarMonths = useMemo(() => {
@@ -99,39 +101,20 @@ const Reservation = () => {
     return Array.from({ length: CALENDAR_MONTHS_SHOWN }, (_, i) => addMonths(first, i))
   }, [monthOffset])
 
+  // Dates et nombre de personnes choisis sur la page d'accueil, transmis par l'adresse.
+  // Appliqués après l'affichage : la page prérendue, elle, n'a pas de paramètres.
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await getTarif()
-        let data = response.map((tarif: Tarif) => ({
-          ...tarif,
-          desc: tarif.desc === " " ? null : tarif.desc,
-          frequence: tarif.frequence.map((f) => f.toLowerCase()).join(" / ")
-        }))
-        data = data.sort((a: { id: number }, b: { id: number }) => a.id - b.id)
-        setPrices(data)
-      } catch (error) {
-        console.error(error)
-        setPricesError(true)
-      }
-    }
-    fetchData()
-  }, [])
+    const prefill = fromReservationSearch(searchParams)
+    setInputsValue(prev => ({
+      ...prev,
+      ...(prefill.dates.debut && { debut: prefill.dates.debut }),
+      ...(prefill.dates.fin && { fin: prefill.dates.fin }),
+      ...(prefill.nbPersonne.some(p => p.nb > 0) && { nbPersonne: prefill.nbPersonne }),
+    }))
+  }, [searchParams])
 
-  useEffect(() => {
-    dispatch(getAllReservations())
-  }, [dispatch])
-
-  useEffect(() => {
-    if (selectedDates) {
-      setInputsValue(prev => ({
-        ...prev,
-        ...(selectedDates.debut && { debut: selectedDates.debut }),
-        ...(selectedDates.fin && { fin: selectedDates.fin })
-      }))
-    }
-  }, [selectedDates])
-
+  const resetRequest = request.reset
+  const isSending = request.isPending
   const changeInputsValue = useCallback(
     (field: FieldName, value: any) => {
       setInputsValue(prev => ({
@@ -140,53 +123,42 @@ const Reservation = () => {
       }))
       setErrors(prev => ({ ...prev, [field]: undefined }))
       // Une nouvelle saisie après un envoi réussi ou échoué efface le message précédent.
-      setStatus(prev => (prev === 'sending' ? prev : 'idle'))
+      if (!isSending) resetRequest()
     },
-    []
+    [isSending, resetRequest]
   )
-
-  // Nombre de personnes choisi sur la page d'accueil.
-  useEffect(() => {
-    if (nbPersonne) {
-      setInputsValue(prev => ({ ...prev, nbPersonne }))
-    }
-  }, [nbPersonne])
 
   const setNbPersonne = (data: NbPersonne[]) => {
     changeInputsValue("nbPersonne", data)
   }
 
-  const addAskReservation = async () => {
-    if (status === 'sending') return
+  const addAskReservation = () => {
+    if (request.isPending) return
 
     const found = validate(inputsValue)
     setErrors(found)
     if (Object.values(found).some(Boolean)) {
-      setStatus('idle')
+      request.reset()
       return
     }
 
-    setStatus('sending')
-    try {
-      await createReservationRequest({
-        debut: inputsValue.debut,
-        fin: inputsValue.fin,
-        nbPersonne: inputsValue.nbPersonne,
-        nom: inputsValue.nom.trim(),
-        email: inputsValue.email.trim(),
-        phone: inputsValue.phone.trim(),
-        message: inputsValue.message?.trim() || undefined,
-      })
-      setStatus('success')
-      setInputsValue(prev => ({ ...prev, debut: '', fin: '', nom: '', email: '', phone: '', message: '' }))
-    } catch (error) {
-      console.error(error)
-      setSubmitError(submitErrorMessage(error))
-      setStatus('error')
-    }
+    request.mutate({
+      debut: inputsValue.debut,
+      fin: inputsValue.fin,
+      nbPersonne: inputsValue.nbPersonne,
+      nom: inputsValue.nom.trim(),
+      email: inputsValue.email.trim(),
+      phone: inputsValue.phone.trim(),
+      message: inputsValue.message?.trim() || undefined,
+    }, {
+      onSuccess: () => {
+        setInputsValue(prev => ({ ...prev, debut: '', fin: '', nom: '', email: '', phone: '', message: '' }))
+      },
+      onError: (error) => console.error(error),
+    })
   }
 
-  const handleClick = (calendarDisplay: boolean | null, personneDisplay: boolean | null) => {
+  const handleClick = (_calendarDisplay: boolean | null, personneDisplay: boolean | null) => {
     if (personneDisplay !== null) {
       setIsPersonneDisplay(personneDisplay)
     }
@@ -205,7 +177,7 @@ const Reservation = () => {
               <Form.Input
                 id="reservation-debut"
                 type="date"
-                min={todayYmd()}
+                min={hydrated ? todayYmd() : undefined}
                 required
                 aria-invalid={!!errors.debut}
                 value={inputsValue.debut}
@@ -220,7 +192,7 @@ const Reservation = () => {
               <Form.Input
                 id="reservation-fin"
                 type="date"
-                min={inputsValue.debut || todayYmd()}
+                min={inputsValue.debut || (hydrated ? todayYmd() : undefined)}
                 required
                 aria-invalid={!!errors.fin}
                 value={inputsValue.fin}
@@ -296,18 +268,19 @@ const Reservation = () => {
             />
             <FieldError message={errors.message} />
           </Container.Column>
-          <Action.Button onClick={addAskReservation} disabled={status === 'sending'} aria-busy={status === 'sending'} background={blue}>
-            {status === 'sending' ? "Envoi en cours…" : "Envoyer ma demande"}
+          <PrivacyNotice purpose="traiter votre demande de réservation et vous recontacter" />
+          <Action.Button onClick={addAskReservation} disabled={request.isPending} aria-busy={request.isPending} background={blue}>
+            {request.isPending ? "Envoi en cours…" : "Envoyer ma demande"}
           </Action.Button>
-          {status === 'success' && (
+          {request.isSuccess && (
             <Text.Paragraph color={darkGreen} textAlign="center" role="status">
               {`Merci, votre demande a bien été envoyée !
 Nous vous recontactons rapidement pour confirmer la disponibilité du gîte.`}
             </Text.Paragraph>
           )}
-          {status === 'error' && (
+          {request.isError && (
             <Text.Paragraph color="red" textAlign="center" role="alert">
-              {submitError}
+              {submitErrorMessage(request.error)}
             </Text.Paragraph>
           )}
           <Container.Row paddingLeft="10px" justifyContent="center" alignItems="center" gap="10px" alignSelf="stretch" borderLeft={`2px solid ${blue}`}>
@@ -508,7 +481,7 @@ En juillet et août, les locations se font du samedi 15h au samedi suivant 11h.`
             </Action.Button>
             <Container.Row mDisplay="none">
               <Text.Paragraph fontWeight="700" textAlign="center" aria-live="polite">
-                {`${monthLabel(calendarMonths[0])} – ${monthLabel(calendarMonths[calendarMonths.length - 1])}`}
+                {hydrated && `${monthLabel(calendarMonths[0])} – ${monthLabel(calendarMonths[calendarMonths.length - 1])}`}
               </Text.Paragraph>
             </Container.Row>
             <Action.Button
@@ -522,7 +495,11 @@ En juillet et août, les locations se font du samedi 15h au samedi suivant 11h.`
               <Visual.Svg label="rightArrow" width={10} height={15} />
             </Action.Button>
           </Container.Row>
-          {[calendarMonths.slice(0, CALENDAR_MONTHS_PER_ROW), calendarMonths.slice(CALENDAR_MONTHS_PER_ROW)].map((row) => (
+          {/* Les mois affichés dépendent de la date du jour : pas de calendrier dans la page prérendue. */}
+          {!hydrated && (
+            <Text.Paragraph textAlign="center" role="status">Chargement du calendrier…</Text.Paragraph>
+          )}
+          {hydrated && [calendarMonths.slice(0, CALENDAR_MONTHS_PER_ROW), calendarMonths.slice(CALENDAR_MONTHS_PER_ROW)].map((row) => (
             <Container.Row key={row[0].toISOString()} justifyContent="space-between" alignItems="flex-start" alignSelf="stretch">
               {row.map((month) => (
                 <Calendrier

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Action, Container, Text, Visual } from '../components/atoms'
 
 import HeroBanner from '../components/molecules/HeroBanner'
@@ -6,12 +6,17 @@ import { dark, cream, lightGreen, green, darkGreen, white } from '../assets/colo
 import AccueilCommentCard from '../components/molecules/AccueilCommentCard'
 import Socials from '../components/molecules/Socials'
 import Footer from '../components/molecules/Footer'
-import { useDispatch } from 'react-redux'
-import { AppDispatch } from '../types/Redux.type'
-import { useSelector } from 'react-redux'
+import ExternalContent from '../components/molecules/ExternalContent'
 import { Comment } from '../types/Commentaire.type'
-import { getAllCommentaires } from '../stores/thunks/commentaireThunks'
+import { useCommentaires } from '../services/queries'
+import { lodgingBusinessJsonLd, pageMeta } from '../seo'
 
+const DESCRIPTION = "Gîte pour 4 à 5 personnes à Joyeuse, en Ardèche méridionale : piscine couverte, terrasse, à deux pas du centre médiéval. Tarifs, disponibilités et demande de réservation en ligne."
+
+export const meta = () => [
+  ...pageMeta({ description: DESCRIPTION, path: '/' }),
+  lodgingBusinessJsonLd(DESCRIPTION),
+]
 
 const Accueil = () => {
 
@@ -47,18 +52,17 @@ const Accueil = () => {
       image: "/assets/images/accueil/banne.webp"
     }
   ]
-  const dispatch = useDispatch<AppDispatch>()
   const [currentStay, setCurrentStay] = useState(stays[0])
-  const comments = useSelector((state: any) => state.comment.commentaires ?? [])
+  const { data: comments, isPending: commentsPending, isError: commentsError } = useCommentaires()
   const [currentComment, setCurrentComment] = useState<Comment | null>(null)
 
-  const verifiedComments = useMemo(() => {
-    return comments.filter((c: Comment) => c.verif).slice(0, 3)
-  }, [comments])
+  const verifiedComments = useMemo(() => (comments ?? []).slice(0, 3), [comments])
 
-  useEffect(() => {
-    dispatch(getAllCommentaires())
-  }, [dispatch])
+  const commentsStatus = commentsPending
+    ? <Text.Paragraph textAlign="center" role="status">Chargement des avis…</Text.Paragraph>
+    : commentsError
+      ? <Text.Paragraph textAlign="center" role="alert">Les avis n'ont pas pu être chargés. Rechargez la page pour réessayer.</Text.Paragraph>
+      : null
 
   useEffect(() => {
     if (verifiedComments && verifiedComments.length > 0 && !currentComment) {
@@ -191,10 +195,11 @@ Le gîte est entièrement équipé pour vous offrir un séjour tout confort, que
         <Text.Title>
           Nos vacanciers témoignent
         </Text.Title>
+        {commentsStatus}
         <Container.Row gap="1.25rem">
           {verifiedComments.map(((comment: Comment) => {
             return (
-              <AccueilCommentCard comment={comment} />
+              <AccueilCommentCard key={comment.id} comment={comment} />
             )
           }))}
         </Container.Row>
@@ -206,6 +211,7 @@ Le gîte est entièrement équipé pour vous offrir un séjour tout confort, que
         <Text.Title>
           Nos vacanciers témoignent
         </Text.Title>
+        {commentsStatus}
         <Container.Row direction="row" alignItems="center" gap="10px" alignSelf="stretch">
           <Container.Column onClick={() => changeCurrentComment("left")}>
             <Visual.Svg label="leftArrow" />
@@ -219,8 +225,10 @@ Le gîte est entièrement équipé pour vous offrir un séjour tout confort, que
           Voir tous les avis
         </Action.Link>
       </Container.Column>
-      <Container.Row>
-        <Visual.Youtube />
+      <Container.Row alignSelf="stretch">
+        <ExternalContent provider="youtube" height="44.375rem" mHeight="auto">
+          <Visual.Youtube />
+        </ExternalContent>
       </Container.Row>
       <Container.Column justifyContent="center" alignItems="center" padding="2.5rem 6.9vw" gap="1.875rem">
         <Socials />

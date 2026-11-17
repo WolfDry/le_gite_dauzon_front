@@ -1,8 +1,14 @@
-import React from 'react'
 import { Container, Text, Visual } from '../components/atoms'
 import HeroBanner from '../components/molecules/HeroBanner'
 import { lightLightYellow } from '../assets/color'
 import Footer from '../components/molecules/Footer'
+import { pageMeta } from '../seo'
+
+export const meta = () => pageMeta({
+  title: 'Le gîte : logement, équipements et piscine',
+  description: "Gîte de 50 m² au rez-de-chaussée de la maison des propriétaires, à Joyeuse : séjour-cuisine, chambre avec lit double, piscine 10 × 5 m dans un jardin clos. Animaux bienvenus.",
+  path: '/gite',
+})
 
 const Gite = () => {
   return (

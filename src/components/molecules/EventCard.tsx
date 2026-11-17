@@ -1,4 +1,3 @@
-import React from 'react'
 import { Action, Container, Text, Visual } from '../atoms'
 import { darkGreen, white } from '../../assets/color'
 import { Evenement } from '../../types/Evenement.type'

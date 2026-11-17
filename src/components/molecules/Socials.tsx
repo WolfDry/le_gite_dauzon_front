@@ -1,4 +1,3 @@
-import React from 'react'
 import { Action, Container, Text, Visual } from '../atoms'
 import { usePageColor } from '../../hooks/usePageColor'
 import { SOCIAL_LINKS } from '../../assets/socials'

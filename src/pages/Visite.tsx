@@ -1,40 +1,30 @@
-import React, { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Action, Container, Text } from '../components/atoms'
 import HeroBanner from '../components/molecules/HeroBanner'
 import { cream, green, lightGreen } from '../assets/color'
 import EventCard from '../components/molecules/EventCard'
 import Socials from '../components/molecules/Socials'
 import Footer from '../components/molecules/Footer'
-import { useSelector } from 'react-redux'
 import { Evenement } from '../types/Evenement.type'
-import { useDispatch } from 'react-redux'
-import { AppDispatch } from '../types/Redux.type'
-import { getAllEvenements } from '../stores/thunks/evenementThunks'
+import { useEvenements } from '../services/queries'
+import { pageMeta } from '../seo'
+
+export const meta = () => pageMeta({
+  title: 'À visiter autour de Joyeuse',
+  description: "Événements, lieux à visiter et randonnées autour du Gîte d'Auzon, à Joyeuse : nos idées de sorties en Ardèche méridionale pour préparer votre séjour.",
+  path: '/visite',
+})
 
 const Visite = () => {
 
-  const dispatch = useDispatch<AppDispatch>()
-  const events = useSelector((store: any) => store.event.evenements)
-
-  useEffect(() => {
-    dispatch(getAllEvenements())
-  }, [dispatch])
-
-  useEffect(() => {
-    setCurrentEvents(events)
-  }, [events])
-
+  const { data: events = [], isPending, isError } = useEvenements()
   const [activeButton, setActiveButton] = useState("all")
-  const [currentEvents, setCurrentEvents] = useState(events)
+
+  const currentEvents = activeButton === "all"
+    ? events
+    : events.filter((event: Evenement) => event.type === activeButton)
 
   const filterEvents = (filter: string) => {
-    if (filter === "all") {
-      setActiveButton(filter)
-      setCurrentEvents(events)
-      return
-    }
-    const newEvents = events.filter((event: Evenement) => event.type === filter)
-    setCurrentEvents(newEvents)
     setActiveButton(filter)
   }
 
@@ -56,8 +46,10 @@ const Visite = () => {
         </Action.Button>
       </Container.Wrap>
       <Container.Wrap padding="3.75rem 6.25rem" mPadding="3.75rem 1.25rem" alignItems="flex-start" alignContent="flex-start" gap="35px" alignSelf="stretch">
+        {isPending && <Text.Paragraph textAlign="center" role="status">Chargement des idées de visite…</Text.Paragraph>}
+        {isError && <Text.Paragraph textAlign="center" role="alert">Les idées de visite n'ont pas pu être chargées. Rechargez la page pour réessayer.</Text.Paragraph>}
         {currentEvents.map((event: Evenement) => {
-          return (<EventCard event={event} />)
+          return (<EventCard key={event.id} event={event} />)
         })}
       </Container.Wrap>
       <Container.Row padding="0 6.25rem 1.25rem 6.25rem" mPadding="0 1.25rem 1.25rem 1.25rem" alignSelf="stretch">

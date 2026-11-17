@@ -16,12 +16,3 @@ export type Tarif = {
   prix: number
   frequence: TarifFrequence[]
 }
-
-export type UpdateTarif = {
-  desc?: string
-  label?: string
-  start_date?: string[]
-  vacance?: boolean
-  prix?: number
-  frequence?: TarifFrequence[]
-}

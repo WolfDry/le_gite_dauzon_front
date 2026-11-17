@@ -1,10 +1,6 @@
-import React, { useEffect } from 'react'
 import { Container, Text, Visual } from '../../atoms'
 import { dark, white } from '../../../assets/color'
 import InputContainer from './InputContainer'
-import { useDispatch } from 'react-redux'
-import { AppDispatch } from '../../../types/Redux.type'
-import { updateNbPersonne } from '../../../stores/thunks/appThunks'
 
 type Value = {
   label: string
@@ -20,12 +16,6 @@ type Props = {
 }
 
 const InputPersonne = ({ isInReservation, value, setValue, isDisplay, handleDisplay }: Props) => {
-
-  const dispatch = useDispatch<AppDispatch>()
-
-  useEffect(() => {
-    dispatch(updateNbPersonne(value))
-  }, [value, dispatch])
 
   const updateData = (action: string, newData: { label: string, nb: number }) => {
     const updatedValue = value.map(item => {
@@ -61,7 +51,7 @@ const InputPersonne = ({ isInReservation, value, setValue, isDisplay, handleDisp
       <Container.Column position="absolute" top="65px" width="255px" padding="1.25rem" alignItems="flex-start" gap="15px" borderRadius="10px" background={white} display={!isDisplay ? "none" : "flex"} mDisplay={!isDisplay ? "none" : "flex"} zIndex="2">
         {value.map(data => {
           return (
-            <InputContainer data={data} updateData={updateData} />
+            <InputContainer key={data.label} data={data} updateData={updateData} />
           )
         })}
       </Container.Column>

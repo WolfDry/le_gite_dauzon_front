@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { CssProps } from '../../../types/CssProps.type';
 import { dark } from '../../../assets/color';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
 const LinkStyled = styled(Link) <CssProps>`
   display: flex;

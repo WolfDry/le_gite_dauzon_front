@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Action, Container, Visual } from '../atoms'
 import { dark, white } from '../../assets/color'
 import MobileMenu from './MobileMenu'

@@ -1,4 +1,3 @@
-import React from 'react'
 import { Container, Text, Visual } from '../atoms'
 import { Comment } from '../../types/Commentaire.type'
 import { dark, lightGreen } from '../../assets/color'

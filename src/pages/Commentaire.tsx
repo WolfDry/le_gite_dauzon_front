@@ -1,27 +1,21 @@
-import React, { useEffect, useState } from 'react'
 import { Container, Text } from '../components/atoms'
 import HeroBanner from '../components/molecules/HeroBanner'
 import { lightLightYellow } from '../assets/color'
 import CommentCard from '../components/molecules/CommentCard'
 import CommentFooter from '../components/molecules/CommentFooter'
 import { Comment } from '../types/Commentaire.type'
-import { useSelector, useDispatch } from 'react-redux'
-import { AppDispatch } from '../types/Redux.type'
-import { getAllCommentaires } from '../stores/thunks/commentaireThunks'
+import { useCommentaires } from '../services/queries'
+import { pageMeta } from '../seo'
+
+export const meta = () => pageMeta({
+  title: "Livre d'or : avis de nos vacanciers",
+  description: "Les avis des vacanciers qui ont séjourné au Gîte d'Auzon, à Joyeuse en Ardèche méridionale. Vous y avez passé un séjour ? Laissez-nous un commentaire.",
+  path: '/commentaire',
+})
 
 const Commentaire = () => {
 
-  const dispatch = useDispatch<AppDispatch>()
-  const comments = useSelector((state: any) => state.comment.commentaires ?? [])
-  const [validComments, setValidComments] = useState(comments)
-
-  useEffect(() => {
-    dispatch(getAllCommentaires())
-  }, [dispatch])
-
-  useEffect(() => {
-    setValidComments(comments.filter((comment: Comment) => comment.verif))
-  }, [comments])
+  const { data: validComments, isPending, isError } = useCommentaires()
 
   return (
     <Container.Column background={lightLightYellow}>
@@ -34,8 +28,10 @@ Vous hésitez encore ? Leurs témoignages vous aideront à vous faire une idée 
         </Text.Paragraph>
       </Container.Row>
       <Container.Wrap padding="3.75rem 6.25rem" mPadding="1.25rem 1.25rem 2.5rem 1.25rem" gap="2.1875rem" mColumnGap="3.125rem" alignSelf="stretch">
+        {isPending && <Text.Paragraph textAlign="center" role="status">Chargement des avis…</Text.Paragraph>}
+        {isError && <Text.Paragraph textAlign="center" role="alert">Les avis n'ont pas pu être chargés. Rechargez la page pour réessayer.</Text.Paragraph>}
         {validComments && validComments.map((comment: Comment, index: number) => {
-          return (<CommentCard comment={comment} cardIndex={index} />)
+          return (<CommentCard key={comment.id} comment={comment} cardIndex={index} />)
         })}
       </Container.Wrap>
       <CommentFooter />
