@@ -7,6 +7,9 @@ export const submitErrorMessage = (error: unknown): string => {
     if (status === 429) {
       return "Trop d'envois en peu de temps. Merci de réessayer dans quelques minutes."
     }
+    if (status === 403) {
+      return "La vérification anti-robot n'a pas abouti. Rechargez la page puis réessayez."
+    }
     if (status === 400) {
       return "Certaines informations ne sont pas valides. Vérifiez le formulaire puis réessayez."
     }

@@ -16,6 +16,7 @@ import { useCreateReservationRequest } from '../services/mutations'
 import { submitErrorMessage } from '../services/errors'
 import { emptyNbPersonne, fromReservationSearch } from '../lib/reservationParams'
 import { useHydrated } from '../lib/useHydrated'
+import { useAntiBot } from '../lib/antiBot'
 import { pageMeta } from '../seo'
 import { addMonths, format, startOfMonth } from 'date-fns'
 import { fr } from 'date-fns/locale'
@@ -91,6 +92,8 @@ const Reservation = () => {
   })
   const [errors, setErrors] = useState<FieldErrors>({})
   const request = useCreateReservationRequest()
+  const antiBot = useAntiBot()
+  const busy = request.isPending || antiBot.isVerifying
   const { data: reservations = [], isError: reservationsError } = useDisponibilites()
   const dates = useMemo(() => reservations.map(({ debut, fin }) => ({ debut, fin })), [reservations])
   const { data: prices = [], isError: pricesError } = useTarifs()
@@ -132,8 +135,8 @@ const Reservation = () => {
     changeInputsValue("nbPersonne", data)
   }
 
-  const addAskReservation = () => {
-    if (request.isPending) return
+  const addAskReservation = async () => {
+    if (busy) return
 
     const found = validate(inputsValue)
     setErrors(found)
@@ -142,7 +145,9 @@ const Reservation = () => {
       return
     }
 
+    const fields = await antiBot.getFields()
     request.mutate({
+      ...fields,
       debut: inputsValue.debut,
       fin: inputsValue.fin,
       nbPersonne: inputsValue.nbPersonne,
@@ -155,6 +160,7 @@ const Reservation = () => {
         setInputsValue(prev => ({ ...prev, debut: '', fin: '', nom: '', email: '', phone: '', message: '' }))
       },
       onError: (error) => console.error(error),
+      onSettled: antiBot.reset,
     })
   }
 
@@ -168,7 +174,7 @@ const Reservation = () => {
     <Container.Column background={lightLightBlue}>
       <HeroBanner height="60vh" />
       <Container.Row maxWidth="100vw" marginTop="-6.875rem" padding="0 6.25rem 1.875rem 6.25rem" mPadding="0 1.25rem 2.5rem 1.25rem" justifyContent="center" mJustifyContent="flex-end" alignItems="flex-end" mAlignItems="center" alignSelf="stretch" zIndex="1">
-        <Container.Column width="100%" padding="1.875rem 3.75rem" alignItems="center" gap="1.875rem" flex="1 0 0" borderRadius="1.25rem" background={white} boxShadow="4px 4px 20px 0 rgba(128, 226, 255, 0.25)">
+        <Container.Column width="100%" padding="1.875rem 3.75rem" alignItems="center" gap="1.875rem" flex="1 0 0" borderRadius="1.25rem" background={white} boxShadow="4px 4px 20px 0 rgba(128, 226, 255, 0.25)" onFocusCapture={antiBot.activate} onPointerDownCapture={antiBot.activate}>
           <Container.Row alignItems="start" gap="1.25rem" alignSelf="stretch">
             <Container.Column alignItems="flex-start" gap="7px" flex="1 0 0" alignSelf="stretch">
               <Text.Label htmlFor="reservation-debut">
@@ -269,8 +275,9 @@ const Reservation = () => {
             <FieldError message={errors.message} />
           </Container.Column>
           <PrivacyNotice purpose="traiter votre demande de réservation et vous recontacter" />
-          <Action.Button onClick={addAskReservation} disabled={request.isPending} aria-busy={request.isPending} background={blue}>
-            {request.isPending ? "Envoi en cours…" : "Envoyer ma demande"}
+          {antiBot.fields}
+          <Action.Button onClick={addAskReservation} disabled={busy} aria-busy={busy} background={blue}>
+            {busy ? "Envoi en cours…" : "Envoyer ma demande"}
           </Action.Button>
           {request.isSuccess && (
             <Text.Paragraph color={darkGreen} textAlign="center" role="status">

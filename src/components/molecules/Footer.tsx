@@ -5,6 +5,7 @@ import { ContactMessage, useSendContactMessage } from '../../services/mutations'
 import { dark } from '../../assets/color'
 import LegalBar from './LegalBar'
 import PrivacyNotice from './PrivacyNotice'
+import { useAntiBot } from '../../lib/antiBot'
 
 type FormData = ContactMessage
 
@@ -18,19 +19,22 @@ const Footer = () => {
   })
   const [resutlForm, setResutlForm] = useState<boolean | null>(null)
   const contact = useSendContactMessage()
+  const antiBot = useAntiBot()
+  const busy = contact.isPending || antiBot.isVerifying
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
-  const handleClick = () => {
-    if (contact.isPending) return
+  const handleClick = async () => {
+    if (busy) return
     if (!formData.email || !formData.message || !formData.name) {
       setResutlForm(false)
       return
     }
-    contact.mutate(formData, {
+    const fields = await antiBot.getFields()
+    contact.mutate({ ...formData, ...fields }, {
       onSuccess: () => {
         setFormData({
           name: '',
@@ -43,6 +47,7 @@ const Footer = () => {
         console.error(error)
         setResutlForm(false)
       },
+      onSettled: antiBot.reset,
     })
   }
 
@@ -69,7 +74,7 @@ const Footer = () => {
             </Container.Column>
           </Container.Column>
 
-          <Container.Column justifyContent="center" alignItems="flex-start" gap="40px" flex="1">
+          <Container.Column justifyContent="center" alignItems="flex-start" gap="40px" flex="1" onFocusCapture={antiBot.activate} onPointerDownCapture={antiBot.activate}>
             <Container.Column gap="20px" alignSelf="stretch">
               <Container.Column gap="7px" alignSelf="stretch">
                 <Text.Label>Prénom et nom*</Text.Label>
@@ -100,7 +105,8 @@ const Footer = () => {
               <Text.Paragraph display={resutlForm !== null ? "flex" : "none"} color={resutlForm ? dark : "red"}>{resutlForm ? "Un mail nous a été envoyé, nous vous répondront au plus vite" : "Il y a une erreur sur l'envoi du mail"}</Text.Paragraph>
             </Container.Column>
             <PrivacyNotice purpose="répondre à votre message" />
-            <Form.Button onClick={handleClick} disabled={contact.isPending} aria-busy={contact.isPending}>
+            {antiBot.fields}
+            <Form.Button onClick={handleClick} disabled={busy} aria-busy={busy}>
               Envoyer
             </Form.Button>
           </Container.Column>

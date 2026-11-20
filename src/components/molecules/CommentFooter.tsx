@@ -4,6 +4,7 @@ import { usePageColor } from "../../hooks/usePageColor"
 import { dark } from "../../assets/color"
 import { useCreateCommentaire } from "../../services/mutations"
 import { submitErrorMessage } from "../../services/errors"
+import { useAntiBot } from "../../lib/antiBot"
 import LegalBar from "./LegalBar"
 import PrivacyNotice from "./PrivacyNotice"
 
@@ -37,6 +38,8 @@ const CommentFooter = () => {
   const [inputs, setInputs] = useState<Inputs>(emptyInputs)
   const [errors, setErrors] = useState<FieldErrors>({})
   const send = useCreateCommentaire()
+  const antiBot = useAntiBot()
+  const busy = send.isPending || antiBot.isVerifying
 
   const [hoverRating, setHoverRating] = useState(0)
 
@@ -55,8 +58,8 @@ const CommentFooter = () => {
     update("note", value)
   }
 
-  const handleSend = () => {
-    if (send.isPending) return
+  const handleSend = async () => {
+    if (busy) return
 
     const found = validate(inputs)
     setErrors(found)
@@ -65,10 +68,12 @@ const CommentFooter = () => {
       return
     }
 
-    send.mutate({ name: inputs.name.trim(), commentaire: inputs.commentaire.trim(), note: inputs.note }, {
+    const fields = await antiBot.getFields()
+    send.mutate({ name: inputs.name.trim(), commentaire: inputs.commentaire.trim(), note: inputs.note, ...fields }, {
       // Les champs ne sont vidés qu'une fois l'avis bien reçu.
       onSuccess: () => setInputs(emptyInputs),
       onError: (error) => console.error(error),
+      onSettled: antiBot.reset,
     })
   }
 
@@ -97,7 +102,7 @@ const CommentFooter = () => {
             </Container.Column>
           </Container.Column>
 
-          <Container.Column justifyContent="center" alignItems="flex-start" gap="40px" flex="1">
+          <Container.Column justifyContent="center" alignItems="flex-start" gap="40px" flex="1" onFocusCapture={antiBot.activate} onPointerDownCapture={antiBot.activate}>
             <Container.Column gap="20px" alignSelf="stretch" alignItems="flex-start">
               <Container.Column gap="7px" alignSelf="stretch">
                 <Text.Label htmlFor="avis-nom">Prénom et nom*</Text.Label>
@@ -148,8 +153,9 @@ const CommentFooter = () => {
               <FieldError message={errors.note} />
             </Container.Column>
             <PrivacyNotice purpose="publier votre avis sur le site, après relecture" />
-            <Form.Button onClick={handleSend} disabled={send.isPending} aria-busy={send.isPending}>
-              {send.isPending ? "Envoi en cours…" : "Envoyer"}
+            {antiBot.fields}
+            <Form.Button onClick={handleSend} disabled={busy} aria-busy={busy}>
+              {busy ? "Envoi en cours…" : "Envoyer"}
             </Form.Button>
             {send.isSuccess && (
               <Text.Paragraph color={dark} role="status">

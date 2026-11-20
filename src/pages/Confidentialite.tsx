@@ -57,6 +57,11 @@ const Confidentialite = () => (
         Pour éviter les envois en masse, le serveur compte brièvement, en mémoire, les envois de formulaire par adresse IP.
         L'hébergeur conserve par ailleurs des journaux techniques de connexion pour une durée limitée.
       </P>
+      <P>
+        {"Les formulaires sont aussi protégés contre les robots par Cloudflare Turnstile. Ce service n'est chargé que lorsque vous commencez à remplir un formulaire. Il analyse des informations techniques sur votre navigateur et votre connexion (adresse IP, type de navigateur, comportement sur la page) pour vérifier que l'envoi vient d'une personne, sans cookie publicitaire, selon sa "}
+        <ExternalLink href="https://www.cloudflare.com/turnstile-privacy-policy/">politique de confidentialité</ExternalLink>
+        {'. Base légale : notre intérêt légitime à protéger le site contre les envois automatisés.'}
+      </P>
     </Section>
 
     <Section title="Prestataires">
@@ -65,6 +70,7 @@ const Confidentialite = () => (
         <Item>Vercel (États-Unis) : hébergement du site et du serveur ;</Item>
         <Item><ToComplete>hébergeur de la base de données et pays</ToComplete> : stockage des demandes et des avis ;</Item>
         <Item>Mailgun <ToComplete>région d'envoi : Union européenne ou États-Unis</ToComplete> : envoi des e-mails de notification aux propriétaires ;</Item>
+        <Item>Cloudflare (États-Unis) : protection des formulaires contre les robots (Turnstile) ;</Item>
         <Item>Cloudinary : hébergement des images des idées de visite (aucune donnée personnelle).</Item>
       </List>
       <P>Les transferts hors de l'Union européenne sont encadrés par le cadre de protection des données UE–États-Unis ou par les clauses contractuelles types de la Commission européenne.</P>

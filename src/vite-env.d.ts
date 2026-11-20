@@ -7,6 +7,8 @@ interface ImportMetaEnv {
   readonly VITE_CLOUDINARY_CLOUD_NAME: string
   /** Adresse publique du site, pour les URL canoniques et Open Graph. Par défaut https://www.legitedauzon.fr. */
   readonly VITE_SITE_URL?: string
+  /** Clé de site Cloudflare Turnstile (protection anti-robot des formulaires). Sans elle, Turnstile est désactivé. */
+  readonly VITE_TURNSTILE_SITE_KEY?: string
 }
 
 interface ImportMeta {
