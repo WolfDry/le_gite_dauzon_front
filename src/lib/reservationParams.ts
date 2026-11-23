@@ -1,4 +1,4 @@
-import type { Dates, NbPersonne } from '../types/App.type'
+import type { Dates, Voyageurs } from '../types/App.type'
 
 /**
  * Le formulaire de l'accueil transmet dates et nombre de personnes à la page Réservation
@@ -6,31 +6,27 @@ import type { Dates, NbPersonne } from '../types/App.type'
  * (le lien peut ainsi être partagé ou mis en favori).
  */
 
-/** Libellé affiché (et envoyé à l'API) → nom du paramètre d'URL. */
-const PERSON_PARAMS: Record<string, string> = {
-  Adultes: 'adultes',
-  Enfants: 'enfants',
-  Animaux: 'animaux',
-}
+/** Catégories de voyageurs : noms des champs de l'API et des paramètres d'URL. */
+export const VOYAGEUR_KEYS = ['adultes', 'enfants', 'animaux'] as const
 
 const DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/
 const MAX_PER_CATEGORY = 20
 
-export const emptyNbPersonne = (): NbPersonne[] =>
-  Object.keys(PERSON_PARAMS).map((label) => ({ label, nb: 0 }))
+export const emptyVoyageurs = (): Voyageurs => ({ adultes: 0, enfants: 0, animaux: 0 })
+
+export const hasVoyageurs = (voyageurs: Voyageurs): boolean => VOYAGEUR_KEYS.some((key) => voyageurs[key] > 0)
 
 export type ReservationPrefill = {
   dates: Dates
-  nbPersonne: NbPersonne[]
+  voyageurs: Voyageurs
 }
 
-export const toReservationSearch = ({ dates, nbPersonne }: ReservationPrefill): string => {
+export const toReservationSearch = ({ dates, voyageurs }: ReservationPrefill): string => {
   const params = new URLSearchParams()
   if (dates.debut) params.set('debut', dates.debut)
   if (dates.fin) params.set('fin', dates.fin)
-  for (const { label, nb } of nbPersonne) {
-    const key = PERSON_PARAMS[label]
-    if (key && nb > 0) params.set(key, String(nb))
+  for (const key of VOYAGEUR_KEYS) {
+    if (voyageurs[key] > 0) params.set(key, String(voyageurs[key]))
   }
   const search = params.toString()
   return search ? `?${search}` : ''
@@ -42,9 +38,10 @@ export const fromReservationSearch = (params: URLSearchParams): ReservationPrefi
     const value = params.get(key)
     return value && DATE_PATTERN.test(value) ? value : null
   }
-  const nbPersonne = emptyNbPersonne().map(({ label }) => {
-    const nb = Number.parseInt(params.get(PERSON_PARAMS[label]) ?? '', 10)
-    return { label, nb: Number.isFinite(nb) ? Math.min(Math.max(nb, 0), MAX_PER_CATEGORY) : 0 }
-  })
-  return { dates: { debut: date('debut'), fin: date('fin') }, nbPersonne }
+  const voyageurs = emptyVoyageurs()
+  for (const key of VOYAGEUR_KEYS) {
+    const nb = Number.parseInt(params.get(key) ?? '', 10)
+    voyageurs[key] = Number.isFinite(nb) ? Math.min(Math.max(nb, 0), MAX_PER_CATEGORY) : 0
+  }
+  return { dates: { debut: date('debut'), fin: date('fin') }, voyageurs }
 }

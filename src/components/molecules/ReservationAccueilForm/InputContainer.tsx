@@ -5,7 +5,7 @@ type Props = {
     label: string
     nb: number
   }
-  updateData: any
+  updateData: (action: 'plus' | 'minus') => void
 }
 
 const InputContainer = ({ data, updateData }: Props) => {
@@ -16,11 +16,11 @@ const InputContainer = ({ data, updateData }: Props) => {
         {data.label}
       </Text.Paragraph>
       <Container.Row direction="row" justifyContent="center" alignItems="center" gap="10px">
-        <Container.Row direction="row" onClick={() => updateData("minus", data)} height="15px" alignItems="center">
+        <Container.Row direction="row" onClick={() => updateData("minus")} height="15px" alignItems="center">
           <Visual.Svg label="minus" />
         </Container.Row>
         <Form.Input type="number" width="4.1vw" mWidth="3.75rem" padding="6px 15px" textAlign="center" value={data.nb} />
-        <Container.Row direction="row" onClick={() => updateData("plus", data)} height="15px" alignItems="center">
+        <Container.Row direction="row" onClick={() => updateData("plus")} height="15px" alignItems="center">
           <Visual.Svg label="plus" />
         </Container.Row>
       </Container.Row>

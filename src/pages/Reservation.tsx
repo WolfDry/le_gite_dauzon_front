@@ -11,10 +11,12 @@ import Footer from '../components/molecules/Footer'
 import InputPersonne from '../components/molecules/ReservationAccueilForm/InputPersonne'
 import PrivacyNotice from '../components/molecules/PrivacyNotice'
 import { AskReservation } from '../types/Reservation.type'
+import { Voyageurs } from '../types/App.type'
 import { useDisponibilites, useTarifs } from '../services/queries'
 import { useCreateReservationRequest } from '../services/mutations'
 import { submitErrorMessage } from '../services/errors'
-import { emptyNbPersonne, fromReservationSearch } from '../lib/reservationParams'
+import { emptyVoyageurs, fromReservationSearch, hasVoyageurs } from '../lib/reservationParams'
+import { formatEuro } from '../lib/format'
 import { useHydrated } from '../lib/useHydrated'
 import { useAntiBot } from '../lib/antiBot'
 import { pageMeta } from '../seo'
@@ -27,12 +29,10 @@ export const meta = () => pageMeta({
   path: '/reservation',
 })
 
-type NbPersonne = {
-  label: string
-  nb: number
-}
+/** Valeurs du formulaire : la demande envoyée à l'API, avec les voyageurs regroupés pour leur sélecteur. */
+type FormValues = Omit<AskReservation, keyof Voyageurs> & { voyageurs: Voyageurs }
 
-type FieldName = 'debut' | 'fin' | 'nbPersonne' | 'nom' | 'email' | 'phone' | 'message'
+type FieldName = keyof FormValues
 type FieldErrors = Partial<Record<FieldName, string>>
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -58,13 +58,13 @@ const todayYmd = () => {
 }
 
 /** Mêmes règles que l'API, pour signaler l'erreur à côté du champ avant l'envoi. */
-const validate = (values: AskReservation): FieldErrors => {
+const validate = (values: FormValues): FieldErrors => {
   const errors: FieldErrors = {}
   if (!values.debut) errors.debut = "Indiquez votre date d'arrivée."
   else if (values.debut < todayYmd()) errors.debut = "La date d'arrivée est déjà passée."
   if (!values.fin) errors.fin = 'Indiquez votre date de départ.'
   else if (values.debut && values.fin <= values.debut) errors.fin = "La date de départ doit être après la date d'arrivée."
-  if ((values.nbPersonne.find((p) => p.label === 'Adultes')?.nb ?? 0) < 1) errors.nbPersonne = 'Indiquez au moins un adulte.'
+  if (values.voyageurs.adultes < 1) errors.voyageurs = 'Indiquez au moins un adulte.'
   if (!values.nom.trim()) errors.nom = 'Indiquez votre prénom et votre nom.'
   else if (values.nom.trim().length > 100) errors.nom = 'Le nom est trop long (100 caractères maximum).'
   if (!EMAIL_PATTERN.test(values.email.trim()) || values.email.trim().length > 254) errors.email = 'Indiquez une adresse e-mail valide.'
@@ -81,10 +81,10 @@ const Reservation = () => {
 
   const hydrated = useHydrated()
   const [searchParams] = useSearchParams()
-  const [inputsValue, setInputsValue] = useState<AskReservation>({
+  const [inputsValue, setInputsValue] = useState<FormValues>({
     debut: '',
     fin: '',
-    nbPersonne: emptyNbPersonne(),
+    voyageurs: emptyVoyageurs(),
     nom: '',
     email: '',
     phone: '',
@@ -112,7 +112,7 @@ const Reservation = () => {
       ...prev,
       ...(prefill.dates.debut && { debut: prefill.dates.debut }),
       ...(prefill.dates.fin && { fin: prefill.dates.fin }),
-      ...(prefill.nbPersonne.some(p => p.nb > 0) && { nbPersonne: prefill.nbPersonne }),
+      ...(hasVoyageurs(prefill.voyageurs) && { voyageurs: prefill.voyageurs }),
     }))
   }, [searchParams])
 
@@ -131,8 +131,8 @@ const Reservation = () => {
     [isSending, resetRequest]
   )
 
-  const setNbPersonne = (data: NbPersonne[]) => {
-    changeInputsValue("nbPersonne", data)
+  const setVoyageurs = (data: Voyageurs) => {
+    changeInputsValue("voyageurs", data)
   }
 
   const addAskReservation = async () => {
@@ -150,7 +150,7 @@ const Reservation = () => {
       ...fields,
       debut: inputsValue.debut,
       fin: inputsValue.fin,
-      nbPersonne: inputsValue.nbPersonne,
+      ...inputsValue.voyageurs,
       nom: inputsValue.nom.trim(),
       email: inputsValue.email.trim(),
       phone: inputsValue.phone.trim(),
@@ -209,8 +209,8 @@ const Reservation = () => {
               <Text.Label>
                 Nombre de personnes*
               </Text.Label>
-              <InputPersonne isInReservation={true} value={inputsValue.nbPersonne} setValue={setNbPersonne} isDisplay={isPersonneDisplay} handleDisplay={handleClick} />
-              <FieldError message={errors.nbPersonne} />
+              <InputPersonne isInReservation={true} value={inputsValue.voyageurs} setValue={setVoyageurs} isDisplay={isPersonneDisplay} handleDisplay={handleClick} />
+              <FieldError message={errors.voyageurs} />
             </Container.Column>
           </Container.Row>
           <Container.Row alignItems="start" gap="1.25rem" alignSelf="stretch">
@@ -353,7 +353,7 @@ Nous vous contacterons rapidement pour vous confirmer la disponibilité du gîte
             {prices.map((tarif) => (
               <Cell key={tarif.id} flex="1 0 0" background={white}>
                 <Text.Paragraph fontSize="1">
-                  {tarif.prix} € / {tarif.frequence}
+                  {formatEuro(tarif.prix)} / {tarif.frequence}
                 </Text.Paragraph>
               </Cell>
             ))}
@@ -394,7 +394,7 @@ Nous vous contacterons rapidement pour vous confirmer la disponibilité du gîte
                   </Container.Column>
                 )}
                 <Text.Paragraph color={index % 2 === 0 ? white : null} textAlign="center">
-                  {tarif.prix} € / {tarif.frequence}
+                  {formatEuro(tarif.prix)} / {tarif.frequence}
                 </Text.Paragraph>
               </Container.Column>
             ))

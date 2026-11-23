@@ -1,4 +1,4 @@
-import { NbPersonne } from "./App.type"
+import { Voyageurs } from "./App.type"
 
 /** Période déjà réservée, telle que renvoyée par la route publique des disponibilités. */
 export type Disponibilite = {
@@ -6,12 +6,12 @@ export type Disponibilite = {
     fin: string
 }
 
-export type AskReservation = {
+/** Demande de réservation envoyée à l'API. */
+export type AskReservation = Voyageurs & {
     /** AAAA-MM-JJ */
     debut: string
     /** AAAA-MM-JJ */
     fin: string
-    nbPersonne: NbPersonne[]
     nom: string
     email: string
     phone: string

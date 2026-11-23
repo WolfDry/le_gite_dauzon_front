@@ -1,32 +1,29 @@
 import { Container, Text, Visual } from '../../atoms'
 import { dark, white } from '../../../assets/color'
 import InputContainer from './InputContainer'
+import type { Voyageurs } from '../../../types/App.type'
 
-type Value = {
-  label: string
-  nb: number
-}
+const CATEGORIES = [
+  { key: 'adultes', label: 'Adultes' },
+  { key: 'enfants', label: 'Enfants' },
+  { key: 'animaux', label: 'Animaux' },
+] as const
 
 type Props = {
   isInReservation: boolean
-  value: Value[]
-  setValue: ((value: any) => void)
+  value: Voyageurs
+  setValue: (value: Voyageurs) => void
   isDisplay: boolean
   handleDisplay: (calendarDisplay: boolean | null, personneDisplay: boolean | null) => void
 }
 
 const InputPersonne = ({ isInReservation, value, setValue, isDisplay, handleDisplay }: Props) => {
 
-  const updateData = (action: string, newData: { label: string, nb: number }) => {
-    const updatedValue = value.map(item => {
-      if (item.label === newData.label) {
-        const newNb = action === "plus" ? item.nb + 1 : Math.max(0, item.nb - 1)
-        return { ...item, nb: newNb }
-      }
-      return item
-    })
-    setValue(updatedValue)
+  const updateData = (key: keyof Voyageurs, action: 'plus' | 'minus') => {
+    setValue({ ...value, [key]: action === 'plus' ? value[key] + 1 : Math.max(0, value[key] - 1) })
   }
+
+  const filled = CATEGORIES.filter(({ key }) => value[key] > 0)
 
   return (
     <Container.Column position="relative" alignSelf={isInReservation ? "stretch" : ""} height="100%">
@@ -37,23 +34,18 @@ const InputPersonne = ({ isInReservation, value, setValue, isDisplay, handleDisp
         <Container.Column flex="1" alignItems="center">
           <Text.Paragraph alignSelf="center">
             {
-              value.every(data => data.nb === 0) && !isInReservation
+              filled.length === 0 && !isInReservation
                 ? "Nombre de personnes"
-                : value
-                  .filter(data => data.nb > 0)
-                  .map(data => `${data.nb} ${data.label}`)
-                  .join(' - ')
+                : filled.map(({ key, label }) => `${value[key]} ${label}`).join(' - ')
             }
           </Text.Paragraph>
         </Container.Column>
         <Visual.Svg label="bottomArrow" />
       </Container.Row>
       <Container.Column position="absolute" top="65px" width="255px" padding="1.25rem" alignItems="flex-start" gap="15px" borderRadius="10px" background={white} display={!isDisplay ? "none" : "flex"} mDisplay={!isDisplay ? "none" : "flex"} zIndex="2">
-        {value.map(data => {
-          return (
-            <InputContainer key={data.label} data={data} updateData={updateData} />
-          )
-        })}
+        {CATEGORIES.map(({ key, label }) => (
+          <InputContainer key={key} data={{ label, nb: value[key] }} updateData={(action) => updateData(key, action)} />
+        ))}
       </Container.Column>
     </Container.Column>
   )

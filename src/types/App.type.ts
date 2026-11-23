@@ -3,7 +3,9 @@ export type Dates = {
   fin: string | null
 }
 
-export type NbPersonne = {
-  label: string
-  nb: number
+/** Nombre de voyageurs par catégorie, tel qu'envoyé à l'API. */
+export type Voyageurs = {
+  adultes: number
+  enfants: number
+  animaux: number
 }
