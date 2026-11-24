@@ -28,6 +28,14 @@ const ButtonStyled = styled.button<CssProps>`
   &:hover{
     box-shadow: ${(props) => props.boxShadow ?? "3px 3px 6px 0px rgba(23, 28, 25, 0.14)"};
   }
+
+  &:disabled {
+    cursor: default;
+  }
+
+  &:disabled:hover {
+    box-shadow: none;
+  }
   
   @media (max-width: 1050px) {
     display: ${(props) => props.mDisplay ?? "flex"};

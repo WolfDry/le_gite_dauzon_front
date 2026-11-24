@@ -1,9 +1,11 @@
-import { useState } from 'react'
+import { useId, useState } from 'react'
+import { addMonths, format, isBefore, parseISO, startOfMonth } from 'date-fns'
+import { fr } from 'date-fns/locale'
 import { Container, Text, Visual } from '../../atoms'
 import { white } from '../../../assets/color'
 import Calendrier from '../Calendar/Calendrier'
-import { addMonths, subMonths } from 'date-fns'
-import { Dates } from '../../../types/App.type'
+import type { Dates } from '../../../types/App.type'
+
 type Props = {
   dates: Dates
   setDates: (dates: Dates) => void
@@ -11,56 +13,60 @@ type Props = {
   handleDisplay: (calendarDisplay: boolean | null, personneDisplay: boolean | null) => void
 }
 
-const InputsReservationAccueilForm = ({ dates, setDates, isDisplay, handleDisplay }: Props) => {
+/** « sam. 3 juillet ». parseISO lit la date en heure locale (new Date('2027-07-03') la lit en UTC). */
+const formatDate = (value: string | null, placeholder: string) =>
+  value ? format(parseISO(value), 'EEE d MMMM', { locale: fr }) : placeholder
 
-  const [currentMonth, setCurrentMonth] = useState(() => ({
-    left: new Date(),
-    right: addMonths(new Date(), 1),
-  }))
+const InputsReservationAccueilForm = ({ dates, setDates, isDisplay, handleDisplay }: Props) => {
+  const panelId = useId()
+
+  // Mois affiché à gauche ; celui de droite est toujours le suivant.
+  const [leftMonth, setLeftMonth] = useState(() => startOfMonth(new Date()))
+
+  // Pas de retour avant le mois en cours : les jours passés ne sont pas réservables.
   const changeMonth = (direction: number) => {
-    let newMonth = currentMonth
-    if (direction === 1) {
-      newMonth = {
-        left: addMonths(currentMonth.left, 1),
-        right: addMonths(currentMonth.right, 1)
-      }
-    } else {
-      newMonth = {
-        left: subMonths(currentMonth.left, 1),
-        right: subMonths(currentMonth.right, 1)
-      }
-    }
-    setCurrentMonth(newMonth)
+    setLeftMonth((month) => {
+      const next = addMonths(month, direction)
+      return isBefore(next, startOfMonth(new Date())) ? month : next
+    })
   }
 
   return (
     <Container.Column position="relative">
-      <Container.Row onClick={() => handleDisplay(!isDisplay, null)} direction="row" height="100%" mHeight="3.1875rem" padding="12px 30px 12px 20px" justifyContent="center" alignItems="center" gap="14px" alignSelf="stretch" borderRadius="100px 7px 7px 100px" mBorderRadius="15px 15px 7px 7px" background={white} cursor="pointer">
+      <Container.Row
+        as="button"
+        type="button"
+        onClick={() => handleDisplay(!isDisplay, null)}
+        aria-expanded={isDisplay}
+        aria-controls={panelId}
+        aria-haspopup="dialog"
+        direction="row"
+        height="100%"
+        mHeight="3.1875rem"
+        padding="12px 30px 12px 20px"
+        justifyContent="center"
+        alignItems="center"
+        gap="14px"
+        alignSelf="stretch"
+        border="none"
+        borderRadius="100px 7px 7px 100px"
+        mBorderRadius="15px 15px 7px 7px"
+        background={white}
+        cursor="pointer"
+      >
         <Visual.Svg label="calendar" />
         <Text.Paragraph alignSelf="center">
-          {dates.debut
-            ? new Date(dates.debut).toLocaleDateString('fr-FR', {
-              weekday: 'short',
-              day: 'numeric',
-              month: 'long',
-            }).toLowerCase()
-            : "Date d’arrivée"}
+          {formatDate(dates.debut, 'Date d’arrivée')}
           {" - "}
-          {dates.fin
-            ? new Date(dates.fin).toLocaleDateString('fr-FR', {
-              weekday: 'short',
-              day: 'numeric',
-              month: 'long',
-            }).toLowerCase()
-            : "Date de départ"}
+          {formatDate(dates.fin, 'Date de départ')}
         </Text.Paragraph>
         <Visual.Svg label="bottomArrow" />
       </Container.Row>
       {/* Rendu seulement à l'ouverture : les mois dépendent de la date du jour, absente de la page prérendue. */}
       {isDisplay && (
-        <Container.Row direction="row" position="absolute" top="65px" alignItems="center" padding="5px" gap="20px" borderRadius="10px" background={white} zIndex={5}>
-          <Calendrier dates={dates} setDates={setDates} side='left' currentMonth={currentMonth.left} changeMonth={changeMonth} isOnMobile={true} />
-          <Calendrier dates={dates} setDates={setDates} side='right' currentMonth={currentMonth.right} changeMonth={changeMonth} isOnMobile={false} />
+        <Container.Row id={panelId} role="dialog" aria-label="Choisir les dates du séjour" direction="row" position="absolute" top="65px" alignItems="flex-start" padding="5px" gap="20px" borderRadius="10px" background={white} zIndex={5}>
+          <Calendrier dates={dates} setDates={setDates} side='left' currentMonth={leftMonth} changeMonth={changeMonth} isOnMobile={true} />
+          <Calendrier dates={dates} setDates={setDates} side='right' currentMonth={addMonths(leftMonth, 1)} changeMonth={changeMonth} isOnMobile={false} />
         </Container.Row>
       )}
     </Container.Column>

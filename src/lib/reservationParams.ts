@@ -10,7 +10,8 @@ import type { Dates, Voyageurs } from '../types/App.type'
 export const VOYAGEUR_KEYS = ['adultes', 'enfants', 'animaux'] as const
 
 const DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/
-const MAX_PER_CATEGORY = 20
+/** Nombre maximal par catégorie : borne les compteurs du formulaire et la lecture de l'adresse. */
+export const MAX_PER_CATEGORY = 20
 
 export const emptyVoyageurs = (): Voyageurs => ({ adultes: 0, enfants: 0, animaux: 0 })
 

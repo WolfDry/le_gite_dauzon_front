@@ -41,23 +41,24 @@ const Calendrier: React.FC<CustomCalendarProps> = ({ dates, setDates, side, curr
   const nextMonthStart = 7 - ((startDay + totalDays) % 7)
   const daysInNextMonth = Array.from({ length: nextMonthStart }, (_, i) => i + 1)
 
-  const onDayPress = (date: Date) => {
-    const dateString = format(date, 'yyyy-MM-dd')
+  // Sans side "none", le calendrier sert à choisir un séjour ; sinon il affiche seulement les disponibilités.
+  const isInteractive = side !== "none"
+  const today = format(new Date(), 'yyyy-MM-dd')
 
-    let newDates = {
-      debut: null,
-      fin: null
-    } as Dates
-
-    if (!dates.debut || (dates.debut && dates.debut)) {
-      newDates.debut = dateString
-    }
+  /**
+   * 1er clic : date d'arrivée. 2e clic : date de départ si elle est après l'arrivée,
+   * sinon nouvelle date d'arrivée. Un clic sur un séjour complet en recommence un.
+   * Les dates 'yyyy-MM-dd' se comparent comme des chaînes.
+   */
+  const onDayPress = (dateString: string) => {
     if (dates.debut && !dates.fin) {
-      newDates.debut = dates.debut
-      newDates.fin = dateString
+      if (dateString === dates.debut) return
+      if (dateString > dates.debut) {
+        setDates({ debut: dates.debut, fin: dateString })
+        return
+      }
     }
-
-    setDates(newDates)
+    setDates({ debut: dateString, fin: null })
   }
 
   const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1)
@@ -69,10 +70,8 @@ const Calendrier: React.FC<CustomCalendarProps> = ({ dates, setDates, side, curr
     let isStartDate = false
     let isEndDate = false
 
-    if (dates.debut && dates.fin) {
-      if (isWithinInterval(new Date(dateString), { start: new Date(dates.debut), end: new Date(dates.fin) })) {
-        isInRange = true
-      }
+    if (dates.debut && dates.fin && dates.debut <= dateString && dateString <= dates.fin) {
+      isInRange = true
     }
     if (dateString === dates.debut) {
       isStartDate = true
@@ -100,25 +99,35 @@ const Calendrier: React.FC<CustomCalendarProps> = ({ dates, setDates, side, curr
       }
     })
 
+    const isPast = isInteractive && dateString < today
+    const isSelectable = isInteractive && isCurrentMonth && !isPast
+
+    // La bande part du centre de la date d'arrivée et s'arrête au centre de la date de départ,
+    // sous les pastilles. Une date à la fois départ et arrivée (séjours qui se suivent) reste pleine.
+    const rangeBackground = !isInRange
+      ? null
+      : isStartDate && !isEndDate
+        ? `linear-gradient(to right, transparent 50%, ${color} 50%)`
+        : isEndDate && !isStartDate
+          ? `linear-gradient(to left, transparent 50%, ${color} 50%)`
+          : color
+
     return (
       <Action.Button
         key={dateString}
-        onClick={() => isCurrentMonth && onDayPress(date)}
+        type="button"
+        onClick={() => onDayPress(dateString)}
+        disabled={!isSelectable}
+        aria-hidden={!isCurrentMonth || undefined}
+        aria-label={isCurrentMonth ? format(date, 'EEEE d MMMM yyyy', { locale: fr }) : undefined}
+        aria-pressed={isInteractive && isCurrentMonth ? isSelected : undefined}
         height="30px"
-        opacity={!isCurrentMonth ? 0 : null}
-        borderRadius={
-          isSelected
-            ? isStartDate
-              ? "100px 0 0 100px"
-              : isEndDate
-                ? "0 100px 100px 0"
-                : "0"
-            : "0"
-        }
+        opacity={!isCurrentMonth ? 0 : isPast ? 0.35 : null}
+        borderRadius="0"
         padding="4px 0"
         justifyContent="center"
         alignItems="center"
-        background={isInRange ? color : null}
+        background={rangeBackground}
         gap="10px"
         boxShadow=""
         flex="1 0 0"
@@ -159,7 +168,7 @@ const Calendrier: React.FC<CustomCalendarProps> = ({ dates, setDates, side, curr
   return (
     <Container.Column width="19.4vw" mWidth="100%" padding="1.25rem 0" justifyContent="center" alignItems="center" gap="10px" mDisplay={isOnMobile ? "flex" : "none"} boxShadow={side === "none" ? "4px 4px 20px 0 rgba(23, 28, 25, 0.10)" : ""}>
       <Container.Row direction="row" justifyContent="center" alignItems="center" gap="1.875rem" alignSelf="stretch">
-        <Action.Button display={side === "none" ? "none" : "flex"} onClick={() => side === "left" && changeMonth(-1)} padding="0" opacity={side === "right" ? 0 : null} mOpacity="1">
+        <Action.Button type="button" aria-label="Mois précédent" display={side === "none" ? "none" : "flex"} onClick={() => side === "left" && changeMonth(-1)} padding="0" opacity={side === "right" ? 0 : null} mOpacity="1">
           <Visual.Svg label="leftArrow" width={10} height={15} />
         </Action.Button>
         {
@@ -172,14 +181,14 @@ const Calendrier: React.FC<CustomCalendarProps> = ({ dates, setDates, side, curr
               {capitalize(format(currentMonth, 'MMMM yyyy', { locale: fr }))}
             </Text.Paragraph>
         }
-        <Action.Button display={side === "none" ? "none" : "flex"} onClick={() => changeMonth(1)} padding="0" opacity={side === "left" ? 0 : null} mOpacity="1">
+        <Action.Button type="button" aria-label="Mois suivant" display={side === "none" ? "none" : "flex"} onClick={() => changeMonth(1)} padding="0" opacity={side === "left" ? 0 : null} mOpacity="1">
           <Visual.Svg label="rightArrow" width={10} height={15} />
         </Action.Button>
       </Container.Row>
       <Container.Row direction="row" justifyContent="center" padding="0 10px" alignItems="center" alignSelf="stretch" gap="5px">
-        {daysOfWeek.map((d, i) => (
-          <Container.Column padding="4px 0" justifyContent="center" alignItems="center" gap="10px" flex="1 0 0">
-            <Text.Paragraph fontSize="14px" key={i}>
+        {daysOfWeek.map((d) => (
+          <Container.Column key={d} padding="4px 0" justifyContent="center" alignItems="center" gap="10px" flex="1 0 0">
+            <Text.Paragraph fontSize="14px">
               {d}
             </Text.Paragraph>
           </Container.Column>
