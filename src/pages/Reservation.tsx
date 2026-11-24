@@ -15,12 +15,15 @@ import { Voyageurs } from '../types/App.type'
 import { useDisponibilites, useReglages, useTarifs, type TarifAffiche } from '../services/queries'
 import { useCreateReservationRequest } from '../services/mutations'
 import { submitErrorMessage } from '../services/errors'
+import { isAxiosError } from 'axios'
 import { emptyVoyageurs, fromReservationSearch, hasVoyageurs } from '../lib/reservationParams'
 import { formatEuro } from '../lib/format'
 import { useHydrated } from '../lib/useHydrated'
 import { useAntiBot } from '../lib/antiBot'
 import { pageMeta } from '../seo'
-import { addMonths, format, startOfMonth } from 'date-fns'
+import { addMonths, format, parseISO, startOfMonth } from 'date-fns'
+import { useQueryClient } from '@tanstack/react-query'
+import { findConflit, toPeriodes, type Periode } from '../lib/disponibilites'
 import { fr } from 'date-fns/locale'
 
 export const meta = () => pageMeta({
@@ -57,13 +60,26 @@ const todayYmd = () => {
   return `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`
 }
 
+/** « 4 juillet » : parseISO lit la date en heure locale. */
+const jourMois = (ymd: string) => format(parseISO(ymd), 'd MMMM', { locale: fr })
+
+/** Message affiché sous les dates quand le séjour demandé chevauche une période réservée ou bloquée. */
+const conflitMessage = (values: Pick<FormValues, 'debut' | 'fin'>, periodes: Periode[]): string | undefined => {
+  if (!values.debut || !values.fin || values.fin <= values.debut) return undefined
+  const conflit = findConflit(values.debut, values.fin, periodes)
+  return conflit
+    ? `Le gîte n'est pas disponible du ${jourMois(conflit.debut)} au ${jourMois(conflit.fin)}. Choisissez d'autres dates (voir le calendrier des disponibilités).`
+    : undefined
+}
+
 /** Mêmes règles que l'API, pour signaler l'erreur à côté du champ avant l'envoi. */
-const validate = (values: FormValues): FieldErrors => {
+const validate = (values: FormValues, periodes: Periode[]): FieldErrors => {
   const errors: FieldErrors = {}
   if (!values.debut) errors.debut = "Indiquez votre date d'arrivée."
   else if (values.debut < todayYmd()) errors.debut = "La date d'arrivée est déjà passée."
   if (!values.fin) errors.fin = 'Indiquez votre date de départ.'
   else if (values.debut && values.fin <= values.debut) errors.fin = "La date de départ doit être après la date d'arrivée."
+  else errors.fin = conflitMessage(values, periodes)
   if (values.voyageurs.adultes < 1) errors.voyageurs = 'Indiquez au moins un adulte.'
   if (!values.nom.trim()) errors.nom = 'Indiquez votre prénom et votre nom.'
   else if (values.nom.trim().length > 100) errors.nom = 'Le nom est trop long (100 caractères maximum).'
@@ -96,6 +112,10 @@ const Reservation = () => {
   const busy = request.isPending || antiBot.isVerifying
   const { data: reservations = [], isError: reservationsError } = useDisponibilites()
   const dates = useMemo(() => reservations.map(({ debut, fin }) => ({ debut, fin })), [reservations])
+  const periodes = useMemo(() => toPeriodes(reservations), [reservations])
+  const queryClient = useQueryClient()
+  // Vérifié dès la saisie, sans attendre l'envoi.
+  const datesIndisponibles = conflitMessage(inputsValue, periodes)
   const { data: tarifs = [], isError: pricesError } = useTarifs()
   const { data: reglages } = useReglages()
   // La taxe de séjour est un réglage : elle est ajoutée à la grille, après les prix.
@@ -153,7 +173,7 @@ const Reservation = () => {
   const addAskReservation = async () => {
     if (busy) return
 
-    const found = validate(inputsValue)
+    const found = validate(inputsValue, periodes)
     setErrors(found)
     if (Object.values(found).some(Boolean)) {
       request.reset()
@@ -174,7 +194,13 @@ const Reservation = () => {
       onSuccess: () => {
         setInputsValue(prev => ({ ...prev, debut: '', fin: '', nom: '', email: '', phone: '', message: '' }))
       },
-      onError: (error) => console.error(error),
+      onError: (error) => {
+        // 409 : les dates ont été prises entre-temps. Le calendrier est rechargé pour les montrer.
+        if (isAxiosError(error) && error.response?.status === 409) {
+          queryClient.invalidateQueries({ queryKey: ['disponibilites'] })
+        }
+        console.error(error)
+      },
       onSettled: antiBot.reset,
     })
   }
@@ -218,7 +244,7 @@ const Reservation = () => {
                 aria-invalid={!!errors.fin}
                 value={inputsValue.fin}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => changeInputsValue('fin', e.target.value)} />
-              <FieldError message={errors.fin} />
+              <FieldError message={errors.fin ?? datesIndisponibles} />
             </Container.Column>
             <Container.Column alignItems="flex-start" gap="7px" flex="1 0 0" alignSelf="stretch">
               <Text.Label>

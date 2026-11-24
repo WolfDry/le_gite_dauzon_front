@@ -12,6 +12,7 @@ import { fr } from 'date-fns/locale'
 import { Action, Container, Text, Visual } from '../../atoms'
 import { darkBlue, lightGreen, white } from '../../../assets/color'
 import { Dates } from '../../../types/App.type'
+import { isJourIndisponible, type Periode } from '../../../lib/disponibilites'
 
 const daysOfWeek = ['LUN', 'MAR', 'MER', 'JEU', 'VEN', 'SAM', 'DIM']
 
@@ -23,9 +24,11 @@ type CustomCalendarProps = {
   changeMonth: (direction: number) => void
   isOnMobile: boolean
   reservedDates?: Dates[]
+  /** Calendrier de choix : périodes réservées ou bloquées, dont les jours ne peuvent pas être choisis. */
+  unavailable?: Periode[]
 }
 
-const Calendrier: React.FC<CustomCalendarProps> = ({ dates, setDates, side, currentMonth, changeMonth, isOnMobile, reservedDates }) => {
+const Calendrier: React.FC<CustomCalendarProps> = ({ dates, setDates, side, currentMonth, changeMonth, isOnMobile, reservedDates, unavailable = [] }) => {
 
   const color = side === "none" ? darkBlue : lightGreen
 
@@ -48,6 +51,7 @@ const Calendrier: React.FC<CustomCalendarProps> = ({ dates, setDates, side, curr
   /**
    * 1er clic : date d'arrivée. 2e clic : date de départ si elle est après l'arrivée,
    * sinon nouvelle date d'arrivée. Un clic sur un séjour complet en recommence un.
+   * Les jours indisponibles (voir `unavailable`) ne sont pas cliquables.
    * Les dates 'yyyy-MM-dd' se comparent comme des chaînes.
    */
   const onDayPress = (dateString: string) => {
@@ -100,7 +104,14 @@ const Calendrier: React.FC<CustomCalendarProps> = ({ dates, setDates, side, curr
     })
 
     const isPast = isInteractive && dateString < today
-    const isSelectable = isInteractive && isCurrentMonth && !isPast
+    // Tant que le départ n'est pas choisi, on cherche un départ possible depuis l'arrivée.
+    const arrivee = dates.debut && !dates.fin ? dates.debut : null
+    const isUnavailable = isInteractive && !isPast && isJourIndisponible(dateString, arrivee, unavailable)
+    // L'arrivée et le départ choisis restent affichés normalement, même si ce jour ne peut pas servir
+    // de nouvelle arrivée (départ le jour où une autre période commence).
+    const isChosen = dateString === dates.debut || dateString === dates.fin
+    const isGreyed = isPast || (isUnavailable && !isChosen)
+    const isSelectable = isInteractive && isCurrentMonth && !isPast && !isUnavailable
 
     // La bande part du centre de la date d'arrivée et s'arrête au centre de la date de départ,
     // sous les pastilles. Une date à la fois départ et arrivée (séjours qui se suivent) reste pleine.
@@ -119,10 +130,10 @@ const Calendrier: React.FC<CustomCalendarProps> = ({ dates, setDates, side, curr
         onClick={() => onDayPress(dateString)}
         disabled={!isSelectable}
         aria-hidden={!isCurrentMonth || undefined}
-        aria-label={isCurrentMonth ? format(date, 'EEEE d MMMM yyyy', { locale: fr }) : undefined}
+        aria-label={isCurrentMonth ? `${format(date, 'EEEE d MMMM yyyy', { locale: fr })}${isUnavailable && !isChosen ? ', indisponible' : ''}` : undefined}
         aria-pressed={isInteractive && isCurrentMonth ? isSelected : undefined}
         height="30px"
-        opacity={!isCurrentMonth ? 0 : isPast ? 0.35 : null}
+        opacity={!isCurrentMonth ? 0 : isGreyed ? 0.35 : null}
         borderRadius="0"
         padding="4px 0"
         justifyContent="center"

@@ -38,11 +38,12 @@ export const useEvenements = () =>
     queryFn: () => get<Evenement[]>('/evenements'),
   })
 
-/** Périodes déjà réservées (options et séjours confirmés). */
-export const useDisponibilites = () =>
+/** Périodes indisponibles : options, séjours confirmés et dates bloquées par les propriétaires. */
+export const useDisponibilites = ({ enabled = true } = {}) =>
   useQuery({
     queryKey: ['disponibilites'],
     queryFn: () => get<Disponibilite[]>('/reservations/disponibilites'),
+    enabled,
   })
 
 /** Réglages du gîte : taxe de séjour, acompte… */

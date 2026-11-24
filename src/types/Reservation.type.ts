@@ -1,6 +1,6 @@
 import { Voyageurs } from "./App.type"
 
-/** Période déjà réservée, telle que renvoyée par la route publique des disponibilités. */
+/** Période indisponible (séjour réservé ou dates bloquées), telle que renvoyée par la route publique des disponibilités. */
 export type Disponibilite = {
     debut: string
     fin: string

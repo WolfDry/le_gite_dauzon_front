@@ -1,10 +1,12 @@
-import { useId, useState } from 'react'
+import { useId, useMemo, useState } from 'react'
 import { addMonths, format, isBefore, parseISO, startOfMonth } from 'date-fns'
 import { fr } from 'date-fns/locale'
 import { Container, Text, Visual } from '../../atoms'
 import { white } from '../../../assets/color'
 import Calendrier from '../Calendar/Calendrier'
 import type { Dates } from '../../../types/App.type'
+import { useDisponibilites } from '../../../services/queries'
+import { toPeriodes } from '../../../lib/disponibilites'
 
 type Props = {
   dates: Dates
@@ -19,6 +21,9 @@ const formatDate = (value: string | null, placeholder: string) =>
 
 const InputsReservationAccueilForm = ({ dates, setDates, isDisplay, handleDisplay }: Props) => {
   const panelId = useId()
+  // Jours réservés ou bloqués : grisés dans le calendrier. Chargés seulement à l'ouverture du calendrier.
+  const { data: disponibilites } = useDisponibilites({ enabled: isDisplay })
+  const unavailable = useMemo(() => toPeriodes(disponibilites ?? []), [disponibilites])
 
   // Mois affiché à gauche ; celui de droite est toujours le suivant.
   const [leftMonth, setLeftMonth] = useState(() => startOfMonth(new Date()))
@@ -65,8 +70,8 @@ const InputsReservationAccueilForm = ({ dates, setDates, isDisplay, handleDispla
       {/* Rendu seulement à l'ouverture : les mois dépendent de la date du jour, absente de la page prérendue. */}
       {isDisplay && (
         <Container.Row id={panelId} role="dialog" aria-label="Choisir les dates du séjour" direction="row" position="absolute" top="65px" alignItems="flex-start" padding="5px" gap="20px" borderRadius="10px" background={white} zIndex={5}>
-          <Calendrier dates={dates} setDates={setDates} side='left' currentMonth={leftMonth} changeMonth={changeMonth} isOnMobile={true} />
-          <Calendrier dates={dates} setDates={setDates} side='right' currentMonth={addMonths(leftMonth, 1)} changeMonth={changeMonth} isOnMobile={false} />
+          <Calendrier dates={dates} setDates={setDates} side='left' currentMonth={leftMonth} changeMonth={changeMonth} isOnMobile={true} unavailable={unavailable} />
+          <Calendrier dates={dates} setDates={setDates} side='right' currentMonth={addMonths(leftMonth, 1)} changeMonth={changeMonth} isOnMobile={false} unavailable={unavailable} />
         </Container.Row>
       )}
     </Container.Column>

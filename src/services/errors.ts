@@ -10,6 +10,9 @@ export const submitErrorMessage = (error: unknown): string => {
     if (status === 403) {
       return "La vérification anti-robot n'a pas abouti. Rechargez la page puis réessayez."
     }
+    if (status === 409) {
+      return "Ces dates ne sont plus disponibles : le gîte vient d'être réservé. Choisissez d'autres dates dans le calendrier."
+    }
     if (status === 400) {
       return "Certaines informations ne sont pas valides. Vérifiez le formulaire puis réessayez."
     }
