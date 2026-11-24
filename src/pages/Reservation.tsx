@@ -12,7 +12,7 @@ import InputPersonne from '../components/molecules/ReservationAccueilForm/InputP
 import PrivacyNotice from '../components/molecules/PrivacyNotice'
 import { AskReservation } from '../types/Reservation.type'
 import { Voyageurs } from '../types/App.type'
-import { useDisponibilites, useTarifs } from '../services/queries'
+import { useDisponibilites, useReglages, useTarifs, type TarifAffiche } from '../services/queries'
 import { useCreateReservationRequest } from '../services/mutations'
 import { submitErrorMessage } from '../services/errors'
 import { emptyVoyageurs, fromReservationSearch, hasVoyageurs } from '../lib/reservationParams'
@@ -96,7 +96,22 @@ const Reservation = () => {
   const busy = request.isPending || antiBot.isVerifying
   const { data: reservations = [], isError: reservationsError } = useDisponibilites()
   const dates = useMemo(() => reservations.map(({ debut, fin }) => ({ debut, fin })), [reservations])
-  const { data: prices = [], isError: pricesError } = useTarifs()
+  const { data: tarifs = [], isError: pricesError } = useTarifs()
+  const { data: reglages } = useReglages()
+  // La taxe de séjour est un réglage : elle est ajoutée à la grille, après les prix.
+  const prices = useMemo((): TarifAffiche[] => reglages
+    ? [{
+      id: -1,
+      label: 'Taxe de séjour',
+      desc: 'Par adulte (18 ans et plus)',
+      date: [],
+      vacance: false,
+      prix: reglages.taxeSejour,
+      frequence: 'nuit',
+    }, ...tarifs]
+    : tarifs, [tarifs, reglages])
+  const taxeTexte = reglages ? `${formatEuro(reglages.taxeSejour)} par nuit et par adulte` : 'par nuit et par adulte'
+  const acompteTexte = reglages ? ` de ${reglages.acomptePourcentage} %` : ''
   const [isPersonneDisplay, setIsPersonneDisplay] = useState(false)
   const [monthOffset, setMonthOffset] = useState(0)
   const calendarMonths = useMemo(() => {
@@ -413,8 +428,8 @@ Nous vous contacterons rapidement pour vous confirmer la disponibilité du gîte
             Réservation et conditions
           </Text.Title>
           <Text.Paragraph display="flex">
-            {`Un acompte de 30 % est demandé à la réservation. Le solde du séjour est à régler un mois avant la date d’arrivée.
-À l’entrée dans les lieux, deux cautions vous seront demandées : 400 € pour le gîte et 70 € pour le ménage, en plus de la taxe de séjour (1,65 € par jour et par personne majeure).
+            {`Un acompte${acompteTexte} est demandé à la réservation. Le solde du séjour est à régler un mois avant la date d’arrivée.
+À l’entrée dans les lieux, deux cautions vous seront demandées : 400 € pour le gîte et 70 € pour le ménage, en plus de la taxe de séjour (${taxeTexte}).
 
 Le forfait ménage est de 70 € pour l’ensemble du séjour.
 La location de draps est proposée à 10 € par parure et par semaine. Chaque parure inclut : 1 housse de couette, 1 drap housse, 1 drap plat, 2 taies d’oreiller et 1 taie de traversin.

@@ -4,6 +4,7 @@ import type { Comment } from '../types/Commentaire.type'
 import type { Evenement } from '../types/Evenement.type'
 import type { Disponibilite } from '../types/Reservation.type'
 import type { Tarif } from '../types/Tarif.type'
+import type { Reglages } from '../types/Reglages.type'
 
 /**
  * Lectures de l'API. Elles ne partent que dans le navigateur : au prérendu, les pages
@@ -42,6 +43,13 @@ export const useDisponibilites = () =>
   useQuery({
     queryKey: ['disponibilites'],
     queryFn: () => get<Disponibilite[]>('/reservations/disponibilites'),
+  })
+
+/** Réglages du gîte : taxe de séjour, acompte… */
+export const useReglages = () =>
+  useQuery({
+    queryKey: ['reglages'],
+    queryFn: () => get<Reglages>('/reglages'),
   })
 
 /** Tarif mis en forme pour la grille de la page Réservation. */
